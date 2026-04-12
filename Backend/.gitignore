@@ -1,0 +1,8 @@
+target/
+!.mvn/wrapper/maven-wrapper.jar
+backup
+.idea/
+.vscode/
+bootstrap.py
+*.log
+.DS_Store
