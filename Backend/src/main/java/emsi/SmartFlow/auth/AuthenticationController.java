@@ -41,6 +41,17 @@ import org.springframework.web.bind.annotation.*;
         ) throws MessagingException {
             authenticateService.activateAccount(token);
         }
+        @PostMapping("/logout")
+        public ResponseEntity<?> logout(@RequestHeader(value = "Authorization", required = false) String authHeader) {
 
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                return ResponseEntity.badRequest().body("Missing or invalid Authorization header");
+            }
 
+            String jwt = authHeader.substring(7);
+
+            authenticateService.logout(jwt);
+
+            return ResponseEntity.ok("Logout successful");
+        }
     }

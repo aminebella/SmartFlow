@@ -18,6 +18,5 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 public class Admin extends User {
-    private String adminDepartment;
-    private String adminSecurityLevel;
+
 }

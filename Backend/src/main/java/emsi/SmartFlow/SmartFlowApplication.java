@@ -1,4 +1,4 @@
-git statuspackage emsi.SmartFlow;
+package emsi.SmartFlow;
 
 import emsi.SmartFlow.role.Role;
 import emsi.SmartFlow.role.RoleRepository;

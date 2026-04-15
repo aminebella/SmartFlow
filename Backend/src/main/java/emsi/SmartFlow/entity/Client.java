@@ -19,6 +19,5 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 public class Client extends User {
-    private String clientCompany;
-    private String clientSubscriptionType;
+    private String bio;
 }

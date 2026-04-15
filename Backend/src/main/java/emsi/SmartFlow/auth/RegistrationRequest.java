@@ -27,14 +27,7 @@ public class    RegistrationRequest {
     @NotNull(message = "Password is mandatory")
     @Size(min = 8, message = "Password should be 8 characters long minimum")
     private String password;
-
-
-    private String adminDepartment;
-    private String adminSecurityLevel;
-    private String clientCompany;
-    private String clientSubscriptionType;
-
-
+    private String bio;
     private boolean isAdmin;
     private boolean  isClient;
 
@@ -45,12 +38,8 @@ public class    RegistrationRequest {
 
 
     public void validateRoleSpecificFields() {
-        if (isAdmin) {
-            Validate.notNull(adminDepartment, "Department is required for admin");
-            Validate.notNull(adminSecurityLevel, "Security level is required for admin");
-        } else if (isClient) {
-            Validate.notNull(clientCompany, "Company is required for client");
-            Validate.notNull(clientSubscriptionType, "Subscription type is required for client");
+        if (isClient) {
+            Validate.notNull(bio, "bio is required for client");
         }
     }
 
