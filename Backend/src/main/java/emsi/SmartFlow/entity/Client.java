@@ -2,11 +2,14 @@ package emsi.SmartFlow.entity;
 
 import emsi.SmartFlow.user.User;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+
+import java.util.List;
 
 /**
  * @author HP
@@ -19,6 +22,9 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 public class Client extends User {
-    private String clientCompany;
-    private String clientSubscriptionType;
+    private String bio;
+
+    @OneToMany(mappedBy = "client")
+    private List<ProjectTeam> projectTeams;
+
 }

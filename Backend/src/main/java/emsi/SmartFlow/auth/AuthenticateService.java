@@ -49,8 +49,6 @@ public class AuthenticateService {
                     .password(passwordEncoder.encode(request.getPassword()))
                     .accountLocked(false)
                     .enabled(false)
-                    .adminDepartment(request.getAdminDepartment())
-                    .adminSecurityLevel(request.getAdminSecurityLevel())
                     .build();
 
             Role adminRole = roleRepository.findByName("ADMIN")
@@ -66,8 +64,7 @@ public class AuthenticateService {
                     .password(passwordEncoder.encode(request.getPassword()))
                     .accountLocked(false)
                     .enabled(false)
-                    .clientCompany(request.getClientCompany())
-                    .clientSubscriptionType(request.getClientSubscriptionType())
+                    .bio(request.getBio())
                     .build();
 
             Role clientRole = roleRepository.findByName("CLIENT")
@@ -103,10 +100,33 @@ public class AuthenticateService {
         var user = ((User) auth.getPrincipal() );
         claims.put("fullName",user.getFullName());
         var jwtToken = jwtService.generateToken(claims,user);
+        revokeAllUserTokens(user);
+        saveUserToken(user, jwtToken);
         return AuthenticationResponse.builder().token(jwtToken).build();
     }
+    private void saveUserToken(User user, String jwtToken) {
+        Token token = Token.builder()
+                .user(user)
+                .token(jwtToken)
+                .expired(false)
+                .revoked(false)
+                .build();
 
-   // @Transactional
+        tokenRepository.save(token);
+    }
+    private void revokeAllUserTokens(User user) {
+        var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
+        if (validUserTokens.isEmpty())
+            return;
+        validUserTokens.forEach(token -> {
+            token.setExpired(true);
+            token.setRevoked(true);
+        });
+        tokenRepository.saveAll(validUserTokens);
+    }
+
+
+    @Transactional
     public void activateAccount(String token) throws MessagingException {
     Token savedToken = tokenRepository.findByToken(token)
             .orElseThrow(() -> new RuntimeException(("invalid token")));
@@ -120,6 +140,17 @@ public class AuthenticateService {
     userRepository.save(user);
     savedToken.setValidateAt(LocalDateTime.now());
     tokenRepository.save(savedToken);
+    }
+    @Transactional
+    public void logout(String jwt) {
+
+        Token storedToken = tokenRepository.findByToken(jwt)
+                .orElseThrow(() -> new RuntimeException("Token not found"));
+
+        storedToken.setExpired(true);
+        storedToken.setRevoked(true);
+
+        tokenRepository.save(storedToken);
     }
 
 }

@@ -71,6 +71,7 @@
         @OneToMany
         private List<Token> tokens;
 
+
         public User(String firstname, String lastname, String email, String password) {
             this.firstname = firstname;
             this.lastname = lastname;
