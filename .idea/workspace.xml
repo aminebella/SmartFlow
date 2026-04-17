@@ -5,15 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="631a809d-81ed-4fe4-9d8f-c143e1ed4844" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/emsi/SmartFlow/auth/AuthenticateService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/emsi/SmartFlow/auth/AuthenticateService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/emsi/SmartFlow/auth/AuthenticationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/emsi/SmartFlow/auth/AuthenticationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/emsi/SmartFlow/auth/RegistrationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/emsi/SmartFlow/auth/RegistrationRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/emsi/SmartFlow/entity/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/emsi/SmartFlow/entity/Admin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/emsi/SmartFlow/entity/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/emsi/SmartFlow/entity/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/emsi/SmartFlow/role/RoleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/emsi/SmartFlow/role/RoleRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/emsi/SmartFlow/security/JwtFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/emsi/SmartFlow/security/JwtFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/emsi/SmartFlow/user/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/emsi/SmartFlow/user/Token.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/emsi/SmartFlow/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/emsi/SmartFlow/user/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,14 +53,6 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager">
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="SmartFlow" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -92,6 +76,7 @@
       <workItem from="1776114197158" duration="7301000" />
       <workItem from="1776128612359" duration="922000" />
       <workItem from="1776129556225" duration="197000" />
+      <workItem from="1776349059155" duration="5000" />
     </task>
     <servers />
   </component>
