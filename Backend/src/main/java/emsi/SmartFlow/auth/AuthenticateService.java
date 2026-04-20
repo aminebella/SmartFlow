@@ -11,16 +11,24 @@ import emsi.SmartFlow.user.TokenRepository;
 import emsi.SmartFlow.user.User;
 import emsi.SmartFlow.user.UserRepository;
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,20 +97,31 @@ public class AuthenticateService {
 
 
 
-    public AuthenticationResponse authenticate(AuthenticateRequest request) {
+    public void authenticate(AuthenticateRequest request, HttpServletResponse response) {
         var auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getPassword()
                 )
         );
-        var claims = new HashMap<String,Object>();
-        var user = ((User) auth.getPrincipal() );
-        claims.put("fullName",user.getFullName());
-        var jwtToken = jwtService.generateToken(claims,user);
+
+        var claims = new HashMap<String, Object>();
+        var user = (User) auth.getPrincipal();
+        claims.put("fullName", user.getFullName());
+
+        var jwtToken = jwtService.generateToken(claims, user);
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
-        return AuthenticationResponse.builder().token(jwtToken).build();
+
+        ResponseCookie cookie = ResponseCookie.from("jwt", jwtToken)
+                .httpOnly(true)
+                .secure(false)
+                .path("/")
+                .maxAge(Duration.ofDays(1))
+                .sameSite("Strict")
+                .build();
+
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
     }
     private void saveUserToken(User user, String jwtToken) {
         Token token = Token.builder()
@@ -141,16 +160,52 @@ public class AuthenticateService {
     savedToken.setValidateAt(LocalDateTime.now());
     tokenRepository.save(savedToken);
     }
-    @Transactional
-    public void logout(String jwt) {
+    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
+        // Find the JWT from the cookie
+        String jwt = extractJwtFromCookies(request);
 
-        Token storedToken = tokenRepository.findByToken(jwt)
-                .orElseThrow(() -> new RuntimeException("Token not found"));
+        if (jwt != null) {
+            tokenRepository.findByToken(jwt).ifPresent(token -> {
+                token.setExpired(true);
+                token.setRevoked(true);
+                tokenRepository.save(token);
+            });
+        }
 
-        storedToken.setExpired(true);
-        storedToken.setRevoked(true);
+        // Overwrite the cookie with an empty value and maxAge=0 to delete it
+        ResponseCookie deleteCookie = ResponseCookie.from("jwt", "")
+                .httpOnly(true)
+                .secure(false)           // Match your login cookie settings
+                .path("/")
+                .maxAge(0)               // Immediately expires the cookie
+                .sameSite("Strict")
+                .build();
 
-        tokenRepository.save(storedToken);
+        response.addHeader(HttpHeaders.SET_COOKIE, deleteCookie.toString());
+        return ResponseEntity.ok(Map.of("message", "Logout successful"));
+    }
+
+    private String extractJwtFromCookies(HttpServletRequest request) {
+        if (request.getCookies() == null) return null;
+        return Arrays.stream(request.getCookies())
+                .filter(c -> "jwt".equals(c.getName()))
+                .map(Cookie::getValue)
+                .findFirst()
+                .orElse(null);
+    }
+    public UserResponse getCurrentUser(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+
+        List<String> roles = user.getRoles()
+                .stream()
+                .map(role -> role.getName())
+                .toList();
+
+        return UserResponse.builder()
+                .email(user.getEmail())
+                .fullName(user.getFullName())
+                .roles(roles)
+                .build();
     }
 
 }

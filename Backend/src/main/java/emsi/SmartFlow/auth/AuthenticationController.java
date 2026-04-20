@@ -1,14 +1,21 @@
 package emsi.SmartFlow.auth;
 
+import emsi.SmartFlow.user.User;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-    @RestController
+import java.util.HashMap;
+import java.util.Map;
+
+@RestController
     @RequestMapping("auth")
     @RequiredArgsConstructor
     @Tag(name = "Authentication")
@@ -28,11 +35,14 @@ import org.springframework.web.bind.annotation.*;
             authenticateService.deleteAllUsers();
         }
 
-        @PostMapping("/authenticate")
-        public ResponseEntity<AuthenticationResponse> authenticate(
-                @RequestBody @Valid AuthenticateRequest request
-        ){
-         return ResponseEntity.ok(authenticateService.authenticate(request));
+        // AuthenticationController.java
+        @PostMapping("/login")
+        public ResponseEntity<?> authenticate(
+                @RequestBody @Valid AuthenticateRequest request,
+                HttpServletResponse response
+        ) {
+            authenticateService.authenticate(request, response);
+            return ResponseEntity.ok(Map.of("message", "Login successful"));
         }
 
         @GetMapping("/activate-account")
@@ -41,17 +51,13 @@ import org.springframework.web.bind.annotation.*;
         ) throws MessagingException {
             authenticateService.activateAccount(token);
         }
-        @PostMapping("/logout")
-        public ResponseEntity<?> logout(@RequestHeader(value = "Authorization", required = false) String authHeader) {
 
-            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-                return ResponseEntity.badRequest().body("Missing or invalid Authorization header");
-            }
-
-            String jwt = authHeader.substring(7);
-
-            authenticateService.logout(jwt);
-
-            return ResponseEntity.ok("Logout successful");
-        }
+    @GetMapping("/me")
+    public ResponseEntity<UserResponse> getCurrentUser(Authentication authentication) {
+        return ResponseEntity.ok(authenticateService.getCurrentUser(authentication));
+    }
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
+        return authenticateService.logout(request, response);
+    }
     }

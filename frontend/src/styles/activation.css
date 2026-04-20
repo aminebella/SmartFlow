@@ -1,0 +1,105 @@
+/* ===== ACTIVATION PANEL ===== */
+.activation-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 28px 20px;
+  background: #fff8e1;
+  border-radius: 14px;
+  border: 1.5px solid #e8c93c;
+  text-align: center;
+}
+
+.activation-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #e8c93c22;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.activation-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #49494f;
+}
+
+.activation-desc {
+  font-size: 12px;
+  color: #b2b2b3;
+  line-height: 1.6;
+}
+
+.activation-email {
+  color: #d2ab2c;
+  font-weight: 600;
+}
+
+/* ===== OTP ===== */
+.otp-wrap {
+  display: flex;
+  gap: 8px;
+}
+
+.otp-input {
+  width: 42px;
+  height: 48px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+  color: #49494f;
+  border: 1.5px solid #e8e8e0;
+  border-radius: 10px;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.otp-input:focus {
+  border-color: #d2ab2c;
+}
+
+.otp-error {
+  font-size: 12px;
+  color: #e24b4a;
+}
+
+.activation-btn-wrap {
+  width: 200px;
+}
+
+/* ===== SUCCESS PANEL ===== */
+.success-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 32px;
+  background: #eaf3de;
+  border-radius: 14px;
+  border: 1.5px solid #97c459;
+  text-align: center;
+}
+
+.success-icon {
+  font-size: 40px;
+}
+
+.success-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #3b6d11;
+}
+
+.success-desc {
+  font-size: 13px;
+  color: #639922;
+}
+
+.success-btn-wrap {
+  width: 180px;
+}

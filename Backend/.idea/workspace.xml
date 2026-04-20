@@ -5,10 +5,65 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9e2b36ed-ec43-491e-98f1-3300bfb3933a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../frontend/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/.vscode/settings.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/components.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/eslint.config.mjs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/jsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/next.config.mjs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/postcss.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/public/favicon.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/api/axios.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/app/(auth)/login/page.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/app/(dashboard)/layout.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/app/(dashboard)/projects/[id]/ai/page.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/app/(dashboard)/projects/[id]/backlog/page.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/app/(dashboard)/projects/[id]/board/page.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/app/(dashboard)/projects/[id]/page.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/app/(dashboard)/projects/[id]/sprints/page.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/app/(dashboard)/projects/page.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/app/layout.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/app/loading.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/app/not-found.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/app/page.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/assets/home2.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/components/home/Benefits.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/components/home/CTA.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/components/home/Features.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/components/home/Footer.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/components/home/Hero.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/components/home/HomePage.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/components/home/Navigation.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/components/home/Preview.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/components/home/Testimonials.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/components/layout/DashboardLayout.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/components/layout/Navbar.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/components/layout/Sidebar.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/components/project/ProjectCard.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/components/project/ProjectList.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/components/task/TaskBoard.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/components/task/TaskCard.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/components/task/TaskForm.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/components/ui/Modal.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/hooks/useAuth.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/hooks/useProjects.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/lib/auth.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/lib/fetcher.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/services/authService.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/services/usersService.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/styles/globals.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/styles/home.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/tailwind.config.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/entity/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/entity/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/user/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/auth/AuthenticateService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/auth/AuthenticateService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/auth/AuthenticationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/auth/AuthenticationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/configuration/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/configuration/CorsConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/security/JwtFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/security/JwtFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/security/SecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -17,7 +72,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="64" />
+    <option name="cachedIndexableFilesCount" value="68" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -52,41 +107,41 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;Spring Boot.SmartFlowApplication.executor&quot;: &quot;Run&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Fatima&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Admin/Downloads/SmartFlow/SmartFlow/src/main/java/emsi/SmartFlow/service&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "Spring Boot.SmartFlowApplication.executor": "Run",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "Merging Fatima",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Admin/Downloads/SmartFlow/SmartFlow/src/main/java/emsi/SmartFlow/service",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql_aurora&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql_aurora"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Admin\Downloads\SmartFlow\SmartFlow\src\main\java\emsi\SmartFlow\service" />
@@ -125,6 +180,10 @@
       <workItem from="1776261290605" duration="11020000" />
       <workItem from="1776273268267" duration="382000" />
       <workItem from="1776349202210" duration="9929000" />
+      <workItem from="1776439839897" duration="4108000" />
+      <workItem from="1776608004306" duration="2648000" />
+      <workItem from="1776616104250" duration="4000" />
+      <workItem from="1776616155582" duration="16701000" />
     </task>
     <servers />
   </component>
