@@ -1,0 +1,1 @@
+// ← project overview (read-only for admin)

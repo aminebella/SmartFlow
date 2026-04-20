@@ -19,6 +19,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Admin getAdminById(Long id) {
+        // → findById is given for free by JpaRepository
+        // → orElseThrow = if not found, throw exception (GlobalExceptionHandler catches it)
         var admin = adminRepo.findById(id).orElseThrow(()-> new EntityNotFoundException("Admin not found with id: "+id));
         return admin;
     }

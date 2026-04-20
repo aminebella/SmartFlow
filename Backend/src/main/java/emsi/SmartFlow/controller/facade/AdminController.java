@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author HP
  **/
 
-@RestController
+@RestController // → This class handles HTTP requests, returns JSON
 @RequestMapping("admin")
 public class AdminController {
     private final AdminService adminService;

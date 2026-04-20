@@ -19,4 +19,6 @@ public class ProjectTeamKey implements Serializable {
 
     @Column(name = "client_id")
     private Long clientId;
+    // → Primary key = (project_id + client_id) combined
+    // → Same user can't be in the same project twice
 }

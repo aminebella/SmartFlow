@@ -22,9 +22,11 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 public class Client extends User {
-    private String bio;
+    private String bio; // Extra field only clients have
 
     @OneToMany(mappedBy = "client")
     private List<ProjectTeam> projectTeams;
+    // → A client can be in multiple project teams
+    // → mappedBy = "client" means ProjectTeam owns this relationship
 
 }

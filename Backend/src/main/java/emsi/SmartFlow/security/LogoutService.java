@@ -28,17 +28,17 @@ public class LogoutService implements LogoutHandler {
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return;
-        }
+        }// → No token = nothing to do
 
-        jwt = authHeader.substring(7);
+        jwt = authHeader.substring(7); // → Extract token string
 
         var storedToken = tokenRepository.findByToken(jwt).orElse(null);
 
         if (storedToken != null) {
             storedToken.setExpired(true);
             storedToken.setRevoked(true);
-            tokenRepository.save(storedToken);
-            SecurityContextHolder.clearContext();
+            tokenRepository.save(storedToken);// → Mark token as invalid in DB (blacklisting)
+            SecurityContextHolder.clearContext();// → Clear the current user from memory (end their session for this request)
         }
     }
 }

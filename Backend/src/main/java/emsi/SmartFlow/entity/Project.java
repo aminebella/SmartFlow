@@ -39,4 +39,5 @@ public class Project {
 
     @OneToMany(mappedBy = "project")
     private List<ProjectTeam> projectTeams;
+    // → One project has many team members
 }

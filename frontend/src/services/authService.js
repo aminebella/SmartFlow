@@ -1,83 +1,52 @@
-import { PublicAPI } from "../api/axios";
-import { getUserFromToken } from "@/lib/auth"; // Importer la fonction
+import API, { PublicAPI } from "../api/axios";
 
-const authService = {
-  // Connexion (Login)
-  login: async (email, password) => {
-    try {
-      const response = await PublicAPI.post("/Auth/login", {
-        email: email,
-        password: password,
-      });
+// Connexion (Login)
+export const login = async (email, password) => {
+  const response = await PublicAPI.post("/auth/login", { email, password });
+  return response.data;
+};
 
-      // Sauvegarder le token
-      if (response.data.token) {
-        localStorage.setItem("token", response.data.token);
-        
-        // Décoder le token pour extraire l'ID
-        const userFromToken = getUserFromToken();
-        
-        if (userFromToken) {
-          // Sauvegarder les infos complètes incluant l'ID du token
-          localStorage.setItem("user", JSON.stringify({
-            userId: userFromToken.id,  // ID extrait du token
-            nom: response.data.nom,
-            email: response.data.email,
-          }));
-        }
-      }
+// Inscription (Register)
+export const register = async (userData) => {
+  const response = await PublicAPI.post("/auth/register", {
+    firstname: userData.firstname,
+    lastname: userData.lastname,
+    email: userData.email,
+    password: userData.password,
+    bio: userData.bio,
+    isClient: userData.isClient,
+  });
+  return response.data;
+};
+// authService.js — ajoute cette fonction
+export const activateAccount = async (token) => {
+  const response = await PublicAPI.get(`/auth/activate-account?token=${token}`);
+  return response.data;
+};
 
-      return response.data;
-    } catch (error) {
-      console.error("Erreur lors de la connexion:", error);
-      throw error;
-    }
-  },
-
-  // Inscription (Register)
-  register: async (userData) => {
-    try {
-      const response = await PublicAPI.post("/Auth/register", {
-        nom: userData.nom,
-        email: userData.email,
-        password: userData.password,
-      });
-      return response.data;
-    } catch (error) {
-      console.error("Erreur lors de l'inscription:", error);
-      throw error;
-    }
-  },
-
-  // Déconnexion (Logout)
-  logout: () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+// Déconnexion (Logout)
+export const logout = async () => {
+  try {
+    await API.post("/auth/logout");
+  } finally {
     if (typeof window !== "undefined") {
-      window.location.href = "/authentification/authenticate";
+      window.location.href = "/login";
     }
-  },
+  }
+};
 
-  // Récupérer l'utilisateur actuel
-  getCurrentUser: () => {
-    if (typeof window !== "undefined") {
-      const user = localStorage.getItem("user");
-      return user ? JSON.parse(user) : null;
-    }
+// Récupérer l'utilisateur actuel
+export const getCurrentUser = async () => {
+  try {
+    const response = await API.get("/auth/me");
+    return response.data;
+  } catch {
     return null;
-  },
-
-  // Vérifier si l'utilisateur est connecté
-  isAuthenticated: () => {
-    if (typeof window !== "undefined") {
-      return !!localStorage.getItem("token");
-    }
-    return false;
-  },
+  }
 };
 
-export const loginUser = async (email, password) => {
-  return await authService.login(email, password);
+// Vérifier si connecté
+export const isAuthenticated = async () => {
+  const user = await getCurrentUser();
+  return user !== null;
 };
-
-export default authService;

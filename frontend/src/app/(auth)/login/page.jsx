@@ -3,7 +3,7 @@
 import React, { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
-import { loginUser } from "@/services/authService";
+import { login } from "@/services/authService";
 
 function LoginPage() {
   const router = useRouter();
@@ -42,35 +42,9 @@ function LoginPage() {
     setGeneralError("");
   };
 
-  // Redirection selon rôle
-  const redirectToClientSpace = (token) => {
-    if (!token) {
-      throw new Error("Aucun token trouvé après connexion");
-    }
-
-    try {
-      const payload = JSON.parse(atob(token.split(".")[1]));
-      console.log("Payload décodé:", payload);
-
-      const role = payload.role;
-      console.log("Rôle détecté:", role);
-
-      switch (role) {
-        case "User":
-          router.push("/EspaceClient");
-          break;
-        case "Admin":
-          router.push("/EspaceAdmin");
-          break;
-        default:
-          router.push("/authentification/authenticate");
-          break;
-      }
-    } catch (error) {
-      console.error("Erreur décodage token:", error);
-      localStorage.removeItem("token");
-      throw new Error("Token invalide");
-    }
+  // Redirection vers espace client
+  const redirectToClientSpace = () => {
+    router.push("/EspaceClient/dashboard");
   };
 
   const handleSubmit = async (e) => {
@@ -80,15 +54,13 @@ function LoginPage() {
 
     try {
       // Appel API backend
-      const response = await loginUser(formData.email, formData.password);
+      const response = await login(formData.email, formData.password);
 
       console.log("Connexion réussie:", response);
 
-      // Sauvegarder le token
-      localStorage.setItem("token", response.token);
-
-      // Redirection selon rôle
-      redirectToClientSpace(response.token);
+      // Token stocké dans les cookies (HTTPOnly)
+      // Redirection vers espace client
+      redirectToClientSpace();
 
     } catch (error) {
       console.error("Erreur de connexion:", error);

@@ -1,3 +1,4 @@
+// ← root layout (fonts, providers)
 import { Geist, Geist_Mono, DM_Sans  } from "next/font/google";
 import { Suspense } from "react";
 

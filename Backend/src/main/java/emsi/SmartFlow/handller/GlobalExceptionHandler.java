@@ -15,10 +15,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 @RestControllerAdvice
+// → Intercepts exceptions thrown anywhere in the app
+// → Like a try/catch wrapper around all controllers (Laravel's Handler.php)
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(LockedException.class)
     public ResponseEntity<ExceptionResponse> handleException(LockedException exp){
+        // → When account is locked, return 401 with business error code 302
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
                 .body(ExceptionResponse.builder()
@@ -28,8 +31,11 @@ public class GlobalExceptionHandler {
                         .build());
     }
 
+
+        // → Similar handlers for: DisabledException, BadCredentialsException, MessagingException
     @ExceptionHandler(DisabledException.class)
     public ResponseEntity<ExceptionResponse> handleException(DisabledException exp){
+        // → When @Valid fails (e.g. email format wrong, password too short)
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
                 .body(ExceptionResponse.builder()
@@ -38,6 +44,8 @@ public class GlobalExceptionHandler {
                         .error(exp.getMessage())
                         .build());
     }
+
+
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ExceptionResponse> handleException(BadCredentialsException exp){
         return ResponseEntity
@@ -48,6 +56,7 @@ public class GlobalExceptionHandler {
                         .error(exp.getMessage())
                         .build());
     }
+    
 
     @ExceptionHandler(MessagingException.class)
     public ResponseEntity<ExceptionResponse> handleException(MessagingException exp){
@@ -63,7 +72,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ExceptionResponse> handleException(MethodArgumentNotValidException exp){
         Set<String> errors = new HashSet<>();
-        exp.getBindingResult().getAllErrors()
+        exp.getBindingResult().getAllErrors()// → Catch-all for anything unexpected → 500 Internal Server Error
                 .forEach(error ->{
                     var errorMessage = error.getDefaultMessage();
                     errors.add(errorMessage);

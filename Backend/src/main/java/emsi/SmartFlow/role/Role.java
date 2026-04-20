@@ -15,7 +15,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Entity
+@Entity // class = a database table
 @Builder
 @Data
 @AllArgsConstructor
@@ -30,7 +30,7 @@ public class Role {
     @Id @GeneratedValue
     private Long id;
     @Column(unique = true)
-    private String name;
+    private String name; // → "ADMIN" or "CLIENT"
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdAt;
@@ -40,4 +40,6 @@ public class Role {
 
     @ManyToMany(mappedBy = "roles")
     private List<User> users;
+    // → The "other side" of the User↔Role relationship
+    // → mappedBy = "roles" means User.java owns the join table
 }

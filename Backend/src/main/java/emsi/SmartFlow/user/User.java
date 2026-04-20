@@ -22,7 +22,8 @@
 
 
     @Entity
-    @Inheritance(strategy = InheritanceType.JOINED)  // ← JOINED strategy creates 3 tables
+    @Inheritance(strategy = InheritanceType.JOINED)  // ← JOINED strategy creates 3 tables: _user, admin, client: each have their OWN table with just their extra columns
+    // → They're linked by sharing the same ID (JOIN in SQL)
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
@@ -33,12 +34,13 @@
             property = "id"
     )
     public class User implements UserDetails, Principal {
-
+        // → UserDetails = Spring Security interface. Means "this class can be used as a logged-in user"
+        // → Principal = Java security interface meaning "this is an authenticated identity"
         @Id
         @GeneratedValue(
                 strategy = GenerationType.SEQUENCE,
                 generator = "user_seq"
-        )
+        )// → SEQUENCE = uses a DB sequence to auto-increment IDs (more reliable than AUTO)
         @SequenceGenerator(
                 name = "user_seq",
                 sequenceName = "user_seq",
@@ -49,10 +51,10 @@
         private String firstname;
         private String lastname;
         @Column(unique = true)
-        private String email;
-        private String password;
-        private boolean accountLocked;
-        private boolean enabled;
+        private String email; // → unique = no two users with same email
+        private String password; // → stored hashed (BCrypt), not plain text
+        private boolean accountLocked; // → can lock a user (like banning)
+        private boolean enabled; // → false until they click activation email
         @CreatedDate
         @Column(updatable = false)
         private LocalDateTime createdAt;
@@ -60,6 +62,9 @@
         @Column(insertable = false)
         private LocalDateTime lastModifiedAt;
 
+        // → A user can have multiple roles (ADMIN, CLIENT)
+        // → EAGER = load roles immediately when loading user (needed for security checks)
+        // → Creates a join table "users_roles" in the DB
         @ManyToMany(fetch = FetchType.EAGER)
         @JoinTable(
                 name = "users_roles",
@@ -69,7 +74,7 @@
         private List<Role> roles;
 
         @OneToMany
-        private List<Token> tokens;
+        private List<Token> tokens; // → A user can have multiple JWT tokens
 
 
         public User(String firstname, String lastname, String email, String password) {
@@ -79,9 +84,12 @@
             this.password = password;
         }
 
+        // --- Methods required by UserDetails interface ---
         @Override
         public Collection<? extends GrantedAuthority> getAuthorities() {
             return this.roles.stream().map(r->new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
+            // → Converts roles ["ADMIN", "CLIENT"] into Spring Security "authority" objects
+            // → Spring uses this to check permissions
         }
 
         @Override
@@ -91,6 +99,7 @@
 
         @Override
         public String getUsername() {
+            // → Spring Security uses EMAIL as the "username" for login
             return email;
         }
 
@@ -106,6 +115,7 @@
 
         @Override
         public boolean isAccountNonLocked() {
+            // → If accountLocked=true, login fails with LockedException
             return !accountLocked;
         }
 
@@ -116,11 +126,13 @@
 
         @Override
         public boolean isEnabled() {
+            // → If enabled=false (not verified email), login fails with DisabledException
             return enabled;
         }
 
 
          public String getFullName(){
+            // → Helper method, used in JWT token and emails
             return firstname +" "+ lastname;
          }
     }

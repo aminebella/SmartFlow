@@ -22,16 +22,19 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<!-- spring-boot-starter-web → makes it a REST API server (like Express/Laravel routes) -->
 		</dependency>
 
 		<!-- JPA + MySQL -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<!-- spring-boot-starter-data-jpa → ORM, lets you talk to DB using Java objects (like Eloquent) -->
 		</dependency>
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
+			<!-- mysql-connector-j → MySQL driver -->
 			<scope>runtime</scope>
 		</dependency>
 
@@ -39,18 +42,21 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
+			<!-- spring-boot-starter-security → authentication & authorization system -->
 		</dependency>
 
 		<!-- Mail -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
+			<!-- spring-boot-starter-mail → sending emails -->
 		</dependency>
 
 		<!-- Thymeleaf -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+			<!-- spring-boot-starter-thymeleaf → HTML email templates (like Blade but for emails) -->
 		</dependency>
 		<dependency>
 			<groupId>org.thymeleaf.extras</groupId>
@@ -61,6 +67,7 @@
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<!-- springdoc-openapi → generates Swagger UI at /swagger-ui.html automatically -->
 			<version>2.3.0</version>
 		</dependency>
 
@@ -68,10 +75,12 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
+			<!-- lombok → removes boilerplate: generates getters/setters/constructors via annotations -->
 			<optional>true</optional>
 		</dependency>
 
 		<!-- JWT -->
+		<!-- jjwt → JWT library for creating and validating tokens -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-api</artifactId>

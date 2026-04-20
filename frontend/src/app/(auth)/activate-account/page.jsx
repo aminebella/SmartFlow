@@ -1,0 +1,1 @@
+// reads ?token= from URL

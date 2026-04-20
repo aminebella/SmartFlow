@@ -1,3 +1,5 @@
+// ← fetch a project by id
+
 // import { useEffect, useState } from "react";
 // import { getProjects } from "@/services/project.service";
 

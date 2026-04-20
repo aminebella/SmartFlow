@@ -36,26 +36,26 @@ import java.time.LocalDateTime;
 public class ProjectTeam {
 
     @EmbeddedId
-    private ProjectTeamKey id;
+    private ProjectTeamKey id; // → Composite PK
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @MapsId("projectId")
     @JoinColumn(name = "project_id", nullable = false)
-    private Project project;
+    private Project project; // → Which project
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @MapsId("clientId")
     @JoinColumn(name = "client_id", nullable = false)
-    private Client client;
+    private Client client; // → Which client (only Clients join projects, not Admins)
 
     @Enumerated(EnumType.STRING)
     @Column(name = "project_role", nullable = false)
-    private ProjectTeamRole projectRole;
+    private ProjectTeamRole projectRole; // → MEMBER or MANAGER
 
     @Column(nullable = false, updatable = false)
-    private LocalDateTime joinedAt;
+    private LocalDateTime joinedAt; // → Auto-set on creation
 
-    @PrePersist
+    @PrePersist // → @PrePersist = runs automatically before inserting to DB
     protected void onCreate() {
         if (joinedAt == null) {
             joinedAt = LocalDateTime.now();
