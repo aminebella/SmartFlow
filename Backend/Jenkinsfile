@@ -1,0 +1,95 @@
+
+pipeline {
+    agent any
+
+    environment {
+        BUILD_NUMBER       = '0.2'
+        DOCKERHUB_USERNAME = 'docker_Username'
+        IMAGE_NAME         = "${DOCKERHUB_USERNAME}/spring-app-jenkins"
+        IMAGE_TAG          = "${BUILD_NUMBER}"
+    }
+
+    parameters{
+        booleanParam(name:'PUSH_IMAGE',defaultValue:false ,  description: 'Push image to DockerHub?')
+    }
+
+    stages {
+
+        stage('Clone') {
+            steps {
+                echo 'Cloning repository...'
+                git branch: 'main',
+                        credentialsId: 'github-credentials',
+                        url: 'https://github.com/Youssef-0202/project.git'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Running unit tests...'
+                sh 'mvn test'
+            }
+        }
+
+        stage('Build JAR') {
+            steps {
+                echo 'Building JAR file...'
+                sh 'mvn clean package -DskipTests'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                echo 'Building Docker image...'
+                sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
+            }
+        }
+
+        stage('Push to DockerHub') {
+            when {
+                expression { params.PUSH_IMAGE == true }
+            }
+            steps {
+                echo 'Pushing to DockerHub...'
+                withCredentials([usernamePassword(
+                        credentialsId: 'docker-hub-credentials',
+                        usernameVariable: 'USER',
+                        passwordVariable: 'PASS'
+                )]) {
+                    sh "echo $PASS | docker login -u $USER --password-stdin"
+                    sh "docker push ${IMAGE_NAME}:${IMAGE_TAG}"
+                }
+            }
+        }
+
+        stage('Deploy '){
+            steps{
+                echo 'Deploying with Docker Compose....'
+                dir('deploy') {
+                            sh 'docker-compose down || true'
+                            sh 'docker-compose up -d --build'
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline SUCCESS! '
+            mail to: 'y.aitbahssine2829@uca.ac.ma',
+                         subject: "Pipeline SUCCESS - Build ${BUILD_NUMBER}",
+                         body: "Your Spring app was built and deployed successfully!"
+        }
+        failure {
+            echo 'Pipeline FAILED! Check the logs!'
+            mail to: 'y.aitbahssine2829@uca.ac.ma',
+                         subject: "Pipeline FAILED - Build ${BUILD_NUMBER}",
+                         body: "Something went wrong! Check Jenkins logs."
+        }
+        always {
+            echo 'Cleaning up...'
+            sh 'docker logout'
+        }
+    }
+}
+
