@@ -5,15 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9e2b36ed-ec43-491e-98f1-3300bfb3933a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/auth/AuthenticateService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/auth/AuthenticateService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/auth/RegistrationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/auth/RegistrationRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/configuration/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/configuration/CorsConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/entity/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/entity/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/entity/Project.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/entity/Project.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/security/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/user/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sonar-project.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../sonar-project.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -146,6 +138,7 @@
       <workItem from="1777288951488" duration="3769000" />
       <workItem from="1777381805682" duration="12709000" />
       <workItem from="1777483057124" duration="4588000" />
+      <workItem from="1777557574486" duration="3020000" />
     </task>
     <servers />
   </component>
