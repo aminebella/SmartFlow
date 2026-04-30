@@ -29,4 +29,7 @@ public class Client extends User {
     // → A client can be in multiple project teams
     // → mappedBy = "client" means ProjectTeam owns this relationship
 
+    @OneToMany(mappedBy = "owner")
+    private List<Project> ownedProjects;
+
 }

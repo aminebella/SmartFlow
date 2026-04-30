@@ -1,0 +1,35 @@
+/* app/loading.module.css */
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: #050505;
+}
+
+.logoWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+.loaderBar {
+  width: 50px;
+  height: 3px;
+  background-color: #d4af37; /* Couleur or de votre logo */
+  border-radius: 2px;
+  animation: grow 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; transform: scale(0.95); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes grow {
+  0%, 100% { width: 30px; }
+  50% { width: 100px; }
+}

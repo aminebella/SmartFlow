@@ -18,7 +18,7 @@ const API = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  withCredentials: true, //  Envoie le cookie jwt automatiquement
+  withCredentials: true, // sends httpOnly cookie automatically
 });
 
 // Plus besoin d'intercepteur de requête — le cookie est envoyé automatiquement par le navigateur
@@ -26,13 +26,22 @@ const API = axios.create({
 
 // INTERCEPTOR on RESPONSE — runs on every response that comes back
 API.interceptors.response.use(
-  (response) => response, // if response is OK (2xx), just pass it through unchanged
+  (response) => response,
   (error) => {
-    // If backend returns 401 Unauthorized = token expired or invalid
-    if (error.response?.status === 401 && typeof window !== "undefined") {
-      window.location.href = "/login"; // force redirect to login
+    if (typeof window !== "undefined") {
+      if (error.response?.status === 401) {
+        // Not logged in → go to login
+        window.location.href = "/login";
+      }
+      if (error.response?.status === 403) {
+        // Logged in but not allowed → go back to previous page
+        // If no previous page exists, go to dashboard
+        window.history.length > 1
+          ? window.history.back()
+          : window.location.href = "/";
+      }
     }
-    return Promise.reject(error); // always re-throw so the calling code can catch it too
+    return Promise.reject(error);
   }
 );
 

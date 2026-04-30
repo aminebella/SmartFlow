@@ -13,7 +13,7 @@ export default function Navigation() {
               className="nav-logo-mark"
               style={{ background: 'none', boxShadow: 'none', borderRadius: 0, width: 'auto', height: 'auto' }}
             >
-              <img src="/favicon.jpeg" alt="SmartFlow" style={{ height: 48, width: 'auto', objectFit: 'contain', display: 'block' }} />
+              <img src="/favicon.png" alt="SmartFlow" style={{ height: 60, width: 'auto', objectFit: 'contain', display: 'block' }} />
             </div>
           </a>
 

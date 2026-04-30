@@ -6,6 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="9e2b36ed-ec43-491e-98f1-3300bfb3933a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/auth/AuthenticateService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/auth/AuthenticateService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/auth/RegistrationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/auth/RegistrationRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/configuration/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/configuration/CorsConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/entity/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/entity/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/entity/Project.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/entity/Project.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/security/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/user/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,6 +48,9 @@
   <component name="McpProjectServerCommands">
     <commands />
     <urls />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
@@ -127,7 +138,14 @@
       <workItem from="1776680927735" duration="807000" />
       <workItem from="1776696218115" duration="679000" />
       <workItem from="1776706847680" duration="9078000" />
-      <workItem from="1776861400177" duration="3282000" />
+      <workItem from="1776861400177" duration="10387000" />
+      <workItem from="1776965431508" duration="284000" />
+      <workItem from="1777016936216" duration="2913000" />
+      <workItem from="1777052729198" duration="831000" />
+      <workItem from="1777146631484" duration="10014000" />
+      <workItem from="1777288951488" duration="3769000" />
+      <workItem from="1777381805682" duration="12709000" />
+      <workItem from="1777483057124" duration="4588000" />
     </task>
     <servers />
   </component>

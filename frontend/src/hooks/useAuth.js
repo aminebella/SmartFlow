@@ -1,26 +1,26 @@
-'use client'; // hooks use React state = client side only
+'use client';
 
 import { useState, useEffect } from "react";
-import { getUserFromToken, getUserRoleFromToken } from "@/lib/auth";
-import authService from "@/services/authService";
+import { logout,getCurrentUser } from "@/services/authService";
 
-// This hook gives any component access to current user info
-// Usage in any component: const { user, role, isLoggedIn } = useAuth();
+// Usage in any component: const { user, role, isLoggedIn, loading } = useAuth();
 export function useAuth() {
   const [user, setUser] = useState(null);
-  // user = { email, fullName, authorities } or null
+  const [loading, setLoading] = useState(true);
+  // loading = true while we wait for /auth/me response
+  // important: don't render protected content until loading=false
 
   useEffect(() => {
-    // On component mount, read token from localStorage and decode it
-    // This runs ONCE when the component first renders
-    const userData = getUserFromToken();
-    setUser(userData);
-  }, []); // [] = run once only
+    getCurrentUser()
+      .then(setUser)
+      .finally(() => setLoading(false));
+  }, []);
 
   return {
-    user,                          // full user object
-    role: getUserRoleFromToken(),  // "ADMIN" or "CLIENT" or null
-    isLoggedIn: !!user,            // true/false
-    logout: authService.logout,    // function to call when clicking logout button
+    user,                           // { id, email, fullName, role }
+    role: user?.role ?? null,       // "ADMIN" or "CLIENT" or null
+    isLoggedIn: !!user,
+    loading,                        // true while checking auth
+    logout,
   };
 }

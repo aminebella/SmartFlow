@@ -10,7 +10,7 @@ import org.apache.commons.lang3.Validate;
 @Getter
 @Setter
 @Builder
-public class    RegistrationRequest {
+public class RegistrationRequest {
 
 
     @NotEmpty(message = "Firstname is mandatory")

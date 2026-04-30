@@ -136,7 +136,7 @@ export default function RegisterPage() {
         )}
 
         <p className="auth-link-text">
-          Déjà un compte ? <a href="/authentification/authenticate">Se connecter</a>
+          Déjà un compte ? <a href="/login">Se connecter</a>
         </p>
       </div>
 

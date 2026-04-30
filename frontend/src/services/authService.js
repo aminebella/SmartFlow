@@ -35,13 +35,15 @@ export const logout = async () => {
   }
 };
 
-// Récupérer l'utilisateur actuel
+
 export const getCurrentUser = async () => {
   try {
     const response = await API.get("/auth/me");
     return response.data;
+    // Expected response from Spring Boot:
+    // { id: 1, email: "ali@test.com", fullName: "Ali Hassan", role: "CLIENT" }
   } catch {
-    return null;
+    return null; // 401 = not logged in
   }
 };
 

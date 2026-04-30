@@ -45,7 +45,7 @@
                 name = "user_seq",
                 sequenceName = "user_seq",
                 allocationSize = 1,
-                initialValue = 0
+                initialValue = 1
         )
         private Long id;
         private String firstname;

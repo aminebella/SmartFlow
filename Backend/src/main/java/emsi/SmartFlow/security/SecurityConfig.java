@@ -46,7 +46,18 @@ public class SecurityConfig {
                                         ).permitAll()
                                         .anyRequest().authenticated() // → Everything else requires a valid JWT
 
-                ).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                )
+                // the exceptionHandling() block is optional that return HTTP status codes for auth errors
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.sendError(401, "Unauthorized");
+                        })
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            response.sendError(403, "Forbidden");
+                        })
+                )
+                .sessionManagement(
+                        session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // → STATELESS = don't create server-side sessions
                 // → JWT carries all info, server remembers nothing between requests
                 .authenticationProvider(authenticationProvider)// → Use our custom auth provider (from BeanConfig)

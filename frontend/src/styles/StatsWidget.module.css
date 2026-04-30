@@ -1,0 +1,64 @@
+/* components/dashBordAdmin/stats/StatsWidget.module.css */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.statCard {
+  background-color: var(--bg-card); /* Blanc */
+  padding: 1.5rem;
+  border-radius: var(--radius-card); /* 12px */
+  box-shadow: var(--shadow-card);
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  border: 1px solid var(--border-color);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.statCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.iconWrapper {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.textWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.label {
+  font-size: 0.9rem;
+  color: var(--text-sub);
+  font-weight: 500;
+}
+
+/* Déclinaisons de couleurs basées sur l'image */
+.blue .iconWrapper { background-color: #e3f2fd; color: #1e88e5; }
+.green .iconWrapper { background-color: #e8f5e9; color: #43a047; }
+.teal .iconWrapper { background-color: #e0f2f1; color: #00897b; }
+
+/* La carte "Out of Stock" a un style spécial rouge sur l'image */
+.red {
+  background-color: #fff5f5; /* Fond rouge très clair */
+  border-color: #ffcdd2;
+}
+.red .iconWrapper { background-color: #ffebee; color: #e53935; }
+.red .value { color: #b71c1c; }

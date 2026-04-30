@@ -29,6 +29,27 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem
+
+    /* Couleurs principales basées sur l'image */
+  --bg-main: #f3f7f9;       /* Le fond très clair et légèrement bleuté */
+  --bg-sidebar: #2c4a57;    /* Le bleu-gris sombre de la sidebar */
+  --bg-card: #ffffff;       /* Le blanc pur des cartes */
+  
+  /* Couleurs de texte */
+  --text-main: #2c3e50;     /* Bleu-gris foncé pour les titres */
+  --text-sub: #7f8c8d;      /* Gris moyen pour les sous-titres/descriptions */
+  --text-sidebar: #ecf0f1;  /* Presque blanc pour le texte dans la sidebar sombre */
+  
+  /* Couleurs d'accentuation et d'état */
+  --primary: #3498db;       /* Bleu vif pour les éléments actifs */
+  --success: #2ecc71;       /* Vert pour le profit */
+  --warning: #f1c40f;       /* Jaune pour les dépenses */
+  --danger: #e74c3c;        /* Rouge pour "Out of Stock" */
+  
+  /* Autres */
+  --border-color: #e6ebf1;
+  --shadow-card: 0 4px 6px rgba(0, 0, 0, 0.05); /* Ombre très légère */
+  --radius-card: 12px;      /* Arrondis prononcés comme sur l'image */
   }
   .dark {
     --background: 0 0% 3.9%;

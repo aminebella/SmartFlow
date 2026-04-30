@@ -14,8 +14,10 @@ import jakarta.mail.MessagingException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,6 +27,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -45,8 +48,15 @@ public class AuthenticateService {
     private final JwtService jwtService;
 
 
-    public ResponseEntity<?> register(RegistrationRequest request) throws MessagingException {
+    public ResponseEntity<?> register(@RequestBody @Valid RegistrationRequest request) throws MessagingException {
         request.validateRoleSpecificFields();// → Check: if registering as client, bio is required
+
+        // Check duplicate email
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT) // or BAD_REQUEST
+                    .body(Map.of("error", "Email already exists"));
+        }
 
         if (request.isAdmin()) {
             Admin admin = Admin.builder()
