@@ -1,7 +1,7 @@
-// app/EspaceAdmin/dashboard/page.jsx
 import { Suspense } from 'react';
-import StatsWidget from '@/components/dashBordAdmin/stats/StatsWidget';
-import StatsSkeleton from '@/components/skeleton/StatsSkeleton';
+
+import StatsSkeleton from '@/components/skeleton/admin/dashboard/StatsSkeleton';
+import StatsWidget from '@/components/admin/dashBordAdmin/stats/StatsWidget';
 
 export default function DashboardPage() {
   return (

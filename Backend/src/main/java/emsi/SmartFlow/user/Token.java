@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 public class Token {
     @Id @GeneratedValue
     private Long id;
+    @Column(length = 2048)
     private String token; // → The actual JWT string OR the 6-digit activation code
     @CreatedDate
     @Column(updatable = false)

@@ -1,29 +1,42 @@
 package emsi.SmartFlow.controller.facade;
 
+import emsi.SmartFlow.Utils.SecurityUtils;
+import emsi.SmartFlow.controller.dto.client.ClientResponse;
+import emsi.SmartFlow.controller.dto.client.UpdateProfileRequest;
+import emsi.SmartFlow.entity.Client;
 import emsi.SmartFlow.service.facade.ClientService;
+import emsi.SmartFlow.user.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-/**
- * @author HP
- **/
+import java.io.IOException;
 
 @RestController
-@RequestMapping("client")
+@RequestMapping("/client")
+@RequiredArgsConstructor
 public class ClientController {
 
     private final ClientService clientService;
 
-    public ClientController(ClientService clientService) {
-        this.clientService = clientService;
+    @GetMapping("/{id}")
+    public ResponseEntity<ClientResponse> getClientById(
+            @PathVariable Long id,
+            @AuthenticationPrincipal User currentUser) {
+        SecurityUtils.requireClient(currentUser);
+        SecurityUtils.requireSameUser(currentUser, id);
+        return ResponseEntity.ok(clientService.getClientById(id));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getClientByID(@PathVariable Long id){
-        var admin = clientService.getClientById(id);
-        return ResponseEntity.ok(admin);
+    @PutMapping("/{id}/profile")
+    public ResponseEntity<ClientResponse> updateProfile(
+            @PathVariable Long id,
+            @ModelAttribute UpdateProfileRequest request,  // ← ModelAttribute pas RequestBody
+            @AuthenticationPrincipal User currentUser) throws IOException {
+        SecurityUtils.requireClient(currentUser);
+        SecurityUtils.requireSameUser(currentUser, id);
+        return ResponseEntity.ok(clientService.updateProfile(id, request));
     }
 }

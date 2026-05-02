@@ -1,11 +1,16 @@
 "use client";
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import { register, activateAccount } from "@/services/authService";
-import "@/styles/auth.css";
-import "@/styles/activation.css";
+
+import "@/styles/auth/auth.css";
+import "@/styles/auth/activation.css";
+
+
 
 const INITIAL_FORM = {
   firstname: "",

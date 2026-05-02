@@ -1,0 +1,38 @@
+.container {
+  padding: 0;
+  margin: 0;
+}
+
+.listHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.listTitle {
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1A1A1A;
+  letter-spacing: 0.01em;
+}
+
+.seeAll {
+  font-size: 12px;
+  color: #C9A227;
+  font-weight: 600;
+  text-decoration: none;
+  opacity: 0.85;
+  transition: opacity 0.15s ease;
+}
+
+.seeAll:hover {
+  opacity: 1;
+}
+
+.projectsStack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

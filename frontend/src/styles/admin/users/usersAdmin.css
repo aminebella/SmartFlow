@@ -1,0 +1,115 @@
+/* Users list styles (used by Admin Users page)
+   Mirror of projectsAdmin.css — same tokens, same conventions
+*/
+
+/* ── Page header ─────────────────────────────────────────── */
+.au-heading { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 700; color: #1f2644; }
+.au-sub     { font-size: 12.5px; color: #9099b4; margin-top: 3px; }
+
+/* ── Card ────────────────────────────────────────────────── */
+.au-card        { background: #fff; border: 1px solid #e1e5f0; border-radius: 10px; overflow: hidden; }
+.au-card-header { padding: 16px 20px 13px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f0f2f8; }
+.au-card-title  { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 700; color: #1f2644; }
+
+/* ── Toolbar ─────────────────────────────────────────────── */
+.au-toolbar { display: flex; align-items: center; gap: 8px; padding: 14px 20px 0; flex-wrap: wrap; }
+
+.au-search { display: flex; align-items: center; gap: 8px; border: 1px solid #e1e5f0; border-radius: 6px; padding: 7px 12px; background: #f8f9fc; flex: 1; max-width: 300px; transition: all .14s; }
+.au-search:focus-within { border-color: #0073ea; background: #fff; box-shadow: 0 0 0 3px rgba(0,115,234,.08); }
+.au-search input { border: none; background: transparent; font-size: 12.5px; color: #454d6d; outline: none; width: 100%; font-family: 'Inter', sans-serif; }
+.au-search input::placeholder { color: #9099b4; }
+
+.au-select { border: 1px solid #e1e5f0; border-radius: 6px; padding: 7px 10px; font-size: 12.5px; color: #676f8d; background: #fff; outline: none; cursor: pointer; font-family: 'Inter', sans-serif; }
+.au-select:focus { border-color: #0073ea; }
+
+/* ── Table ───────────────────────────────────────────────── */
+.au-table-wrap { overflow-x: auto; }
+.au-table      { width: 100%; border-collapse: collapse; font-size: 13px; }
+.au-table thead tr       { border-bottom: 1px solid #f0f2f8; }
+.au-table th             { text-align: left; padding: 9px 18px; font-size: 10.5px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; color: #9099b4; background: #f8f9fc; }
+.au-table td             { padding: 12px 18px; border-bottom: 1px solid #f0f2f8; vertical-align: middle; }
+.au-table tr:last-child td  { border-bottom: none; }
+.au-table tbody tr:hover td { background: #fafbff; }
+
+/* ── User identity cell ──────────────────────────────────── */
+.user-row-name { display: flex; align-items: center; gap: 10px; }
+.user-name     { font-weight: 600; color: #1f2644; font-size: 13px; }
+.user-sub      { font-size: 11.5px; color: #9099b4; margin-top: 2px; }
+.av-user       { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0; }
+
+/* ── Badges ──────────────────────────────────────────────── */
+.badge         { display: inline-flex; align-items: center; justify-content: center; padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; }
+.badge-active  { background: #0073ea; color: #fff; }
+.badge-blocked { background: #fde8eb; color: #e2445c; }
+.badge-role    { background: #f0f2f8; color: #676f8d; }
+
+/* ── Action buttons ──────────────────────────────────────── */
+.action-btns            { display: flex; gap: 5px; }
+.btn-icon               { width: 28px; height: 28px; border-radius: 6px; border: 1px solid #e1e5f0; background: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #9099b4; transition: all .12s; }
+.btn-icon:hover         { border-color: #0073ea; color: #0073ea; background: #e6f0ff; }
+.btn-icon.danger:hover  { border-color: #e2445c; color: #e2445c; background: #fde8eb; }
+.btn-icon.success:hover { border-color: #00c875; color: #00c875; background: #d4f7e7; }
+.btn-icon:disabled      { opacity: .4; cursor: not-allowed; }
+
+.btn-spin { width: 13px; height: 13px; border: 2px solid currentColor; border-top-color: transparent; border-radius: 50%; animation: au-spin .6s linear infinite; display: inline-block; }
+
+/* ── Pagination / footer ─────────────────────────────────── */
+.au-pagination { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-top: 1px solid #f0f2f8; font-size: 12.5px; color: #9099b4; }
+
+/* ── States ──────────────────────────────────────────────── */
+.au-empty   { padding: 48px 20px; text-align: center; color: #9099b4; font-size: 13px; }
+.au-loading { padding: 48px 20px; text-align: center; color: #9099b4; font-size: 13px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.au-error   { padding: 20px; color: #e2445c; font-size: 13px; text-align: center; }
+
+.au-spinner   { width: 28px; height: 28px; border: 3px solid #e1e5f0; border-top-color: #0073ea; border-radius: 50%; animation: au-spin .7s linear infinite; }
+@keyframes au-spin { to { transform: rotate(360deg); } }
+
+.au-retry-btn       { margin-top: 6px; padding: 5px 14px; border: 1px solid #e2445c; border-radius: 6px; background: transparent; color: #e2445c; cursor: pointer; font-size: 12.5px; transition: background .14s; }
+.au-retry-btn:hover { background: #fde8eb; }
+.au-empty-icon { margin-bottom: 6px; }
+.au-empty-text { margin: 0; }
+
+/* ── Back button ─────────────────────────────────────────── */
+.au-back-btn       { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: #9099b4; background: none; border: none; cursor: pointer; padding: 0; font-family: 'Inter', sans-serif; transition: color .14s; }
+.au-back-btn:hover { color: #1f2644; }
+
+/* ══════════════════════════════════════════════════════════
+   User Details  —  mirror of projectDetailsAdmin.css
+══════════════════════════════════════════════════════════ */
+.user-detail-root { display: flex; flex-direction: column; gap: 18px; }
+
+.ud-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.ud-title  { margin: 0; font-size: 20px; color: #1f2644; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; }
+.ud-sub    { font-size: 13px; color: #9099b4; margin-top: 4px; }
+
+.ud-profile-section { display: flex; align-items: center; gap: 16px; padding: 20px 20px 16px; flex-wrap: wrap; }
+.ud-avatar-lg  { width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 700; color: #fff; flex-shrink: 0; overflow: hidden; }
+.ud-avatar-img { width: 100%; height: 100%; object-fit: cover; }
+.ud-profile-info { display: flex; flex-direction: column; gap: 5px; flex: 1; }
+.ud-name         { font-size: 16px; font-weight: 700; color: #1f2644; margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+.ud-email        { font-size: 12.5px; color: #9099b4; margin: 0; }
+.ud-header-action { margin-left: auto; }
+
+.ud-divider { height: 1px; background: #f0f2f8; margin: 0 20px; }
+
+.ud-grid  { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; padding: 16px 20px 20px; }
+.ud-field { display: flex; flex-direction: column; gap: 4px; }
+.ud-label { font-size: 10.5px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; color: #9099b4; }
+.ud-value { font-size: 13px; color: #1f2644; font-weight: 600; }
+
+/* Large buttons (details page) — same as projectDetails */
+.btn-primary         { background: #0073ea; color: #fff; padding: 8px 12px; border-radius: 8px; border: none; cursor: pointer; font-weight: 700; font-family: 'Inter', sans-serif; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
+.btn-primary:disabled { opacity: .5; cursor: not-allowed; }
+.btn-secondary        { background: #f3f6fb; color: #1f2644; padding: 8px 12px; border-radius: 8px; border: 1px solid #e1e5f0; cursor: pointer; font-weight: 700; font-family: 'Inter', sans-serif; }
+.btn-secondary:hover  { background: #eaf2ff; }
+.btn-danger           { background: #fde8eb; color: #e2445c; padding: 8px 12px; border-radius: 8px; border: none; cursor: pointer; font-weight: 700; font-family: 'Inter', sans-serif; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
+.btn-danger:hover     { background: #facccc; }
+.btn-danger:disabled  { opacity: .5; cursor: not-allowed; }
+.btn-success          { background: #d4f7e7; color: #00854d; padding: 8px 12px; border-radius: 8px; border: none; cursor: pointer; font-weight: 700; font-family: 'Inter', sans-serif; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
+.btn-success:hover    { background: #a8f0ce; }
+.btn-success:disabled { opacity: .5; cursor: not-allowed; }
+
+@media (max-width: 700px) {
+  .ud-profile-section { flex-direction: column; align-items: flex-start; }
+  .ud-header-action   { margin-left: 0; }
+}

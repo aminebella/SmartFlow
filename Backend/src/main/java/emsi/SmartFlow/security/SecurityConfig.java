@@ -30,23 +30,24 @@ public class SecurityConfig {
                 cors(Customizer.withDefaults()). // → Enable CORS (uses CorsConfig rules we defined)
                 csrf(AbstractHttpConfigurer::disable). // → Disable CSRF protection — safe for REST APIs using JWT (no cookies) // → CSRF is only needed for browser form-based sessions
                 authorizeHttpRequests(
-                        req->
-                                req.requestMatchers(// → These URLs don't need a token — anyone can access
-                                                "/auth/**",
-                                                "/v3/api-docs",
-                                                "/v3/api-docs/**",
-                                                "/v2/api-docs",
-                                                "/swagger-resources",
-                                                "/swagger-resources/**",
-                                                "/configuration/ui",
-                                                "/configuration/security",
-                                                "/swagger-ui/**",
-                                                "/swagger-ui.html",
-                                                "/webjars/**"
-                                        ).permitAll()
-                                        .anyRequest().authenticated() // → Everything else requires a valid JWT
+                req->
+                        req.requestMatchers(// → These URLs don't need a token — anyone can access
+                                        "/auth/**",
+                                        "/uploads/**",
+                                        "/v3/api-docs",
+                                        "/v3/api-docs/**",
+                                        "/v2/api-docs",
+                                        "/swagger-resources",
+                                        "/swagger-resources/**",
+                                        "/configuration/ui",
+                                        "/configuration/security",
+                                        "/swagger-ui/**",
+                                        "/swagger-ui.html",
+                                        "/webjars/**"
+                                ).permitAll()
+                                .anyRequest().authenticated() // → Everything else requires a valid JWT
 
-                )
+        )
                 // the exceptionHandling() block is optional that return HTTP status codes for auth errors
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint((request, response, authException) -> {

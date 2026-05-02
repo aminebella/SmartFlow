@@ -3,10 +3,10 @@
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import { useTickets } from "../../../../../hooks/useTickets.js";
-import TicketTable        from "../../../../../components/task/TicketTable.jsx";
-import TicketModal        from "../../../../../components/task/TicketModal.jsx";
-import TicketDeleteModal  from "../../../../../components/task/TicketDeleteModal.jsx";
-import TicketFilterPanel  from "../../../../../components/task/TicketFilterPanel.jsx";
+import TicketTable        from "../../../../../components/client/tasksClient/TicketTable.jsx";
+import TicketModal        from "../../../../../components/client/tasksClient/TicketModal.jsx";
+import TicketDeleteModal  from "../../../../../components/client/tasksClient/TicketDeleteModal.jsx";
+import TicketFilterPanel  from "../../../../../components/client/tasksClient/TicketFilterPanel.jsx";
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 

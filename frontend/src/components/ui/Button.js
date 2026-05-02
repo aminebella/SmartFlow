@@ -1,4 +1,4 @@
-import "@/styles/button.css";
+import "@/styles/ui/button.css";
 
 export default function Button({ label, onClick, type = "button", variant = "primary", loading = false, disabled = false }) {
   return (

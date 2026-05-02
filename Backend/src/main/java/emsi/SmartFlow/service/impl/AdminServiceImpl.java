@@ -1,27 +1,45 @@
 package emsi.SmartFlow.service.impl;
-
-import emsi.SmartFlow.entity.Admin;
-import emsi.SmartFlow.repo.AdminRepo;
+import emsi.SmartFlow.Utils.ClientUtils;
+import emsi.SmartFlow.controller.converter.ClientConverter;
+import emsi.SmartFlow.controller.dto.client.ClientResponse;
+import emsi.SmartFlow.entity.Client;
+import emsi.SmartFlow.repo.ClientRepo;
 import emsi.SmartFlow.service.facade.AdminService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
-/**
- * @author HP
- **/
 @Service
 public class AdminServiceImpl implements AdminService {
-    private final AdminRepo adminRepo;
 
-    public AdminServiceImpl(AdminRepo adminRepo) {
-        this.adminRepo = adminRepo;
+    private final ClientRepo clientRepo;
+    private final ClientConverter clientConverter;
+
+    public AdminServiceImpl(ClientRepo clientRepo, ClientConverter clientConverter) {
+        this.clientRepo = clientRepo;
+        this.clientConverter = clientConverter;
     }
 
     @Override
-    public Admin getAdminById(Long id) {
-        // → findById is given for free by JpaRepository
-        // → orElseThrow = if not found, throw exception (GlobalExceptionHandler catches it)
-        var admin = adminRepo.findById(id).orElseThrow(()-> new EntityNotFoundException("Admin not found with id: "+id));
-        return admin;
+    public ClientResponse getClientById(Long id) {
+        return clientConverter.toDTO(ClientUtils.findClientOrThrow(clientRepo, id));
+    }
+
+    @Override
+    public List<ClientResponse> getAllClients() {
+        return clientConverter.toDTOList(clientRepo.findAll());
+    }
+
+    @Override
+    public void blockClient(Long id) {
+        Client client = ClientUtils.findClientOrThrow(clientRepo, id);
+        client.setAccountLocked(true);
+        clientRepo.save(client);
+    }
+
+    @Override
+    public void unblockClient(Long id) {
+        Client client = ClientUtils.findClientOrThrow(clientRepo, id);
+        client.setAccountLocked(false);
+        clientRepo.save(client);
     }
 }

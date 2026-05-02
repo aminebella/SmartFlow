@@ -5,7 +5,89 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9e2b36ed-ec43-491e-98f1-3300bfb3933a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../sonar-project.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../sonar-project.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/auth/AuthenticateService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/auth/AuthenticateService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/auth/RegistrationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/auth/RegistrationRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/controller/facade/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/controller/facade/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/controller/facade/ClientController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/controller/facade/ClientController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/entity/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/entity/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/repo/ClientRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/repo/ClientRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/security/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/service/facade/AdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/service/facade/AdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/service/facade/ClientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/service/facade/ClientService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/service/impl/AdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/service/impl/AdminServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/service/impl/ClientServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/service/impl/ClientServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/user/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/user/Token.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/(auth)/login/page.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/(auth)/login/page.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/(auth)/register/page.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/(auth)/register/page.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/EspaceAdmin/dashboard/page.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/EspaceAdmin/dashboard/page.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/EspaceAdmin/layout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/EspaceAdmin/layout.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/EspaceAdmin/projects/[id]/page.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/EspaceAdmin/projects/[id]/page.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/EspaceAdmin/projects/page.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/EspaceAdmin/projects/page.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/EspaceAdmin/users/[id]/page.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/EspaceAdmin/users/[id]/page.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/EspaceAdmin/users/page.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/EspaceAdmin/users/page.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/EspaceClient/dashboard/page.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/EspaceClient/dashboard/page.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/EspaceClient/layout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/EspaceClient/layout.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/EspaceClient/projects/[id]/layout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/EspaceClient/projects/[id]/layout.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/EspaceClient/projects/[id]/tickets/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/EspaceClient/projects/[id]/tickets/page.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/EspaceClient/projects/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/EspaceClient/projects/page.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/layout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/layout.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/loading.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/loading.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/not-found.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/not-found.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/page.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/admin/Projects/EmptyState.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/admin/Projects/LoadingState.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/admin/Projects/ProjectDetails.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/admin/Projects/ProjectRow.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/admin/Projects/ProjectsPage.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/admin/Projects/ProjectsTable.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/admin/Projects/ProjectsToolbar.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/board/KanbanCard.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/board/KanbanColumn.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/dashBordAdmin/layout/AdminHeader.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/dashBordAdmin/layout/AdminSidebar.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/dashBordAdmin/projects/ProjectRow.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/dashBordAdmin/projects/ProjectStatusBadge.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/dashBordAdmin/projects/ProjectsTable.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/dashBordAdmin/stats/StatCard.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/dashBordAdmin/stats/StatsGrid.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/dashBordAdmin/stats/StatsWidget.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/dashBordAdmin/users/UserBadge.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/dashBordAdmin/users/UserRow.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/dashBordAdmin/users/UsersTable.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/layout/DashboardLayout.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/layout/Navbar.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/layout/Sidebar.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/layout/TopNavbar.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/project/ProjectCard.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/project/ProjectList.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/skeleton/StatsSkeleton.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/sprint/SprintCard.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/sprint/SprintForm.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/task/TaskBoard.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/task/TaskCard.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/task/TaskForm.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/task/TicketDeleteModal.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/task/TicketDetail.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/task/TicketFilterPanel.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/task/TicketModal.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/task/TicketTable.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/ui/Button.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/ui/Button.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/ui/Input.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/ui/Input.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/hooks/useAuth.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/hooks/useAuth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/services/usersService.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/services/usersService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/styles/AdminHeader.module.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/styles/AdminLayout.module.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/styles/AdminSidebar.module.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/styles/StatsWidget.module.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/styles/activation.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/styles/admin/projects/projectDetailsAdmin.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/styles/admin/projects/projectDetailsAdmin.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/styles/admin/projects/projectsAdmin.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/styles/auth.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/styles/button.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/styles/home.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/styles/input.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/styles/loading.module.css" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,7 +124,7 @@
     <urls />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
@@ -54,6 +136,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Maven.SmartFlow [clean].executor&quot;: &quot;Run&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
     &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
@@ -70,7 +153,7 @@
     &quot;git-widget-placeholder&quot;: &quot;Amine&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;F:/DevIT/Education/2.Emsi/2026.4thYear_Sem2/11.Test_qualite_logiciel/Project/Devloppement/SmartFlowV1/Backend&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/DevIT/Education/2.Emsi/2026.4thYear_Sem2/11.Test_qualite_logiciel/Project/Devloppement/SmartFlowV1/Backend&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -138,7 +221,12 @@
       <workItem from="1777288951488" duration="3769000" />
       <workItem from="1777381805682" duration="12709000" />
       <workItem from="1777483057124" duration="4588000" />
-      <workItem from="1777557574486" duration="3020000" />
+      <workItem from="1777557574486" duration="5583000" />
+      <workItem from="1777634976537" duration="7016000" />
+      <workItem from="1777724344175" duration="5582000" />
+      <workItem from="1777745326933" duration="1211000" />
+      <workItem from="1777747685090" duration="760000" />
+      <workItem from="1777749299585" duration="1155000" />
     </task>
     <servers />
   </component>

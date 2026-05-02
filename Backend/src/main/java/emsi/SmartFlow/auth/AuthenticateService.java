@@ -82,7 +82,7 @@ public class AuthenticateService {
                     .password(passwordEncoder.encode(request.getPassword()))
                     .accountLocked(false)
                     .enabled(false)
-                    .bio(request.getBio())
+                    .postTitle(request.getPostTitle())
                     .build();
 
             Role clientRole = roleRepository.findByName("CLIENT")
@@ -104,7 +104,6 @@ public class AuthenticateService {
         tokenRepository.deleteAll();
         userRepository.deleteAll();
     }
-
 
 
     public void authenticate(AuthenticateRequest request, HttpServletResponse response) {
@@ -150,6 +149,7 @@ public class AuthenticateService {
         tokenRepository.save(token);
     }
 
+
     private void revokeAllUserTokens(User user) {
         var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
         if (validUserTokens.isEmpty())
@@ -179,7 +179,6 @@ public class AuthenticateService {
     }
 
 
-
     public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
         // Find the JWT from the cookie
         String jwt = extractJwtFromCookies(request);
@@ -204,6 +203,7 @@ public class AuthenticateService {
         response.addHeader(HttpHeaders.SET_COOKIE, deleteCookie.toString());
         return ResponseEntity.ok(Map.of("message", "Logout successful"));
     }
+
 
     private String extractJwtFromCookies(HttpServletRequest request) {
         if (request.getCookies() == null) return null;

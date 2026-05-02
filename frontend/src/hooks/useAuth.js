@@ -17,8 +17,8 @@ export function useAuth() {
   }, []);
 
   return {
-    user,                           // { id, email, fullName, role }
-    role: user?.role ?? null,       // "ADMIN" or "CLIENT" or null
+    user,                           // { id, email, fullName, roles: [] }
+    role: (user?.roles && user.roles.length > 0) ? user.roles[0] : null, // "ADMIN" or "CLIENT" or null
     isLoggedIn: !!user,
     loading,                        // true while checking auth
     logout,

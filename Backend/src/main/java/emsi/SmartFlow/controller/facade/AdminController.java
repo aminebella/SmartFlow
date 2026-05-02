@@ -1,29 +1,56 @@
 package emsi.SmartFlow.controller.facade;
-
-
+import emsi.SmartFlow.Utils.SecurityUtils;
+import emsi.SmartFlow.controller.dto.client.ClientResponse;
 import emsi.SmartFlow.service.facade.AdminService;
+import emsi.SmartFlow.user.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
-/**
- * @author HP
- **/
-
-@RestController // → This class handles HTTP requests, returns JSON
-@RequestMapping("admin")
+@RestController
+@RequestMapping("/admin")
+@RequiredArgsConstructor
 public class AdminController {
+
     private final AdminService adminService;
 
-    public AdminController(AdminService adminService) {
-        this.adminService = adminService;
+    // ─── GET tous les clients ─────────────────────────────
+    @GetMapping("/clients")
+    public ResponseEntity<List<ClientResponse>> getAllClients(
+            @AuthenticationPrincipal User currentUser) {
+        SecurityUtils.requireAdmin(currentUser);
+        return ResponseEntity.ok(adminService.getAllClients());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getAdminByID(@PathVariable Long id){
-        var admin = adminService.getAdminById(id);
-        return ResponseEntity.ok(admin);
+    // ─── GET client par ID ────────────────────────────────
+    @GetMapping("/clients/{id}")
+    public ResponseEntity<ClientResponse> getClientById(
+            @PathVariable Long id,
+            @AuthenticationPrincipal User currentUser) {
+        SecurityUtils.requireAdmin(currentUser);
+        return ResponseEntity.ok(adminService.getClientById(id));
+    }
+
+
+    // ─── BLOCK client ─────────────────────────────────────
+    @PutMapping("/clients/{id}/block")
+    public ResponseEntity<Void> blockClient(
+            @PathVariable Long id,
+            @AuthenticationPrincipal User currentUser) {
+        SecurityUtils.requireAdmin(currentUser);
+        adminService.blockClient(id);
+        return ResponseEntity.ok().build();
+    }
+
+    // ─── UNBLOCK client ───────────────────────────────────
+    @PutMapping("/clients/{id}/unblock")
+    public ResponseEntity<Void> unblockClient(
+            @PathVariable Long id,
+            @AuthenticationPrincipal User currentUser) {
+        SecurityUtils.requireAdmin(currentUser);
+        adminService.unblockClient(id);
+        return ResponseEntity.ok().build();
     }
 }

@@ -1,56 +1,39 @@
-// // ← checks role=ADMIN, redirects if not
-
-// 'use client';
-// import { useEffect } from 'react';
-// import { useRouter } from 'next/navigation';
-// import { getTokenPayload } from '@/lib/auth';
-
-// export default function AdminLayout({ children }) {
-//   const router = useRouter();
-
-//   useEffect(() => {
-//     const user = getTokenPayload();
-//     if (!user || !user.authorities?.includes('ADMIN')) {
-//       router.replace('/login');
-//     }
-//   }, []);
-
-//   return <>{children}</>;
-// }
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { getCurrentUser } from '@/services/authService';
-import AdminSidebar from '@/components/dashBordAdmin/layout/AdminSidebar';
-import AdminHeader from '@/components/dashBordAdmin/layout/AdminHeader';
-import styles from '@/styles/AdminLayout.module.css'; 
-// 1. Importez votre composant Loading
-import Loading from '@/app/loading'; 
+
+import Loading from '@/app/loading';
+import { useAuth } from '@/hooks/useAuth';
+import AdminSidebar from '@/components/admin/layoutAdmin/AdminSidebar';
+import AdminHeader from '@/components/admin/layoutAdmin/AdminHeader';
+
+import styles from '@/styles/admin/layout/AdminLayout.module.css';
+
 
 export default function Layout({ children }) {
   const router = useRouter();
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { user, role, isLoggedIn, loading, logout } = useAuth();
 
   useEffect(() => {
-    async function checkAuth() {
-      const userData = await getCurrentUser();
-      await new Promise(resolve => setTimeout(resolve, 6000));
-      const isAdmin = userData && userData.roles?.includes('ADMIN');
-
+    if (!loading) {
+      const isAdmin = role === 'ADMIN'; // consistent check
       if (!isAdmin) {
-        router.replace('/login');
-      } else {
-        setUser(userData);
-        setLoading(false);
+        if (window.history.length > 1) {
+          router.back();
+        } else {
+          router.replace('/login');
+        }
       }
     }
-    checkAuth();
-  }, [router]);
+  }, [loading, role, router]);
 
-  // 2. Affichez le composant Loading ici au lieu de retourner null
-  if (loading) return <Loading />; 
+  // While we're loading auth info, show the Loading component.
+  if (loading) return <Loading />;
+
+  // If auth check finished and user is not an admin, don't render protected UI
+  const isAdmin = role === 'ADMIN';
+  if (!isAdmin) return <Loading />;
 
   return (
     <div className={styles.adminWrapper}>

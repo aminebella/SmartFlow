@@ -7,12 +7,11 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.Validate;
 
+
 @Getter
 @Setter
 @Builder
 public class RegistrationRequest {
-
-
     @NotEmpty(message = "Firstname is mandatory")
     @NotNull(message = "Firstname is mandatory")
     private String firstname;
@@ -27,9 +26,10 @@ public class RegistrationRequest {
     @NotNull(message = "Password is mandatory")
     @Size(min = 8, message = "Password should be 8 characters long minimum")
     private String password;
-    private String bio;
+    private String postTitle;
     private boolean isAdmin;
     private boolean  isClient;
+
 
     @AssertTrue(message = "Exactly one role must be true")
     private boolean isExactlyOneRole() {
@@ -39,7 +39,7 @@ public class RegistrationRequest {
 
     public void validateRoleSpecificFields() {
         if (isClient) {
-            Validate.notNull(bio, "bio is required for client");
+            Validate.notNull(postTitle, "postTitle is required for client");
         }
     }
 

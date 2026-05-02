@@ -1,9 +1,24 @@
 'use client'
 
-import '@/styles/admin/projects/projectsAdmin.css'
-import ProjectsPage from '@/components/admin/Projects/ProjectsPage'
+import React, { Suspense } from 'react'
+import dynamic from 'next/dynamic'
+
+import ProjectlListSkeletonAdmin from '@/components/skeleton/admin/projects/projectlListSkeletonAdmin'
+
+import '@/styles/admin/projects/projectsListAdmin.css'
+
+
+// Dynamically import the heavy client ProjectsPage to allow the skeleton to show
+const ProjectsPage = dynamic(
+  () => import('@/components/admin/projectsAdmin/projectsListAdmin/ProjectsPage'),
+  { ssr: false }
+)
 
 export default function Page() {
-  // The top-level page stays tiny: it only mounts the client component
-  return <ProjectsPage role="ADMIN" />
+  // Render skeleton while the ProjectsPage component is loading
+  return (
+    <Suspense fallback={<ProjectlListSkeletonAdmin />}>
+      <ProjectsPage role="ADMIN" />
+    </Suspense>
+  )
 }

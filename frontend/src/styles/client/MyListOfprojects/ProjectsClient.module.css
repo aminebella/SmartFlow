@@ -1,0 +1,11 @@
+/* Styles for client projects listing */
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.row {
+  width: 100%;
+}

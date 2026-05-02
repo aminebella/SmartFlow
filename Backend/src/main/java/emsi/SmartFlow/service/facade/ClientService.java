@@ -1,12 +1,10 @@
 package emsi.SmartFlow.service.facade;
+import emsi.SmartFlow.controller.dto.client.ClientResponse;
+import emsi.SmartFlow.controller.dto.client.UpdateProfileRequest;
 
-import emsi.SmartFlow.entity.Client;
-
-/**
- * @author HP
- **/
+import java.io.IOException;
 
 public interface ClientService {
-
-    Client getClientById(Long id);
+    ClientResponse getClientById(Long id);
+    ClientResponse updateProfile(Long id, UpdateProfileRequest request) throws IOException;
 }

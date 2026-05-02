@@ -1,4 +1,4 @@
-import "@/styles/input.css";
+import "@/styles/ui/input.css";
 
 export default function Input({ label, id, type = "text", placeholder, value, onChange, error }) {
   return (

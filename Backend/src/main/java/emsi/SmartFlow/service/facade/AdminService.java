@@ -1,13 +1,11 @@
 package emsi.SmartFlow.service.facade;
+import emsi.SmartFlow.controller.dto.client.ClientResponse;
+import java.util.List;
 
-import emsi.SmartFlow.entity.Admin;
 
-/**
- * @author HP
- **/
-
-// the "contract"
 public interface AdminService {
-
-     Admin getAdminById(Long id); // → "I promise there will be this method"
+    ClientResponse getClientById(Long id);
+    List<ClientResponse> getAllClients();
+    void blockClient(Long id);
+    void unblockClient(Long id);
 }

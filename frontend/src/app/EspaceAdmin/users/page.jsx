@@ -1,9 +1,10 @@
-// ← list of all users
-export default function UsersPage() {
-  return (
-    <div>
-      <h2>Users Page</h2>
-      <p>This is where you can manage all your users.</p>
-    </div>
-  );
+'use client'
+ 
+import '@/styles/admin/users/usersAdmin.css'
+import UsersPage from '@/components/admin/usersAdmin/UsersPage'
+ 
+export default function Page() {
+  // The top-level page stays tiny: it only mounts the client component
+  return <UsersPage role="ADMIN" />
 }
+ 
