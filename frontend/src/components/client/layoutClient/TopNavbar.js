@@ -6,7 +6,7 @@ import { getCurrentUser, logout } from "@/services/authService";
 import { getProjectById } from "@/services/projectService";
 
 const NAV_TABS = [
-  { label: "Dashboard",   path: ""           },
+  { label: "Dashboard",   path: "/dashboard"  },
   { label: "Backlog",     path: "/backlog"    },
   { label: "Board",       path: "/board"      },
   { label: "Sprints",     path: "/sprints"    },

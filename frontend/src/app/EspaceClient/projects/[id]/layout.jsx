@@ -20,15 +20,15 @@ export default function ProjectLayout({ children }) {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
         {/* Project header */}
-        <div className="flex items-center justify-between mb-4">
+        {/* <div className="flex items-center justify-between mb-4">
           <div>
             <h1 className="text-2xl font-bold text-slate-800">Project {id}</h1>
             <p className="text-sm text-slate-500">Vue du projet — dashboard & navigation</p>
           </div>
-        </div>
+        </div> */}
 
         {/* Project nav (shared between sub-pages) */}
-        <div className="mb-6">
+        {/* <div className="mb-6">
           <nav className="inline-flex items-center gap-2 bg-white rounded-lg p-1 shadow-sm border border-slate-100">
             <Link href={`/EspaceClient/projects/${id}`} className="px-4 py-2 text-sm rounded-md font-medium">
               Dashboard
@@ -46,7 +46,7 @@ export default function ProjectLayout({ children }) {
               IA
             </Link>
           </nav>
-        </div>
+        </div> */}
 
         {/* Page content */}
         <main>{children}</main>

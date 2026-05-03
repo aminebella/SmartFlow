@@ -61,7 +61,7 @@ export default function ProjectPreview({ project }) {
             )}
           </div>
 
-          <Link href={`/EspaceClient/projects/${project.id}`} className={styles.openBtn}>
+          <Link href={`/EspaceClient/projects/${project.id}/dashboard`} className={styles.openBtn}>
             Ouvrir
           </Link>
         </div>

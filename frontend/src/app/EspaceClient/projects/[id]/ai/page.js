@@ -1,1 +1,0 @@
-// ← CDC upload (manager only — guard in layout)
