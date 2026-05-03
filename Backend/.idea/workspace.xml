@@ -6,51 +6,19 @@
   <component name="ChangeListManager">
     <list default="true" id="9e2b36ed-ec43-491e-98f1-3300bfb3933a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/SmartFlowApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/SmartFlowApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/auth/AuthenticateService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/auth/AuthenticateService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/auth/AuthenticationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/auth/AuthenticationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/configuration/BeanConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/configuration/BeanConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/configuration/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/configuration/CorsConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/controller/facade/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/controller/facade/AdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/entity/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/entity/Admin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/entity/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/entity/Client.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/entity/Project.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/entity/Project.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/entity/ProjectTeam.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/entity/ProjectTeam.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/entity/enums/ProjectTeamRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/entity/enums/ProjectTeamRole.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/entity/keys/ProjectTeamKey.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/entity/keys/ProjectTeamKey.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/handller/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/handller/GlobalExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/repo/AdminRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/repo/AdminRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/role/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/role/Role.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/security/JwtFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/security/JwtFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/security/JwtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/security/JwtService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/security/LogoutService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/security/LogoutService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/security/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/security/UserDetailsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/security/UserDetailsServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/service/facade/AdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/service/facade/AdminService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/service/impl/AdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/service/impl/AdminServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/user/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/user/Token.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/user/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/api/auth.service.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/api/axios.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/api/axios.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/api/project.service.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/api/task.service.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/(auth)/login/page.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/(auth)/login/page.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/(dashboard)/layout.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/(dashboard)/projects/[id]/ai/page.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/(dashboard)/projects/[id]/backlog/page.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/(dashboard)/projects/[id]/board/page.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/(dashboard)/projects/[id]/page.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/(dashboard)/projects/[id]/sprints/page.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/(dashboard)/projects/page.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/layout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/layout.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/hooks/useAuth.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/hooks/useAuth.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/hooks/useProjects.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/hooks/useProjects.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/EspaceClient/projects/[id]/layout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/EspaceClient/projects/[id]/layout.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/EspaceClient/projects/[id]/page.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/EspaceClient/projects/[id]/sprints/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/EspaceClient/projects/[id]/sprints/page.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/EspaceClient/projects/page.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/sprint/SprintCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/sprint/SprintCard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/sprint/SprintForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/sprint/SprintForm.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/lib/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/lib/auth.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/services/authService.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/services/authService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/services/usersService.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/services/usersService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/services/sprintService.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/services/sprintService.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,16 +76,16 @@
     "Spring Boot.SmartFlowApplication.executor": "Run",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "Amine",
+    "git-widget-placeholder": "Ikram",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "F:/DevIT/Education/2.Emsi/2026.4thYear_Sem2/11.Test_qualite_logiciel/Project/Devloppement/SmartFlowV1/Backend",
+    "last_opened_file_path": "C:/projectsmart5/SmartFlow/Backend",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
+    "project.structure.last.edited": "SDKs",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
     "to.speed.mode.migration.done": "true",
@@ -150,8 +118,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.26830.84" />
-        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-IU-252.26830.84" />
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.23774.435" />
+        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-IU-251.23774.435" />
       </set>
     </attachedChunks>
   </component>
@@ -171,6 +139,14 @@
       <workItem from="1776680927735" duration="807000" />
       <workItem from="1776696218115" duration="679000" />
       <workItem from="1776706847680" duration="9078000" />
+      <workItem from="1776863847045" duration="7046000" />
+      <workItem from="1776968364974" duration="84000" />
+      <workItem from="1777113149162" duration="2836000" />
+      <workItem from="1777129682657" duration="513000" />
+      <workItem from="1777130710036" duration="2989000" />
+      <workItem from="1777300945267" duration="756000" />
+      <workItem from="1777473224568" duration="1633000" />
+      <workItem from="1777820251149" duration="185000" />
     </task>
     <servers />
   </component>

@@ -40,4 +40,7 @@ public class Project {
     @OneToMany(mappedBy = "project")
     private List<ProjectTeam> projectTeams;
     // → One project has many team members
+
+    @OneToMany(mappedBy = "project", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
+    private List<Sprint> sprints;
 }

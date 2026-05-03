@@ -5,8 +5,11 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -21,7 +24,15 @@ public class JwtService {
     private long jwtExpiration; // → 86400000ms = 24 hours, from properties file
     @Value("${application.security.secret-key}")
     private String secretKey; // → The secret to sign tokens, from properties file
-
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth
+                        .anyRequest().permitAll() // ← temporaire pour les tests
+                );
+        return http.build();
+    }
 
     public String generateToken(UserDetails userDetails){
         return generateToken(new HashMap<>(),userDetails);

@@ -19,6 +19,16 @@ import java.util.Set;
 // → Like a try/catch wrapper around all controllers (Laravel's Handler.php)
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(emsi.SmartFlow.exception.ResourceNotFoundException.class)
+    public ResponseEntity<ExceptionResponse> handleException(emsi.SmartFlow.exception.ResourceNotFoundException exp){
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(ExceptionResponse.builder()
+                        .businessErrorDescription("Not found")
+                        .error(exp.getMessage())
+                        .build());
+    }
+
     @ExceptionHandler(LockedException.class)
     public ResponseEntity<ExceptionResponse> handleException(LockedException exp){
         // → When account is locked, return 401 with business error code 302

@@ -2,7 +2,12 @@
 // ← decode JWT, get current user info
 
 export const getUserFromToken = () => {
-  const token = localStorage.getItem('token');
+  // Next.js peut exécuter ce code côté serveur (SSR/RSC).
+  // Dans ce cas `window/localStorage/atob` n'existent pas.
+  if (typeof window === "undefined") return null;
+  if (!window.localStorage || typeof window.localStorage.getItem !== "function") return null;
+
+  const token = window.localStorage.getItem("token");
   
   if (!token) {
     console.log("Aucun token trouvé");
@@ -29,7 +34,7 @@ export const getUserFromToken = () => {
     // 3. Décoder le Base64
     // atob() = base64 decode
     // The payload is base64-encoded JSON, we decode it to a string
-    const decodedPayload = atob(payload);
+    const decodedPayload = window.atob(payload);
 
     // 4. Parser le JSON
     // Then parse that string as JSON to get a JS object
