@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -35,4 +36,8 @@ public interface ProjectTeamRepository extends JpaRepository<ProjectTeam, Projec
             @Param("projectId") Long projectId,
             @Param("userId") Long userId
     );
+
+    // Get List of all members in a project (for getProjectMembers)
+    @Query("SELECT pt FROM ProjectTeam pt JOIN FETCH pt.client WHERE pt.project.id = :projectId")
+    List<ProjectTeam> findByProjectIdWithClient(Long projectId);
 }

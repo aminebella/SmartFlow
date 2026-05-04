@@ -5,7 +5,9 @@ import java.util.List;
 
 import emsi.SmartFlow.controller.dto.project.ProjectRequest;
 import emsi.SmartFlow.controller.dto.project.ProjectResponse;
+import emsi.SmartFlow.controller.dto.ProjectMember.ProjectMemberResponse;
 import emsi.SmartFlow.entity.enums.ProjectStatus;
+
 
 public interface ProjectService {
 
@@ -38,6 +40,9 @@ public interface ProjectService {
     // ADMIN only: reverse FINISHED → ACTIVE
     void restoreFinishedProject(Long projectId);
 
+    // Client (Manager / Member / Admin): Get all members of a project with their roles
+    List<ProjectMemberResponse> getProjectMembers(Long projectId);
+
     // Manager: add a member to project
     void addMember(Long projectId, Long clientIdToAdd, Long requestingClientId);
 
@@ -47,4 +52,10 @@ public interface ProjectService {
     // Manager: get role of current client in a project
     // Returns "MANAGER", "MEMBER", or null
     String getMyRole(Long projectId, Long clientId);
+
+//    // Client: get all projects where this client is a member, with pagination and optional status filter
+//    List<ProjectResponse> getMyProjectsPaginated(Long clientId, ProjectStatus status, int page, int size);
+
+//    // Member: leave a project
+//    void leaveProject(Long projectId, Long clientId);
 }

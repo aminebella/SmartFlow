@@ -223,10 +223,19 @@ public class AuthenticateService {
                 .map(role -> role.getName())
                 .toList();
 
+        // Cast conditionnel : si l'utilisateur est un Client, on récupère profilePicture
+        String profilePicture = null;
+        String postTitle = null;
+
+        if (user instanceof Client client) {
+            profilePicture = client.getProfilePicture();
+        }
+
         return UserResponse.builder()
                 .email(user.getEmail())
                 .fullName(user.getFullName())
                 .roles(roles)
+                .profilePicture(profilePicture)   // null si Admin
                 .build();
     }
 

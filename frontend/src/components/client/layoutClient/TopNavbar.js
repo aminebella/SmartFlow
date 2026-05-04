@@ -2,15 +2,21 @@
 
 import { useState, useEffect } from "react";
 import { useParams, usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
+
 import { getCurrentUser, logout } from "@/services/authService";
 import { getProjectById } from "@/services/projectService";
 
+import styles from '@/styles/client/projectHeader/header.module.css';
+
+
 const NAV_TABS = [
   { label: "Dashboard",   path: "/dashboard"  },
-  { label: "Backlog",     path: "/backlog"    },
-  { label: "Board",       path: "/board"      },
+  { label: "Tasks",     path: "/tasks"    },
+  // { label: "Backlog",     path: "/backlog"    },
   { label: "Sprints",     path: "/sprints"    },
-  { label: "Tickets",     path: "/tickets"    },
+  { label: "Board",       path: "/board"      },
   { label: "AI Analysis", path: "/ai", badge: "New" },
 ];
 
@@ -53,13 +59,19 @@ export default function TopNavbar() {
           onClick={() => router.push("/EspaceClient/dashboard")}
           className="flex items-center gap-2 mr-2 shrink-0"
         >
-          <div className="w-7 h-7 rounded-md bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center">
-            <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5}
-                d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
+          
+          <div className={styles.logo}>
+            <Link href="/" aria-label="SmartFlow home">
+              <Image
+                src="/favicon.png"
+                alt="SmartFlow"
+                width={180}
+                height={60}
+                priority
+                className={styles.logoImage}
+              />
+            </Link>
           </div>
-          <span className="font-bold text-slate-800 text-sm tracking-tight">SmartFlow</span>
         </button>
 
         {/* Nav links haut niveau */}
@@ -68,23 +80,24 @@ export default function TopNavbar() {
             onClick={() => router.push("/EspaceClient/dashboard")}
             className="px-3 py-1.5 rounded-md hover:bg-slate-100 transition"
           >
-            Your work
+            Dashboard
           </button>
-          <button className="px-3 py-1.5 rounded-md bg-slate-100 text-slate-800 font-medium transition flex items-center gap-1">
+          <button className="px-3 py-1.5 rounded-md bg-slate-100 text-slate-800 font-medium transition flex items-center gap-1"
+          onClick={() => router.push("/EspaceClient/projects")}>
             Projects
             <svg className="w-3 h-3 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
           </button>
+          <button className="px-3 py-1.5 rounded-md hover:bg-slate-100 transition">Parameter</button>
           <button className="px-3 py-1.5 rounded-md hover:bg-slate-100 transition">Teams</button>
-          <button className="px-3 py-1.5 rounded-md hover:bg-slate-100 transition">Apps</button>
         </nav>
 
         {/* Spacer */}
         <div className="flex-1" />
 
         {/* Search */}
-        <div className="hidden sm:flex items-center">
+        {/* <div className="hidden sm:flex items-center">
           {searchOpen ? (
             <input
               autoFocus
@@ -106,7 +119,7 @@ export default function TopNavbar() {
               Search in SmartFlow...
             </button>
           )}
-        </div>
+        </div> */}
 
         {/* Notifs */}
         <button className="relative p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition">
@@ -156,7 +169,7 @@ export default function TopNavbar() {
 
           {/* Nom du projet */}
           <div className="flex items-center gap-1.5 pr-4 mr-1 border-r border-slate-200 py-0.5">
-            <div className="w-3 h-3 rounded-sm bg-blue-600" />
+            <div className={styles.goldBox} />
             <span className="text-sm font-semibold text-slate-700 truncate max-w-[160px]">
               {project?.name ?? "Projet"}
             </span>
@@ -172,14 +185,14 @@ export default function TopNavbar() {
                   key={label}
                   onClick={() => router.push(href)}
                   className={`relative flex items-center gap-1.5 px-3 py-3 text-sm font-medium whitespace-nowrap border-b-2 transition -mb-px ${
-                    isActive
-                      ? "border-blue-600 text-blue-600"
-                      : "border-transparent text-slate-500 hover:text-slate-800 hover:border-slate-300"
-                  }`}
+                  isActive
+                    ? styles.activeTab
+                    : `border-transparent text-slate-500 hover:text-slate-800 hover:border-slate-300 ${styles.tabHover}`
+                }`}
                 >
                   {label}
                   {badge && (
-                    <span className="text-[10px] font-semibold bg-blue-100 text-blue-600 px-1.5 py-0.5 rounded-full leading-none">
+                    <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full leading-none ${styles.goldBadge}`}>
                       {badge}
                     </span>
                   )}
@@ -191,13 +204,13 @@ export default function TopNavbar() {
           <div className="flex-1" />
 
           {/* Bouton Create */}
-          <button
+          {/* <button
             onClick={() => router.push(`${basePath}/tickets`)}
             className="ml-2 flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-1.5 rounded-lg shadow-sm transition shrink-0"
           >
             <span className="text-base font-light leading-none">+</span>
             Create
-          </button>
+          </button> */}
         </div>
       )}
     </header>

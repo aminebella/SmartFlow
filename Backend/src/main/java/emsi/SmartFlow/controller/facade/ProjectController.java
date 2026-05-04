@@ -1,5 +1,6 @@
 package emsi.SmartFlow.controller.facade;
 
+import emsi.SmartFlow.controller.dto.ProjectMember.ProjectMemberResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -211,6 +212,36 @@ public class ProjectController {
             }
         }
 
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+    }
+
+
+    // ─── ADMIN / MEMBER / MANAGER: get project members ─────────────────────
+    // GET /api/v1/projects/{id}/members
+    @GetMapping("/{id}/members")
+    public ResponseEntity<List<ProjectMemberResponse>> getProjectMembers(
+            @PathVariable Long id,
+            @AuthenticationPrincipal User currentUser) {
+
+        String role = getRole(currentUser);
+
+        // ADMIN → always allowed
+        if (role.equals("ADMIN")) {
+            return ResponseEntity.ok(projectService.getProjectMembers(id));
+        }
+
+        // CLIENT → must be MEMBER or MANAGER
+        if (role.equals("CLIENT")) {
+            Long clientId = ((Client) currentUser).getId();
+
+            String myRole = projectService.getMyRole(id, clientId);
+
+            if (myRole != null) { // MEMBER or MANAGER
+                return ResponseEntity.ok(projectService.getProjectMembers(id));
+            }
+        }
+
+        // Others → forbidden
         return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 

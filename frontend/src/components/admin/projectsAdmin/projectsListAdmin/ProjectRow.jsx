@@ -17,6 +17,13 @@ const MONTHS = ['Jan','Fév','Mar','Avr','Mai','Juin','Juil','Aoû','Sep','Oct',
 function fmtDate(iso) { if (!iso) return '—'; const d = new Date(iso); return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}` }
 function initials(name = '') { return name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) }
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8080';
+const imgUrl = (path) => {
+  if (!path) return null;
+  if (path.startsWith('http')) return path;
+  return `${BASE_URL}${path}`;
+};
+
 export default function ProjectRow({ project, onView, onArchive, onRestore, isActing }) {
   const statusCfg = {
     ACTIVE: { label: 'Actif', cls: 'badge-blue' },
@@ -43,7 +50,18 @@ export default function ProjectRow({ project, onView, onArchive, onRestore, isAc
 
       <td>
         <div className="manager-cell">
-          <div className="av-sm" style={{ background: ownerColor }} title={project.ownerName}>{initials(project.ownerName)}</div>
+          {project.ownerPicture ? (
+            <img
+              src={imgUrl(project.ownerPicture)}
+              alt={project.ownerName}
+              style={{ width: 32, height: 32, borderRadius: '50%', objectFit: 'cover', border: '2px solid #fff' }}
+              title={project.ownerName}
+            />
+          ) : (
+            <div className="av-sm" style={{ background: ownerColor }} title={project.ownerName}>
+              {initials(project.ownerName)}
+            </div>
+          )}
           <span style={{ fontSize: 13, color: '#454d6d' }}>{project.ownerName || '—'}</span>
         </div>
       </td>

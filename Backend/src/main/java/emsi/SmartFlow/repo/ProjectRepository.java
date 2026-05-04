@@ -29,4 +29,5 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     // Check name uniqueness per owner before creating
     boolean existsByNameAndOwnerId(String name, Long ownerId);
+
 }

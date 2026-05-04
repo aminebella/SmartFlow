@@ -3,13 +3,16 @@ package emsi.SmartFlow.service.impl;
 import emsi.SmartFlow.Utils.ClientUtils;
 import emsi.SmartFlow.Utils.FileStorageUtils;
 import emsi.SmartFlow.controller.converter.ClientConverter;
-import emsi.SmartFlow.controller.dto.client.ClientResponse;
+import emsi.SmartFlow.controller.dto.client.ClientProfileResponse;
 import emsi.SmartFlow.controller.dto.client.UpdateProfileRequest;
+import emsi.SmartFlow.controller.dto.project.ProjectResponse;
 import emsi.SmartFlow.entity.Client;
 import emsi.SmartFlow.repo.ClientRepo;
 import emsi.SmartFlow.service.facade.ClientService;
+import emsi.SmartFlow.service.facade.ProjectService;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
+import java.util.List;
 
 
 @Service
@@ -17,19 +20,23 @@ public class ClientServiceImpl implements ClientService {
 
     private final ClientRepo clientRepo;
     private final ClientConverter clientConverter;
+    private final ProjectService projectService;
 
-    public ClientServiceImpl(ClientRepo clientRepo, ClientConverter clientConverter) {
+    public ClientServiceImpl(ClientRepo clientRepo, ClientConverter clientConverter, ProjectService projectService) {
         this.clientRepo = clientRepo;
         this.clientConverter = clientConverter;
+        this.projectService=projectService;
     }
 
     @Override
-    public ClientResponse getClientById(Long id) {
-        return clientConverter.toDTO(ClientUtils.findClientOrThrow(clientRepo, id));
+    public ClientProfileResponse getClientById(Long id) {
+        Client client = ClientUtils.findClientOrThrow(clientRepo, id);
+        List<ProjectResponse> projects = projectService.getMyProjects(id, null); // ← ajouter
+        return clientConverter.toProfileDTO(client, projects); // ← toDTO() → toProfileDTO()
     }
 
     @Override
-    public ClientResponse updateProfile(Long id, UpdateProfileRequest request) throws IOException {
+    public ClientProfileResponse updateProfile(Long id, UpdateProfileRequest request) throws IOException {
         Client client = ClientUtils.findClientOrThrow(clientRepo, id);
 
         if (request.getFirstname() != null)    client.setFirstname(request.getFirstname());
@@ -51,6 +58,8 @@ public class ClientServiceImpl implements ClientService {
             client.setCoverPicture(path);
         }
 
-        return clientConverter.toDTO(clientRepo.save(client));
+        Client saved = clientRepo.save(client);
+        List<ProjectResponse> projects = projectService.getMyProjects(saved.getId(), null);
+        return clientConverter.toProfileDTO(saved, projects);
     }
 }

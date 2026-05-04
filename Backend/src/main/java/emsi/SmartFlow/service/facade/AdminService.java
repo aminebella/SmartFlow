@@ -1,11 +1,11 @@
 package emsi.SmartFlow.service.facade;
-import emsi.SmartFlow.controller.dto.client.ClientResponse;
+import emsi.SmartFlow.controller.dto.client.ClientProfileResponse;
 import java.util.List;
 
 
 public interface AdminService {
-    ClientResponse getClientById(Long id);
-    List<ClientResponse> getAllClients();
+    ClientProfileResponse getClientById(Long id);
+    List<ClientProfileResponse> getAllClients();
     void blockClient(Long id);
     void unblockClient(Long id);
 }

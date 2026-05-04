@@ -37,7 +37,7 @@ export default function ProjectsPage({ role = 'ADMIN' }) {
     })
 
     return list
-  }, [projects, search, sortBy])
+  }, [projects, search, sortBy, sortDir, statusFilter])
 
   const handleView = (id) => router.push(`/EspaceAdmin/projects/${id}`)
 
@@ -71,6 +71,37 @@ export default function ProjectsPage({ role = 'ADMIN' }) {
     }
   }
 
+  // Export currently displayed projects to CSV
+  const [exportMessage, setExportMessage] = useState(null)
+
+  const handleExport = (selectedCols = null) => {
+    try {
+      const allHeaders = ["id", "name", "status", "ownerName", "memberCount", "estimatedEndDate"];
+      const headers = Array.isArray(selectedCols) && selectedCols.length > 0 ? selectedCols : allHeaders;
+
+      const rows = displayed.map(p => headers.map(h => {
+        const v = p[h];
+        return v == null ? '' : String(v).replace(/"/g, '""');
+      }));
+
+      const csv = [headers.join(','), ...rows.map(r => `"${r.join('","') }"`)].join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `projects_export_${new Date().toISOString().slice(0,19).replace(/[:T]/g,'_')}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+
+      setExportMessage('Export réussi — fichier téléchargé');
+      setTimeout(() => setExportMessage(null), 3000);
+    } catch (e) {
+      alert('Erreur lors de l\'export.');
+    }
+  }
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
       <div>
@@ -93,8 +124,15 @@ export default function ProjectsPage({ role = 'ADMIN' }) {
             onSortChange={setSortBy}
             sortDir={sortDir}
             onSortDirChange={setSortDir}
+            onExport={handleExport}
           />
         </div>
+
+        {exportMessage && (
+          <div style={{ marginTop: 8, color: '#065f46', background: '#ecfdf5', padding: '8px 12px', borderRadius: 8 }}>
+            {exportMessage}
+          </div>
+        )}
 
         <div className="ap-table-wrap">
           {error && <div className="ap-error">Erreur lors du chargement des projets.</div>}

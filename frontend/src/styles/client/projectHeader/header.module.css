@@ -1,0 +1,38 @@
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logoImage {
+  display: block;
+  width: 180px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* ProjectBadge.module.css */
+.goldBox {
+  background-color: #D4AF37;
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+}
+
+/* Active tab (gold theme) */
+.activeTab {
+  color: #D4AF37;
+  border-bottom: 2px solid #D4AF37;
+}
+
+/* Optional: nicer gold hover */
+.tabHover:hover {
+  color: #b8962e;
+  border-bottom: 2px solid #e5c158;
+}
+
+/* Badge (AI NEW) */
+.goldBadge {
+  background-color: rgba(212, 175, 55, 0.15);
+  color: #D4AF37;
+}

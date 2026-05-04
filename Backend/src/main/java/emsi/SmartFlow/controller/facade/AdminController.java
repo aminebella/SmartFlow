@@ -1,6 +1,6 @@
 package emsi.SmartFlow.controller.facade;
 import emsi.SmartFlow.Utils.SecurityUtils;
-import emsi.SmartFlow.controller.dto.client.ClientResponse;
+import emsi.SmartFlow.controller.dto.client.ClientProfileResponse;
 import emsi.SmartFlow.service.facade.AdminService;
 import emsi.SmartFlow.user.User;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class AdminController {
 
     // ─── GET tous les clients ─────────────────────────────
     @GetMapping("/clients")
-    public ResponseEntity<List<ClientResponse>> getAllClients(
+    public ResponseEntity<List<ClientProfileResponse>> getAllClients(
             @AuthenticationPrincipal User currentUser) {
         SecurityUtils.requireAdmin(currentUser);
         return ResponseEntity.ok(adminService.getAllClients());
@@ -26,7 +26,7 @@ public class AdminController {
 
     // ─── GET client par ID ────────────────────────────────
     @GetMapping("/clients/{id}")
-    public ResponseEntity<ClientResponse> getClientById(
+    public ResponseEntity<ClientProfileResponse> getClientById(
             @PathVariable Long id,
             @AuthenticationPrincipal User currentUser) {
         SecurityUtils.requireAdmin(currentUser);

@@ -7,6 +7,7 @@ import LoadingState from './LoadingState';
 import EmptyState   from './EmptyState';
 import '@/styles/admin/users/usersAdmin.css';
 
+
 /* ── helpers ─────────────────────────────────────────────── */
 const COLORS    = ['#0073ea','#00c875','#ffb900','#e2445c','#784bd1','#00cec9','#fd79a8'];
 const BASE_URL  = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8080/api/v1';
@@ -87,37 +88,126 @@ function UserProfileHeader({ user, onToggleBlock, loading }) {
 
 /* ── UserInfoGrid ────────────────────────────────────────── */
 function UserInfoGrid({ user }) {
-  const fields = [
-    { label: 'Roles',               value: (user.roles ?? ['CLIENT']).join(', ') },
-    { label: "Date d'inscription", value: fmtDate(user.createdAt) },
-    { label: 'Intitulé de Poste',        value: user.postTitle ?? '—' },
-    { label: 'Localisation',       value: user.location ?? '—' },
-    { label: 'Compte verrouillé',  value: user.accountLocked ? 'Oui' : 'Non' },
-    { label: 'Compte activé',      value: user.enabled ? 'Oui' : 'Non' },
-    { label: 'Statut',             value: isBlocked(user) ? 'Bloqué' : 'Actif' },
-  ];
+  const [activeTab, setActiveTab] = useState('info');
+
+  const tabStyle = (tab) => ({
+    padding: '8px 16px',
+    fontSize: 13,
+    fontWeight: 500,
+    cursor: 'pointer',
+    border: 'none',
+    background: 'none',
+    color: activeTab === tab ? '#0073ea' : 'var(--color-text-secondary)',
+    borderBottom: activeTab === tab ? '2px solid #0073ea' : '2px solid transparent',
+  });
+
   return (
-    <div className="ud-grid">
-      {fields.map(f => (
-        <div key={f.label} className="ud-field">
-          <span className="ud-label">{f.label}</span>
-          <span className="ud-value">{f.value}</span>
+    <div style={{ borderTop: '0.5px solid var(--color-border-tertiary)' }}>
+
+      {/* ─── Onglets ─── */}
+      <div style={{ display: 'flex', borderBottom: '0.5px solid var(--color-border-tertiary)', padding: '0 16px' }}>
+        <button style={tabStyle('info')} onClick={() => setActiveTab('info')}>
+          Vue d'ensemble
+        </button>
+        <button style={tabStyle('projects')} onClick={() => setActiveTab('projects')}>
+          Projets ({user.projects?.length ?? 0})
+        </button>
+      </div>
+{/* ─── Contenu onglet infos ─── */}
+{activeTab === 'info' && (
+  <div style={{ padding: '14px 16px' }}>
+    {[
+      { label: 'Nom complet',        value: user.fullName ?? '—' },
+      { label: 'Email',              value: user.email ?? '—' },
+      { label: 'Rôles',              value: (user.roles ?? []).join(', ') },
+      { label: "Date d'inscription", value: fmtDate(user.createdAt) },
+      { label: 'Intitulé de poste',  value: user.postTitle ?? '—' },
+      { label: 'Localisation',       value: user.location ?? '—' },
+      { label: 'Compte verrouillé',  value: user.accountLocked ? 'Oui' : 'Non' },
+      { label: 'Compte activé',      value: user.enabled ? 'Oui' : 'Non' },
+    ].map((f, i, arr) => (
+      <div key={f.label} style={{
+        display: 'grid',
+        gridTemplateColumns: '160px 1fr',  // ← label fixe, valeur juste à côté
+        gap: 8,
+        padding: '10px 0',
+        borderBottom: i < arr.length - 1 ? '0.5px solid var(--color-border-tertiary)' : 'none',
+      }}>
+        <span style={{ fontSize: 13, color: 'var(--color-text-secondary)', fontWeight: 500 }}>{f.label}</span>
+        <span style={{ fontSize: 13, color: 'var(--color-text-primary)' }}>{f.value}</span>
+      </div>
+    ))}
+  </div>
+)}
+{/* ─── Contenu onglet projets ─── */}
+{activeTab === 'projects' && (
+  <div style={{ padding: '14px 16px' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+      {user.projects?.length > 0 ? user.projects.map(p => (
+        <div key={p.id} style={{
+          background: 'var(--color-background-primary)',
+          borderRadius: 12,
+          border: '0.5px solid var(--color-border-tertiary)',
+          overflow: 'hidden',
+        }}>
+          {/* ─── Header ─── */}
+          <div style={{
+            padding: '10px 14px',
+            background: 'var(--color-background-secondary)',
+            borderBottom: '0.5px solid var(--color-border-tertiary)',
+          }}>
+            <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--color-text-primary)', marginBottom: 6 }}>
+              {p.name}
+            </div>
+            <div style={{ display: 'flex', gap: 6 }}>
+              <span style={{ padding: '2px 8px', borderRadius: 20, fontSize: 10, fontWeight: 500, background: '#eff6ff', color: '#185fa5' }}>
+                {p.myRole}
+              </span>
+              <span style={{ padding: '2px 8px', borderRadius: 20, fontSize: 10, fontWeight: 500, background: '#f0fdf4', color: '#3b6d11' }}>
+                {p.status}
+              </span>
+            </div>
+          </div>
+
+       {/* ─── Fields ─── */}
+<div style={{ padding: '0 14px' }}>
+  {[
+    { label: 'Description',   value: p.description ?? '—' },
+    { label: 'Début estimé',  value: fmtDate(p.estimatedStartDate) },
+    { label: 'Fin estimée',   value: fmtDate(p.estimatedEndDate) },
+    { label: 'Budget estimé', value: p.estimatedBudget ? `${p.estimatedBudget.toLocaleString()} MAD` : '—' },
+    { label: 'Budget réel',   value: (p.realBudget && p.realBudget > 0) ? `${p.realBudget.toLocaleString()} MAD` : '—' },
+    { label: 'Membres',       value: `${p.memberCount} membre${p.memberCount !== 1 ? 's' : ''}` },
+  ].map((f, i, arr) => (
+    <div key={f.label} style={{
+      display: 'grid',
+      gridTemplateColumns: '120px 1fr',  // ← label fixe, valeur prend le reste
+      gap: 8,
+      padding: '8px 0',
+      borderBottom: i < arr.length - 1 ? '0.5px solid var(--color-border-tertiary)' : 'none',
+    }}>
+      <span style={{ fontSize: 12, color: 'var(--color-text-secondary)', fontWeight: 500 }}>{f.label}</span>
+      <span style={{ fontSize: 12, color: 'var(--color-text-primary)' }}>{f.value}</span>
+    </div>
+  ))}
+</div>
         </div>
-      ))}
+      )) : (
+        <p style={{ fontSize: 12, color: 'var(--color-text-tertiary)', textAlign: 'center', paddingTop: 12, gridColumn: '1 / -1' }}>
+          Aucun projet
+        </p>
+      )}
+    </div>
+  </div>
+)}
     </div>
   );
 }
 
-/* ── Cover Picture ───────────────────────────────────────── */
 function CoverPicture({ src }) {
-  if (!src) return null;
-  return (
-    <div style={{ width: '100%', height: '50%', overflow: 'hidden', borderRadius: '10px 10px 0 0' }}>
-      <img src={imgUrl(src)} alt="cover" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-    </div>
-  );
+  if (!src) return <div style={{ width:'100%', height:120, background:'var(--color-background-secondary)', borderRadius:'12px 12px 0 0' }} />;
+  return <img src={imgUrl(src)} alt="cover" style={{ width:'100%', height:120, objectFit:'cover', borderRadius:'12px 12px 0 0', display:'block' }} />;
 }
-
 /* ── Main ────────────────────────────────────────────────── */
 export default function UserDetails({ userId }) {
   const router = useRouter();

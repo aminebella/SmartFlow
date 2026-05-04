@@ -65,4 +65,7 @@ public class Project {
     @Builder.Default
     private ProjectStatus status = ProjectStatus.ACTIVE;// Default = ACTIVE on creation, no need to set it manually
 
+    @OneToMany(mappedBy = "project", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
+    private List<Sprint> sprints;
+
 }

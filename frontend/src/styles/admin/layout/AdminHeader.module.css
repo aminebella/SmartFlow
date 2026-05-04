@@ -1,72 +1,68 @@
-/* AdminHeader.module.css — style clair inspiré Argon Dashboard */
+/* AdminHeader.module.css — SmartFlow · Clean Modern Header */
 
-.header {
-  height: 60px;
-  background: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 1.5rem;
-  border-bottom: 1px solid #e8edf3;
+.headerWrapper {
+  padding: 1rem 1.5rem 0 0;
   position: sticky;
   top: 0;
   z-index: 10;
-  box-shadow: 0 1px 12px rgba(0, 0, 0, 0.04);
-  gap: 1rem;
 }
 
-/* ── Left: Welcome ── */
+.header {
+  background: #d7d0b2;
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.22), 0 1px 0 rgba(212, 160, 23, 0.18);
+  border: 1px solid rgba(212, 160, 23, 0.15);
+  padding: 0 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 76px;
+}
+
+/* ── Left Section ── */
 .left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
   flex-shrink: 0;
 }
 
-.welcome {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #32325d;
-  margin: 0;
-  white-space: nowrap;
+.menuBtn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  color: #333;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
 }
 
-/* ── Center: Search ── */
-.searchBar {
-  flex: 0 1 300px;
-  position: relative;
+.menuBtn:hover {
+  background: rgba(0, 0, 0, 0.1);
+  color: #000;
+  border-color: rgba(0, 0, 0, 0.2);
 }
 
-.searchIcon {
-  position: absolute;
-  right: 0.85rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #adb5bd;
-  pointer-events: none;
+.breadcrumb {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #000000;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
-.searchInput {
-  width: 100%;
-  padding: 0.5rem 2.4rem 0.5rem 1rem;
-  border-radius: 20px;
-  border: 1px solid #e8edf3;
-  background-color: #f6f9fc;
-  font-size: 0.82rem;
-  color: #32325d;
-  transition: all 0.2s;
-  font-family: inherit;
+.breadcrumb span {
+  color: rgba(0, 0, 0, 0.4);
 }
 
-.searchInput::placeholder {
-  color: #adb5bd;
-}
-
-.searchInput:focus {
-  outline: none;
-  border-color: #11cdef;
-  background-color: #ffffff;
-  box-shadow: 0 0 0 3px rgba(17, 205, 239, 0.1);
-}
-
-/* ── Right ── */
+/* ── Right Section ── */
 .right {
   display: flex;
   align-items: center;
@@ -74,101 +70,151 @@
   flex-shrink: 0;
 }
 
-/* Cyan notification count pill */
-.badge {
-  min-width: 22px;
-  height: 22px;
-  padding: 0 6px;
-  background: linear-gradient(135deg, #11cdef, #1171ef);
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.65rem;
-  font-weight: 700;
-  color: #ffffff;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(17, 205, 239, 0.4);
-}
-
-/* Icon buttons */
 .iconBtn {
   background: none;
   border: none;
   cursor: pointer;
-  color: #8898aa;
+  color: rgba(0, 0, 0, 0.6);
   position: relative;
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.18s;
+  transition: all 0.2s;
 }
 
 .iconBtn:hover {
-  background-color: #f6f9fc;
-  color: #32325d;
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #000;
 }
 
-/* Red dot on bell */
 .notificationBadge {
   position: absolute;
-  top: 5px;
-  right: 5px;
-  width: 7px;
-  height: 7px;
-  background-color: #f5365c;
+  top: 8px;
+  right: 8px;
+  width: 8px;
+  height: 8px;
+  background-color: #ef4444;
   border-radius: 50%;
-  border: 1.5px solid #ffffff;
+  border: 1.5px solid #d7d0b2;
 }
 
-/* Separator */
 .separator {
   width: 1px;
-  height: 20px;
-  background: #e8edf3;
+  height: 24px;
+  background: rgba(0, 0, 0, 0.15);
   margin: 0 0.25rem;
 }
 
-/* Avatar + chevron */
 .userProfileMenu {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.6rem;
   cursor: pointer;
-  padding: 0.3rem 0.5rem;
-  border-radius: 8px;
-  transition: background 0.18s;
+  padding: 0.4rem 0.8rem;
+  border-radius: 10px;
+  transition: background 0.2s;
 }
 
 .userProfileMenu:hover {
-  background: #f6f9fc;
+  background: rgba(0, 0, 0, 0.05);
 }
 
-.smallAvatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  object-fit: cover;
+.userName {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #000000;
+  max-width: 140px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.avatarFallback {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #11cdef, #1171ef);
-  color: #ffffff;
+.logoutBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.6);
+  padding: 0.2rem;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.7rem;
+  transition: all 0.2s;
+  margin-left: 0.3rem;
+}
+
+.logoutBtn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.smallAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.avatarFallback {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.1);
+  color: #000;
+  border: 2px solid rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
   font-weight: 700;
   flex-shrink: 0;
 }
 
 .arrowIcon {
-  color: #adb5bd;
-  transition: transform 0.18s;
+  color: rgba(0, 0, 0, 0.5);
+  transition: color 0.2s;
 }
+
+.userProfileMenu:hover .arrowIcon {
+  color: #000;
+}
+
+/* ════ MOBILE (≤ 768px) ════ */
+@media (max-width: 768px) {
+  .menuBtn {
+    display: flex;
+  }
+
+  .headerWrapper {
+    padding: 0.6rem 0.6rem 0 0.6rem;
+  }
+
+  .header {
+    padding: 0 1rem;
+    min-height: 60px;
+    border-radius: 10px;
+  }
+
+  .breadcrumb {
+    font-size: 0.8rem;
+  }
+
+  .userName {
+    font-size: 0.85rem;
+    max-width: 100px;
+  }
+
+  .logoutBtn {
+    padding: 0.15rem;
+    margin-left: 0.2rem;
+  }
+}
+
+  /* Masquer la barre de recherche sur mobile si présente */
+  .searchBar {
+    display: none;
+  }

@@ -378,7 +378,7 @@ export default function TicketsPage() {
   const activeFiltersCount = Object.values(filters).filter(Boolean).length;
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen" style={{ backgroundColor: "#F9F8F5" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
 
         {/* Header */}

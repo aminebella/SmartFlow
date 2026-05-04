@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import emsi.SmartFlow.controller.dto.project.ProjectRequest;
 import emsi.SmartFlow.controller.dto.project.ProjectResponse;
+import emsi.SmartFlow.controller.dto.ProjectMember.ProjectMemberResponse;
 import emsi.SmartFlow.entity.Client;
 import emsi.SmartFlow.entity.Project;
 import emsi.SmartFlow.entity.ProjectTeam;
@@ -224,6 +225,28 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepository.save(project);
     }
 
+    // ─── ADMIN/ MANAGER/ MEMEBER : Get Project MEMBER ────────────────────────────────────────────────────────
+    @Override
+    public List<ProjectMemberResponse> getProjectMembers(Long projectId) {
+
+        // 1. Ensure project exists
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new EntityNotFoundException("Project not found"));
+
+        // 2. Fetch all members
+        List<ProjectTeam> members = projectTeamRepository.findByProjectIdWithClient(projectId);
+
+        // 3. Map to DTO
+        return members.stream()
+                .map(pt -> ProjectMemberResponse.builder()
+                        .clientId(pt.getClient().getId())
+                        .fullName(pt.getClient().getFirstname() + " " + pt.getClient().getLastname())
+                        .role(pt.getProjectRole().name())
+                        .joinedAt(pt.getJoinedAt())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
     // ─── MANAGER : ADD MEMBER ────────────────────────────────────────────────────────
     @Override
     public void addMember(Long projectId, Long clientIdToAdd, Long requestingClientId) {
@@ -303,6 +326,7 @@ public class ProjectServiceImpl implements ProjectService {
                 .status(project.getStatus())
                 .ownerName(project.getOwner().getFirstname()
                         + " " + project.getOwner().getLastname())
+                .ownerPicture(project.getOwner().getProfilePicture())
                 .memberCount(project.getProjectTeams() != null
                         ? project.getProjectTeams().size() : 0)
                 .myRole(myRole)

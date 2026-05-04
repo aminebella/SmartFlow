@@ -1,0 +1,28 @@
+.card {
+  background: #fff;
+  border: 1px solid #e8eaed;
+  border-radius: 12px;
+  padding: 20px 24px;
+}
+.header { display: flex; justify-content: space-between; margin-bottom: 20px; }
+
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position:  400px 0; }
+}
+.shimmer {
+  border-radius: 6px;
+  background: linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite linear;
+}
+.title { height: 18px; width: 140px; }
+.link  { height: 14px; width: 70px; }
+
+.rows { display: flex; flex-direction: column; gap: 16px; }
+.row  { display: flex; align-items: center; gap: 16px; }
+.name  { height: 14px; flex: 2; }
+.badge { height: 20px; width: 70px; border-radius: 20px; }
+.bar   { height: 6px; flex: 2; border-radius: 9999px; }
+.num   { height: 14px; width: 24px; }
+.date  { height: 14px; width: 50px; }

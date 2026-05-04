@@ -97,6 +97,16 @@ public class GlobalExceptionHandler {
                         .build());
     }
 
+    @ExceptionHandler(emsi.SmartFlow.exception.ResourceNotFoundException.class)
+    public ResponseEntity<ExceptionResponse> handleException(emsi.SmartFlow.exception.ResourceNotFoundException exp){
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(ExceptionResponse.builder()
+                        .businessErrorDescription("Not found")
+                        .error(exp.getMessage())
+                        .build());
+    }
+
 
 
 }

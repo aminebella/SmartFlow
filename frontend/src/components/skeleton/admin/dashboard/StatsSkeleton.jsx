@@ -1,9 +1,14 @@
-// components/StatsSkeleton.jsx
+import styles from '@/styles/admin/dashboard/StatsSkeleton.module.css';
+
 export default function StatsSkeleton() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      {[1, 2, 3].map((i) => (
-        <div key={i} className="h-32 bg-gray-200 rounded-lg animate-pulse"></div>
+    <div className={styles.statsGrid}>
+      {Array.from({ length: 4 }).map((_, i) => (
+        <div key={i} className={styles.card}>
+          <div className={`${styles.shimmer} ${styles.label}`} />
+          <div className={`${styles.shimmer} ${styles.value}`} />
+          <div className={`${styles.shimmer} ${styles.badge}`} />
+        </div>
       ))}
     </div>
   );

@@ -27,6 +27,7 @@ public class ProjectResponse {
 
     private ProjectStatus status;
     private String ownerName;    // "Ali Hassan" — useful for admin view
+    private String ownerPicture;  // ← ajouter // "Ali Hassan" — useful for admin view
     private int memberCount;     // how many members in the project
     private String myRole;       // "MANAGER", "MEMBER", null for admin
 

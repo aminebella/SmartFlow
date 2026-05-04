@@ -1,32 +1,64 @@
 'use client';
 
 import React from "react";
-import { useParams, useRouter } from "next/navigation";
+// import { useParams, useRouter } from "next/navigation";
 
-// Client dashboard: shows user greeting, stats and a short list of projects.
+import StatsGrid        from "@/components/client/projectDashboardClient/StatsGrid";
+import ActiveSprint     from "@/components/client/projectDashboardClient/ActiveSprint";
+import TeamMembers      from "@/components/client/projectDashboardClient/TeamMembers";
+import RecentTickets    from "@/components/client/projectDashboardClient/RecentTickets";
+import ActivityTimeline from "@/components/client/projectDashboardClient/ActivityTimeline";
+
+import "@/styles/client/projectDashboard/dashboard.css";
+
+
 export default function EspaceClientProjectDashboard() {
-  const { id } = useParams();
-  const router = useRouter();
+  // const { id } = useParams();
+  // const router = useRouter();
 
   return (
-    <div className="min-h-screen bg-slate-50">
-        <div>
-          <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-            <h2 className="text-lg font-semibold text-slate-800 mb-2">Vue du projet</h2>
-            <p className="text-sm text-slate-500 mb-4">Détails résumé du projet {id}. Ici vous pourrez ajouter les cartes de stats, la timeline et description.</p>
+    <div className="dashboard-root">
 
-            <div className="flex items-center gap-3">
-              <button onClick={() => router.push(`/EspaceClient/projects/${id}/tickets`)}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700">
-                Voir les tickets
-              </button>
-              <button onClick={() => router.push(`/EspaceClient/projects/${id}/board`)}
-                className="px-4 py-2 bg-slate-100 text-slate-700 rounded-lg text-sm hover:bg-slate-200">
-                Aller au board
-              </button>
-            </div>
-          </div>
+      {/* ── Page header ─────────────────────────── */}
+      <div className="section-hdr">
+        <div className="section-hdr-left">
+          <h2>Project Overview</h2>
+          <p>Sprint 4 · March 1 – 22, 2026 · 10 days remaining</p>
         </div>
+        <div className="section-hdr-actions">
+          <button className="btn btn-outline">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <rect x="1" y="2" width="10" height="9" rx="1" />
+              <line x1="4" y1="1" x2="4" y2="4" />
+              <line x1="8" y1="1" x2="8" y2="4" />
+              <line x1="1" y1="6" x2="11" y2="6" />
+            </svg>
+            View Timeline
+          </button>
+          <button className="btn btn-primary">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path d="M6 1l1.1 2.2 2.6.4-1.9 1.8.4 2.6L6 6.8 3.8 8l.4-2.6L2.3 3.6l2.6-.4z" />
+            </svg>
+            AI Analysis
+          </button>
+        </div>
+      </div>
+
+      {/* ── KPI stats ───────────────────────────── */}
+      <StatsGrid />
+
+      {/* ── Sprint overview + Team ───────────────── */}
+      <div className="two-col">
+        <ActiveSprint />
+        <TeamMembers />
+      </div>
+
+      {/* ── Recent tickets + Activity ────────────── */}
+      <div className="two-col">
+        <RecentTickets />
+        <ActivityTimeline />
+      </div>
+
     </div>
   );
 }

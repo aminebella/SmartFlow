@@ -13,6 +13,7 @@
     import org.springframework.security.core.GrantedAuthority;
     import org.springframework.security.core.authority.SimpleGrantedAuthority;
     import org.springframework.security.core.userdetails.UserDetails;
+    import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
     import java.security.Principal;
     import java.time.LocalDateTime;
@@ -21,6 +22,7 @@
     import java.util.stream.Collectors;
 
 
+    @EntityListeners(AuditingEntityListener.class)
     @Entity
     @Inheritance(strategy = InheritanceType.JOINED)  // ← JOINED strategy creates 3 tables: _user, admin, client: each have their OWN table with just their extra columns
     // → They're linked by sharing the same ID (JOIN in SQL)
