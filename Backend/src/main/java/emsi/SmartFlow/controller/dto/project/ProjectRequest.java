@@ -28,4 +28,7 @@ public class ProjectRequest {
 
     private Double realBudget;
 
+    // New: project type (free-form string)
+    private String type;
+
 }

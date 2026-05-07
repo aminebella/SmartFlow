@@ -1,120 +1,239 @@
 'use client'
 
-// small helpers used by the row component
+import styles from '@/styles/admin/projects/projectsListAdmin.module.css'
+
+/* ── helpers ── */
 const AVATAR_COLORS = [
   '#3b82f6','#6366f1','#8b5cf6','#ec4899',
   '#f97316','#10b981','#14b8a6','#0ea5e9',
   '#a855f7','#22c55e','#f59e0b','#ef4444',
 ]
+
 function avatarColor(str = '') {
   let hash = 0
   for (let i = 0; i < str.length; i++) hash = str.charCodeAt(i) + ((hash << 5) - hash)
   return AVATAR_COLORS[Math.abs(hash) % AVATAR_COLORS.length]
 }
-const ACCENT_COLORS = ['#00c875','#0073ea','#e2445c','#ffb900','#784bd1','#ff3d57','#ff7a00']
-function accentColor(id) { return ACCENT_COLORS[id % ACCENT_COLORS.length] }
-const MONTHS = ['Jan','Fév','Mar','Avr','Mai','Juin','Juil','Aoû','Sep','Oct','Nov','Déc']
-function fmtDate(iso) { if (!iso) return '—'; const d = new Date(iso); return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}` }
-function initials(name = '') { return name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) }
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8080';
+const ACCENT_COLORS = ['#E0A820','#378ADD','#2D7A4F','#A32D2D','#534AB7','#E0A820','#0F6E56']
+function accentColor(id) { return ACCENT_COLORS[id % ACCENT_COLORS.length] }
+
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+function fmtDate(iso) {
+  if (!iso) return '—'
+  const d = new Date(iso)
+  return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`
+}
+
+function initials(name = '') {
+  return name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2)
+}
+
+function DeadlineBadge({ dateStr }) {
+  if (!dateStr) return <span className={styles.deadlineCell}>—</span>
+  const diff = Math.ceil((new Date(dateStr) - new Date()) / (1000 * 60 * 60 * 24))
+  if (isNaN(diff)) return <span className={styles.deadlineCell}>{fmtDate(dateStr)}</span>
+
+  let chipClass = ''
+  let chipLabel = ''
+  if (diff < 0) {
+    chipClass = styles.deadlineLate
+    chipLabel = `${Math.abs(diff)}d overdue`
+  } else if (diff <= 7) {
+    chipClass = styles.deadlineSoon
+    chipLabel = `${diff}d left`
+  }
+
+  return (
+    <div className={styles.deadlineCell}>
+      <div>{fmtDate(dateStr)}</div>
+      {chipLabel && <div className={chipClass} style={{ fontSize: 10, marginTop: 2 }}>{chipLabel}</div>}
+    </div>
+  )
+}
+
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8080'
 const imgUrl = (path) => {
-  if (!path) return null;
-  if (path.startsWith('http')) return path;
-  return `${BASE_URL}${path}`;
-};
+  if (!path) return null
+  if (path.startsWith('http')) return path
+  return `${BASE_URL}${path}`
+}
 
 export default function ProjectRow({ project, onView, onArchive, onRestore, isActing }) {
+  /* status config */
   const statusCfg = {
-    ACTIVE: { label: 'Actif', cls: 'badge-blue' },
-    ARCHIVED: { label: 'Archivé', cls: 'badge-gray' },
-    FINISHED: { label: 'Terminé', cls: 'badge-green' }
-  }[project.status] || { label: project.status, cls: 'badge-gray' }
+    ACTIVE:   { label: 'Active',   cls: styles.badgeActive   },
+    ARCHIVED: { label: 'Archived', cls: styles.badgeArchived },
+    FINISHED: { label: 'Finished', cls: styles.badgeFinished },
+  }[project.status] ?? { label: project.status, cls: styles.badgeArchived }
 
-  const color = accentColor(project.id)
+  const color      = accentColor(project.id)
   const ownerColor = avatarColor(project.ownerName || '')
 
   return (
     <tr>
+      {/* Project name + description */}
       <td>
-        <div className="proj-row-name">
-          <div className="proj-accent" style={{ background: color }} />
+        <div className={styles.projNameWrap}>
+          <div className={styles.projAccent} style={{ background: color }} />
           <div>
-            <div className="project-name">{project.name}</div>
+            <div className={styles.projName}>{project.name}</div>
             {project.description && (
-              <div className="project-sub">{project.description.length > 40 ? project.description.slice(0,40) + '…' : project.description}</div>
+              <div className={styles.projDesc}>
+                {project.description.length > 45
+                  ? project.description.slice(0, 45) + '…'
+                  : project.description}
+              </div>
             )}
           </div>
         </div>
       </td>
 
+      {/* Project type */}
       <td>
-        <div className="manager-cell">
+        <div className={styles.projTypeBadge}>{(project.type || 'No Type').toString().replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</div>
+      </td>
+
+      {/* Manager / owner */}
+      <td>
+        <div className={styles.managerCell}>
           {project.ownerPicture ? (
             <img
               src={imgUrl(project.ownerPicture)}
               alt={project.ownerName}
-              style={{ width: 32, height: 32, borderRadius: '50%', objectFit: 'cover', border: '2px solid #fff' }}
+              style={{ width: 28, height: 28, borderRadius: '50%', objectFit: 'cover', border: '1.5px solid #fff', flexShrink: 0 }}
               title={project.ownerName}
             />
           ) : (
-            <div className="av-sm" style={{ background: ownerColor }} title={project.ownerName}>
+            <div
+              className={styles.avSm}
+              style={{ background: ownerColor }}
+              title={project.ownerName}
+            >
               {initials(project.ownerName)}
             </div>
           )}
-          <span style={{ fontSize: 13, color: '#454d6d' }}>{project.ownerName || '—'}</span>
+          <span className={styles.managerName}>{project.ownerName || '—'}</span>
         </div>
       </td>
 
+      {/* Member count */}
       <td>
-        <span style={{ fontSize: 13, fontWeight: 700, color: '#323a5a' }}>{project.memberCount}</span>
-        <span style={{ fontSize: 11.5, color: '#9099b4', marginLeft: 4 }}> membre{project.memberCount !== 1 ? 's' : ''}</span>
+        <span className={styles.memberCount}>{project.memberCount}</span>
+        <span className={styles.memberSuffix}>member{project.memberCount !== 1 ? 's' : ''}</span>
       </td>
 
-      <td><span className={`badge ${statusCfg.cls}`}>{statusCfg.label}</span></td>
+      {/* Status badge */}
+      <td>
+        <span className={`${styles.badge} ${statusCfg.cls}`}>{statusCfg.label}</span>
+      </td>
 
-      <td style={{ fontSize: 12.5, color: '#676f8d' }}>
+      {/* Progression */}
+      <td>
+        <div className={styles.progressionCell}>
+          <div className={styles.progressBar}>
+            <div 
+              className={styles.progressFill}
+              style={{ 
+                width: `${project.progress || 0}%`,
+                backgroundColor: project.progress >= 75 ? '#E0A820' : 
+                                 project.progress >= 50 ? '#F4C430' : 
+                                 project.progress >= 25 ? '#FFE066' : '#FFF3B2'
+              }}
+            />
+          </div>
+          <div className={styles.progressText}>
+            {project.progress || 0}%
+          </div>
+          <div className={styles.progressDetails}>
+            {project.tasksDone || 0}/{project.taskCount || 0} tasks
+          </div>
+        </div>
+      </td>
+
+      {/* Member avatars stack */}
+      <td>
         {project.memberCount > 0 ? (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+          <div className={styles.avatarStack}>
             {Array.from({ length: Math.min(project.memberCount, 3) }).map((_, i) => (
               <div
                 key={i}
-                className="av-sm"
+                className={styles.avSm}
                 style={{
-                  background: AVATAR_COLORS[i],
-                  width: 22,
-                  height: 22,
+                  background: AVATAR_COLORS[i % AVATAR_COLORS.length],
+                  width: 24,
+                  height: 24,
                   fontSize: 9,
-                  borderRadius: '50%',
-                  border: '2px solid #fff',
-                  marginLeft: i > 0 ? -6 : 0,
+                  marginLeft: i > 0 ? -7 : 0,
+                  zIndex: 3 - i,
                 }}
-              >{i + 1}</div>
+              >
+                {i + 1}
+              </div>
             ))}
             {project.memberCount > 3 && (
-              <div className="av-sm" style={{ background: '#e1e5f0', color: '#676f8d', width: 22, height: 22, fontSize: 9, borderRadius: '50%', border: '2px solid #fff', marginLeft: -6 }}>+{project.memberCount - 3}</div>
+              <div
+                className={`${styles.avSm} ${styles.avCount}`}
+                style={{ width: 24, height: 24, fontSize: 9, marginLeft: -7 }}
+              >
+                +{project.memberCount - 3}
+              </div>
             )}
           </div>
-        ) : (<span style={{ color: '#c5cce0' }}>—</span>)}
+        ) : (
+          <span style={{ color: '#DDD', fontSize: 12 }}>—</span>
+        )}
       </td>
 
-      <td style={{ fontSize: 12.5, color: '#676f8d' }}>{fmtDate(project.estimatedEndDate)}</td>
-
+      {/* Deadline with days-remaining badge */}
       <td>
-        <div className="action-btns">
-          <button className="btn-icon" title="Voir le projet" onClick={() => onView(project.id)} disabled={isActing}>
-            <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        <DeadlineBadge dateStr={project.estimatedEndDate} />
+      </td>
+
+      {/* Actions */}
+      <td>
+        <div className={styles.actionBtns}>
+          {/* View */}
+          <button
+            className={styles.btnIcon}
+            title="View project"
+            onClick={() => onView(project.id)}
+            disabled={isActing}
+          >
+            <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
           </button>
 
+          {/* Archive (ACTIVE only) */}
           {project.status === 'ACTIVE' && (
-            <button className="btn-icon warn" title="Archiver" onClick={() => onArchive(project.id)} disabled={isActing}>
-              <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5" rx="1"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+            <button
+              className={`${styles.btnIcon} ${styles.btnIconWarn}`}
+              title="Archive project"
+              onClick={() => onArchive(project.id)}
+              disabled={isActing}
+            >
+              <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                <polyline points="21 8 21 21 3 21 3 8"/>
+                <rect x="1" y="3" width="22" height="5" rx="1"/>
+                <line x1="10" y1="12" x2="14" y2="12"/>
+              </svg>
             </button>
           )}
 
+          {/* Restore (ARCHIVED or FINISHED) */}
           {(project.status === 'ARCHIVED' || project.status === 'FINISHED') && (
-            <button className="btn-icon success" title="Restaurer" onClick={() => onRestore(project.id, project.status)} disabled={isActing}>
-              <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.5"/></svg>
+            <button
+              className={`${styles.btnIcon} ${styles.btnIconSuccess}`}
+              title="Restore project"
+              onClick={() => onRestore(project.id, project.status)}
+              disabled={isActing}
+            >
+              <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                <polyline points="1 4 1 10 7 10"/>
+                <path d="M3.51 15a9 9 0 1 0 .49-3.5"/>
+              </svg>
             </button>
           )}
         </div>

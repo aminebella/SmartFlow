@@ -7,12 +7,14 @@ import emsi.SmartFlow.controller.dto.project.ProjectRequest;
 import emsi.SmartFlow.controller.dto.project.ProjectResponse;
 import emsi.SmartFlow.controller.dto.ProjectMember.ProjectMemberResponse;
 import emsi.SmartFlow.entity.enums.ProjectStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 
 public interface ProjectService {
 
     // Admin: get all projects in the platform, optionally filtered by status
-    List<ProjectResponse> getAllProjects(ProjectStatus status);
+    Page<ProjectResponse> getAllProjects(ProjectStatus status, Pageable pageable);
 
     // Client: get only projects where this client is a member: my projects, only ACTIVE by default
     List<ProjectResponse> getMyProjects(Long clientId, ProjectStatus status);

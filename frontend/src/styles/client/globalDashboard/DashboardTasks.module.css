@@ -1,0 +1,113 @@
+.card {
+  background: #ffffff;
+  border: 0.5px solid #E8E6E0;
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin: 0;
+}
+
+/* "+" add button */
+.addBtn {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: #FAF0D7;
+  color: #B8860B;
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  line-height: 1;
+  transition: background 0.15s;
+}
+
+.addBtn:hover { background: #B8860B; color: #fff; }
+
+.empty {
+  font-size: 13px;
+  color: #8A857F;
+  text-align: center;
+  padding: 1.5rem 0;
+  flex: 1;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  background: #F5F4F1;
+  border-radius: 8px;
+}
+
+/* Status dot */
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dot_today  { background: #D85A30; }
+.dot_overdue{ background: #A32D2D; }
+.dot_week   { background: #BA7517; }
+.dot_ok     { background: #639922; }
+
+/* Text */
+.body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.taskTitle {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1A1A1A;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.proj {
+  font-size: 11px;
+  color: #8A857F;
+}
+
+/* Due date label */
+.due {
+  font-size: 11px;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.due_today  { color: #D85A30; }
+.due_overdue{ color: #A32D2D; }
+.due_week   { color: #BA7517; }
+.due_ok     { color: #8A857F; }

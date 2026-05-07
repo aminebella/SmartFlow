@@ -1,27 +1,52 @@
-// ← getAllClients, getClientById, blockClient, unblockClient...
 import API from "@/api/axios";
 
+// ─── Admin endpoints ───────────────────────────────────────────────────────────
 
-// GET /admin/clients
 export const getAllClients = async () => {
   const response = await API.get("/admin/clients");
-  return response.data; // List<ClientResponse>
+  return response.data;
 };
 
-// GET /admin/clients/:id
 export const getClientById = async (id) => {
   const response = await API.get(`/admin/clients/${id}`);
-  return response.data; // ClientResponse
+  return response.data;
 };
 
-// PUT /admin/clients/:id/block
 export const blockClient = async (id) => {
   const response = await API.put(`/admin/clients/${id}/block`);
-  return response.data; // void → 200 OK
+  return response.data;
 };
 
-// PUT /admin/clients/:id/unblock
 export const unblockClient = async (id) => {
   const response = await API.put(`/admin/clients/${id}/unblock`);
-  return response.data; // void → 200 OK
+  return response.data;
+};
+
+// ─── Client profile endpoints ──────────────────────────────────────────────────
+
+export const getClientProfile = async (id) => {
+const response = await API.get(`/client/${id}`);
+  return response.data;
+};
+
+export const updateClientProfile = async (
+  id,
+  fields,
+  profilePictureFile = null,
+  coverPictureFile = null
+) => {
+  const body = new FormData();
+
+  body.append("fullName",  fields.fullName  ?? "");
+  body.append("postTitle", fields.postTitle ?? "");
+  body.append("location",  fields.location  ?? "");
+
+  if (profilePictureFile) body.append("profilePicture", profilePictureFile);
+  if (coverPictureFile)   body.append("coverPicture",   coverPictureFile);
+
+  const response = await API.put(`/client/${id}/profile`, body, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+
+  return response.data;
 };

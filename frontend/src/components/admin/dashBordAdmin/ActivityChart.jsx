@@ -1,32 +1,81 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import {
-   Line, XAxis, YAxis, CartesianGrid,
+  Line, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, Area, AreaChart, Legend,
 } from 'recharts';
 import styles from '@/styles/admin/dashboard/ActivityChart.module.css';
-
-const data = [
-  { day: '01', projets: 26, taches: 19 },
-  { day: '03', projets: 28, taches: 21 },
-  { day: '05', projets: 32, taches: 22 },
-  { day: '07', projets: 35, taches: 23 },
-  { day: '09', projets: 31, taches: 24 },
-  { day: '11', projets: 40, taches: 25 },
-  { day: '13', projets: 42, taches: 26 },
-  { day: '15', projets: 43, taches: 26 },
-  { day: '17', projets: 44, taches: 27 },
-  { day: '19', projets: 45, taches: 28 },
-  { day: '21', projets: 46, taches: 29 },
-  { day: '23', projets: 48, taches: 30 },
-];
+import dashboardService from '@/services/dashboardAdminService';
 
 export default function ActivityChart() {
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+  const [title, setTitle] = useState('Activité des Projets');
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    let mounted = true;
+    dashboardService.getSummary()
+      .then((summary) => {
+        if (!mounted) return;
+        // Build a daily series for the current month: days 1..N
+        const dayPoints = summary?.projectsActivityDaily || [];
+        const taskPoints = summary?.tasksActivityDaily || [];
+
+        // Determine days in month from data or fallback to 30
+        const maxDay = new Date().getDate();
+        const mapProj = new Map(dayPoints.map(p => [p.day, p.count]));
+        const mapTask = new Map(taskPoints.map(p => [p.day, p.count]));
+
+        const series = Array.from({ length: maxDay }, (_, i) => {
+          const day = i + 1;
+          const dayLabel = day < 10 ? `0${day}` : `${day}`;
+          return {
+            day: dayLabel,
+            projets: mapProj.get(day) || 0,
+            taches: mapTask.get(day) || 0,
+          };
+        });
+
+        setData(series);
+        setTitle(`Activité des Projets — ${new Date().toLocaleString('fr-FR', { month: 'long', year: 'numeric' })}`);
+      })
+      .catch((err) => {
+        console.error('ActivityChart: failed to load summary', err);
+        if (mounted) setError('Impossible de charger l\'activité');
+      })
+      .finally(() => mounted && setLoading(false));
+    return () => (mounted = false);
+  }, []);
+
+  if (loading) {
+    return (
+      <div className={styles.card}>
+        <div className={styles.cardHeader}>
+          <h3 className={styles.title}>{title}</h3>
+        </div>
+        <div style={{height: 240, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>Chargement...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className={styles.card}>
+        <div className={styles.cardHeader}>
+          <h3 className={styles.title}>{title}</h3>
+        </div>
+        <div style={{padding: 12, color: 'red'}}>{error}</div>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.card}>
       <div className={styles.cardHeader}>
-        <h3 className={styles.title}>Activité des Projets — Mai 2026</h3>
-        <a href="#" className={styles.link}>Voir rapport →</a>
+        <h3 className={styles.title}>{title}</h3>
+        <a href="/EspaceAdmin/reports" className={styles.link}>Voir rapport →</a>
       </div>
 
       <ResponsiveContainer width="100%" height={240}>

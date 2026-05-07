@@ -1,0 +1,795 @@
+/* ===== SmartFlow — Project Details ===== */
+/* Font import — Outfit for headings, DM Sans for body */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&family=DM+Sans:wght@400;500&display=swap');
+
+/* ===== Root & Layout ===== */
+.projectDetailRoot {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-family: 'DM Sans', sans-serif;
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ===== Header ===== */
+.pdHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  background: #fff;
+  border: 0.5px solid #E5E3DC;
+  border-radius: 14px;
+  padding: 20px 24px;
+}
+
+.pdHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.pdProjectIcon {
+  width: 52px;
+  height: 52px;
+  background: #FFF3DC;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.pdTitle {
+  margin: 0;
+  font-family: 'Outfit', sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #1C1C1E;
+  line-height: 1.2;
+}
+
+.pdMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+.pdType {
+  font-size: 12px;
+  font-weight: 500;
+  background: #FFF3DC;
+  color: #996B00;
+  padding: 2px 10px;
+  border-radius: 20px;
+}
+
+/* project type badge (details view) — matches list badge but slightly larger */
+.projTypeBadgeDetails {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #F7F6F2;
+  color: #444;
+  font-size: 12px;
+  font-weight: 600;
+  border: 0.5px solid #E5E3DC;
+  margin-right: 8px;
+}
+
+.pdDot {
+  color: #CCC;
+  font-size: 14px;
+}
+
+.pdOwner {
+  font-size: 12px;
+  color: #999;
+}
+
+.pdHeaderRight {
+  flex-shrink: 0;
+}
+
+/* ===== Badges ===== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+}
+
+.badgeActive {
+  background: #E6F4EC;
+  color: #2D7A4F;
+}
+
+.badgeArchived {
+  background: #F1EFE8;
+  color: #5F5E5A;
+}
+
+.badgeFinished {
+  background: #EEF0FB;
+  color: #4A52B8;
+}
+
+.badgeDefault {
+  background: #F1EFE8;
+  color: #888;
+}
+
+/* ===== Two-column grid ===== */
+.pdGrid {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 16px;
+  align-items: start;
+}
+
+.pdLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.pdRight {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ===== Card base ===== */
+.pdCard {
+  background: #fff;
+  border: 0.5px solid #E5E3DC;
+  border-radius: 12px;
+  padding: 18px 20px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #888;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 0.5px solid #F0EEE7;
+}
+
+.cardHeader svg {
+  color: #C8A832;
+  flex-shrink: 0;
+}
+
+.cardCount {
+  margin-left: auto;
+  background: #F7F6F2;
+  color: #888;
+  font-size: 11px;
+  padding: 1px 8px;
+  border-radius: 10px;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+
+/* ===== Shared text ===== */
+.statLabel {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #AAA;
+  margin-bottom: 4px;
+}
+
+.statValue {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1C1C1E;
+}
+
+.pdText {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.pdTextEmpty {
+  font-size: 13px;
+  color: #BBB;
+  font-style: italic;
+  margin: 0;
+}
+
+/* ===== Description ===== */
+/* no extra styles needed — uses pdCard + pdText */
+
+/* ===== Dates ===== */
+.datesGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.dateGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dateGroupLabel {
+  font-size: 11px;
+  font-weight: 500;
+  color: #C8A832;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.dateRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dateItem {
+  flex: 1;
+  background: #F7F6F2;
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.dateSeparator {
+  color: #CCC;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.dateDivider {
+  height: 0.5px;
+  background: #F0EEE7;
+}
+
+.dateLate {
+  display: inline-block;
+  font-size: 10px;
+  background: #FCEBEB;
+  color: #A32D2D;
+  padding: 2px 7px;
+  border-radius: 10px;
+  margin-top: 4px;
+}
+
+.dateSoon {
+  display: inline-block;
+  font-size: 10px;
+  background: #FFF3DC;
+  color: #996B00;
+  padding: 2px 7px;
+  border-radius: 10px;
+  margin-top: 4px;
+}
+
+.dateOk {
+  display: inline-block;
+  font-size: 10px;
+  background: #E6F4EC;
+  color: #2D7A4F;
+  padding: 2px 7px;
+  border-radius: 10px;
+  margin-top: 4px;
+}
+
+/* ===== Budget ===== */
+.budgetMain {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.budgetFigure {
+  flex: 1;
+  background: #F7F6F2;
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.budgetArrow {
+  color: #CCC;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.budgetAmount {
+  font-family: 'Outfit', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #1C1C1E;
+  margin-top: 4px;
+}
+
+.budgetOver {
+  color: #A32D2D;
+}
+
+.budgetBarWrap {
+  margin-top: 4px;
+}
+
+.budgetBarLabels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: #AAA;
+  margin-bottom: 5px;
+}
+
+.budgetBar {
+  height: 7px;
+  background: #ECEAE2;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.budgetFill {
+  height: 100%;
+  background: #E0A820;
+  border-radius: 4px;
+  transition: width 0.6s ease;
+}
+
+.budgetFillOver {
+  background: #E24B4A;
+}
+
+.budgetFillReserved {
+  height: 100%;
+  background: #FAC775;
+  border-radius: 0 4px 4px 0;
+}
+
+.budgetLegend {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: #888;
+}
+
+.legendDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.budgetOverMsg {
+  font-size: 11px;
+  color: #A32D2D;
+  background: #FCEBEB;
+  border-radius: 6px;
+  padding: 6px 10px;
+  margin-top: 8px;
+}
+
+/* ===== Project Manager ===== */
+.managerRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.managerAv {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #FFF3DC;
+  color: #996B00;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.managerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.managerName {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1C1C1E;
+}
+
+.managerRole {
+  font-size: 11px;
+  color: #999;
+}
+
+.managerEmail {
+  font-size: 12px;
+  color: #E0A820;
+  text-decoration: none;
+  margin-top: 2px;
+}
+
+.managerEmail:hover {
+  text-decoration: underline;
+}
+
+/* ===== Team ===== */
+.memberList {
+  display: flex;
+  flex-direction: column;
+}
+
+.memberRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 0.5px solid #F0EEE7;
+}
+
+.memberRow:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.memberLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.memberAv {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.memberName {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1C1C1E;
+}
+
+.memberRole {
+  font-size: 11px;
+  color: #999;
+  margin-top: 1px;
+}
+
+.memberRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+}
+
+.memberJoined {
+  font-size: 10px;
+  color: #BBB;
+}
+
+.memberTasks {
+  font-size: 10px;
+  color: #888;
+  background: #F7F6F2;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+/* ===== Actions ===== */
+.actionsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btnSecondary {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: #F7F6F2;
+  color: #555;
+  padding: 9px 14px;
+  border-radius: 8px;
+  border: 0.5px solid #E5E3DC;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  transition: background 0.15s;
+  width: 100%;
+}
+
+.btnSecondary:hover {
+  background: #ECEAE2;
+}
+
+.btnArchive {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: #FFF3DC;
+  color: #996B00;
+  padding: 9px 14px;
+  border-radius: 8px;
+  border: 0.5px solid #FAC775;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  transition: background 0.15s;
+  width: 100%;
+}
+
+.btnArchive:hover {
+  background: #FAE9B8;
+}
+
+.btnArchive:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btnRestore {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: #E6F4EC;
+  color: #2D7A4F;
+  padding: 9px 14px;
+  border-radius: 8px;
+  border: 0.5px solid #9FE1CB;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  transition: background 0.15s;
+  width: 100%;
+}
+
+.btnRestore:hover {
+  background: #C0F0D9;
+}
+
+.btnRestore:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ===== Loading / Error states ===== */
+.apLoading,
+.apError,
+.apEmpty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  font-size: 14px;
+  color: #999;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.apError {
+  color: #A32D2D;
+}
+
+/* ===== Progression Section ===== */
+.progressionSection {
+  background: #fff;
+  border: 0.5px solid #E5E3DC;
+  border-radius: 14px;
+  padding: 20px 24px;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.sectionTitle {
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1C1C1E;
+  margin: 0;
+}
+
+.progressOverview {
+  text-align: right;
+}
+
+.progressPercentage {
+  font-family: 'Outfit', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #E0A820;
+  display: block;
+  line-height: 1;
+}
+
+.progressLabel {
+  font-size: 11px;
+  color: #AAA;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-top: 4px;
+  display: block;
+}
+
+.progressCard {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mainProgressBar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.progressTrack {
+  width: 100%;
+  height: 8px;
+  background: #F0EEE7;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.4s ease, background-color 0.3s ease;
+  min-width: 2px;
+}
+
+.progressMarkers {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: #BBB;
+  font-weight: 500;
+}
+
+.marker {
+  position: relative;
+}
+
+.marker::before {
+  content: '';
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 6px;
+  background: #E5E3DC;
+}
+
+.taskStats {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 16px 0;
+  border-top: 0.5px solid #F0EEE7;
+  border-bottom: 0.5px solid #F0EEE7;
+}
+
+.statItem {
+  text-align: center;
+  flex: 1;
+}
+
+.statValue {
+  font-family: 'Outfit', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #1C1C1E;
+  line-height: 1;
+}
+
+.statLabel {
+  font-size: 11px;
+  color: #AAA;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-top: 4px;
+}
+
+.statDivider {
+  width: 1px;
+  height: 32px;
+  background: #E5E3DC;
+}
+
+.progressIndicators {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.indicatorDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.indicatorText {
+  font-size: 12px;
+  color: #666;
+  font-weight: 400;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+  .pdGrid {
+    grid-template-columns: 1fr;
+  }
+  .projectDetailRoot {
+    padding: 16px;
+  }
+  
+  .sectionHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .progressOverview {
+    text-align: left;
+  }
+  
+  .taskStats {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px 0;
+  }
+  
+  .statDivider {
+    width: 32px;
+    height: 1px;
+  }
+}

@@ -17,33 +17,21 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/tasks")
+@RequestMapping("/tasks")
 @RequiredArgsConstructor
 public class TaskController {
 
     private final TaskService taskService;
 
-    // ── LECTURE ──────────────────────────────────────────────────────────
-
-    /**
-     * GET /api/tasks/project/{projectId}
-     * Retourne TOUTES les tâches du projet — tab "All"
-     * Visible par tous les membres sans filtre de rôle
-     */
     @GetMapping("/project/{projectId}")
     public ResponseEntity<ApiResponse<List<TaskResponse>>> getByProject(
-            @PathVariable String projectId
+            @PathVariable Long projectId
     ) {
         return ResponseEntity.ok(buildList(
                 taskService.getAllTasksByProject(projectId),
                 "Tasks retrieved"));
     }
 
-    /**
-     * GET /api/tasks/my-tasks
-     * Toutes les tâches assignées à l'user connecté (tous projets)
-     * Utilisé pour le tab "My Tickets"
-     */
     @GetMapping("/my-tasks")
     public ResponseEntity<ApiResponse<List<TaskResponse>>> getMyTasks(
             @AuthenticationPrincipal User currentUser
@@ -53,14 +41,9 @@ public class TaskController {
                 "My tasks retrieved"));
     }
 
-    /**
-     * GET /api/tasks/sprint/{sprintId}
-     * MANAGER → tout le sprint
-     * MEMBER  → ses tâches dans ce sprint
-     */
     @GetMapping("/sprint/{sprintId}")
     public ResponseEntity<ApiResponse<List<TaskResponse>>> getBySprint(
-            @PathVariable String sprintId,
+            @PathVariable Long sprintId,
             @AuthenticationPrincipal User currentUser
     ) {
         return ResponseEntity.ok(buildList(
@@ -68,12 +51,9 @@ public class TaskController {
                 "Sprint tasks retrieved"));
     }
 
-    /**
-     * GET /api/tasks/project/{projectId}/status?status=IN_PROGRESS
-     */
     @GetMapping("/project/{projectId}/status")
     public ResponseEntity<ApiResponse<List<TaskResponse>>> getByStatus(
-            @PathVariable String projectId,
+            @PathVariable Long projectId,
             @RequestParam TaskStatus status,
             @AuthenticationPrincipal User currentUser
     ) {
@@ -82,12 +62,9 @@ public class TaskController {
                 "Tasks filtered by status"));
     }
 
-    /**
-     * GET /api/tasks/project/{projectId}/backlog
-     */
     @GetMapping("/project/{projectId}/backlog")
     public ResponseEntity<ApiResponse<List<TaskResponse>>> getBacklog(
-            @PathVariable String projectId,
+            @PathVariable Long projectId,
             @AuthenticationPrincipal User currentUser
     ) {
         return ResponseEntity.ok(buildList(
@@ -95,23 +72,14 @@ public class TaskController {
                 "Backlog retrieved"));
     }
 
-    /**
-     * GET /api/tasks/{id}
-     */
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<TaskResponse>> getTaskById(@PathVariable String id) {
+    public ResponseEntity<ApiResponse<TaskResponse>> getTaskById(@PathVariable Long id) {
         return ResponseEntity.ok(ApiResponse.<TaskResponse>builder()
                 .timestamp(LocalDateTime.now()).status(200)
                 .message("Task retrieved successfully")
                 .data(taskService.getTaskById(id)).build());
     }
 
-    // ── ÉCRITURE ─────────────────────────────────────────────────────────
-
-    /**
-     * POST /api/tasks
-     * MANAGER uniquement
-     */
     @PostMapping
     public ResponseEntity<ApiResponse<TaskResponse>> createTask(
             @Valid @RequestBody TaskRequest request,
@@ -126,14 +94,9 @@ public class TaskController {
                         .data(task).build());
     }
 
-    /**
-     * PUT /api/tasks/{id}
-     * MANAGER → modifie tout
-     * MEMBER  → modifie seulement ses tâches
-     */
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<TaskResponse>> updateTask(
-            @PathVariable String id,
+            @PathVariable Long id,
             @Valid @RequestBody TaskRequest request,
             @AuthenticationPrincipal User currentUser
     ) {
@@ -143,13 +106,9 @@ public class TaskController {
                 .data(taskService.updateTask(id, request, currentUser)).build());
     }
 
-    /**
-     * DELETE /api/tasks/{id}
-     * MANAGER uniquement
-     */
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> deleteTask(
-            @PathVariable String id,
+            @PathVariable Long id,
             @AuthenticationPrincipal User currentUser
     ) {
         taskService.deleteTask(id, currentUser);
@@ -158,16 +117,9 @@ public class TaskController {
                 .message("Task deleted successfully").data(null).build());
     }
 
-    // ── ACTIONS SPÉCIALES (PATCH) ─────────────────────────────────────────
-
-    /**
-     * PATCH /api/tasks/{id}/status?status=DONE
-     * MANAGER → n'importe quelle tâche
-     * MEMBER  → seulement ses tâches
-     */
     @PatchMapping("/{id}/status")
     public ResponseEntity<ApiResponse<TaskResponse>> updateStatus(
-            @PathVariable String id,
+            @PathVariable Long id,
             @RequestParam TaskStatus status,
             @AuthenticationPrincipal User currentUser
     ) {
@@ -177,14 +129,10 @@ public class TaskController {
                 .data(taskService.updateTaskStatus(id, status, currentUser)).build());
     }
 
-    /**
-     * PATCH /api/tasks/{id}/assign?userId=xxx
-     * MANAGER uniquement
-     */
     @PatchMapping("/{id}/assign")
     public ResponseEntity<ApiResponse<TaskResponse>> assignTask(
-            @PathVariable String id,
-            @RequestParam String userId,
+            @PathVariable Long id,
+            @RequestParam Long userId,
             @AuthenticationPrincipal User currentUser
     ) {
         return ResponseEntity.ok(ApiResponse.<TaskResponse>builder()
@@ -193,14 +141,10 @@ public class TaskController {
                 .data(taskService.assignTask(id, userId, currentUser)).build());
     }
 
-    /**
-     * PATCH /api/tasks/{id}/move-to-sprint?sprintId=xxx
-     * MANAGER uniquement
-     */
     @PatchMapping("/{id}/move-to-sprint")
     public ResponseEntity<ApiResponse<TaskResponse>> moveToSprint(
-            @PathVariable String id,
-            @RequestParam String sprintId,
+            @PathVariable Long id,
+            @RequestParam Long sprintId,
             @AuthenticationPrincipal User currentUser
     ) {
         return ResponseEntity.ok(ApiResponse.<TaskResponse>builder()
@@ -208,8 +152,6 @@ public class TaskController {
                 .message("Task moved to sprint")
                 .data(taskService.moveTaskToSprint(id, sprintId, currentUser)).build());
     }
-
-    // ── HELPER ───────────────────────────────────────────────────────────
 
     private ApiResponse<List<TaskResponse>> buildList(List<TaskResponse> data, String message) {
         return ApiResponse.<List<TaskResponse>>builder()

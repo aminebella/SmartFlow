@@ -4,6 +4,8 @@ package emsi.SmartFlow.service.impl;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,6 +22,7 @@ import emsi.SmartFlow.entity.keys.ProjectTeamKey;
 import emsi.SmartFlow.repo.ClientRepo;
 import emsi.SmartFlow.repo.ProjectRepository;
 import emsi.SmartFlow.repo.ProjectTeamRepository;
+import emsi.SmartFlow.repo.TaskRepository;
 import emsi.SmartFlow.service.facade.ProjectService;
 import emsi.SmartFlow.entity.enums.ProjectStatus;
 
@@ -30,17 +33,17 @@ public class ProjectServiceImpl implements ProjectService {
 
     private final ProjectRepository projectRepository;
     private final ProjectTeamRepository projectTeamRepository;
+    private final TaskRepository taskRepository;
     private final ClientRepo clientRepo;
 
     // ─── ADMIN: All projects ───────────────────────────────────────────────
     @Override
-    public List<ProjectResponse> getAllProjects(ProjectStatus status) {
-        List<Project> projects = (status != null)
-                ? projectRepository.findAllByStatus(status)
-                : projectRepository.findAll(); // no filter = all statuses
-        return projects.stream()
-                .map(p -> toResponse(p, null))
-                .collect(Collectors.toList());
+    public Page<ProjectResponse> getAllProjects(ProjectStatus status, Pageable pageable) {
+        Page<Project> projects = (status != null)
+                ? projectRepository.findAllByStatus(status, pageable)
+                : projectRepository.findAll(pageable);
+
+        return projects.map(p -> toResponse(p, null));
     }
 
     // ─── CLIENT: only my projects ──────────────────────────────────────────
@@ -88,15 +91,18 @@ public class ProjectServiceImpl implements ProjectService {
                 .orElseThrow(() -> new EntityNotFoundException("Client not found"));
 
         Project project = Project.builder()
-                .name(request.getName())
-                .description(request.getDescription())
-                .owner(creator)
-                .estimatedStartDate(request.getEstimatedStartDate())
-                .estimatedEndDate(request.getEstimatedEndDate())
-                .estimatedBudget(request.getEstimatedBudget() != null ? request.getEstimatedBudget() : 0)
-                .status(ProjectStatus.ACTIVE)
-                // realStartDate, realEndDate, realBudget = null at creation
-                .build();
+                    .name(request.getName())
+                    .description(request.getDescription())
+                    .type(request.getType())
+                    .owner(creator)
+                    .estimatedStartDate(request.getEstimatedStartDate())
+                    .estimatedEndDate(request.getEstimatedEndDate())
+                    .estimatedBudget(request.getEstimatedBudget() != null ? request.getEstimatedBudget() : 0)
+                    .status(ProjectStatus.ACTIVE)
+                    // realStartDate, realEndDate, realBudget = null at creation
+                    .build();
+        // Ensure createdAt is set (auditing will also set it, but set explicitly to be deterministic)
+        project.setCreatedAt(LocalDateTime.now());
         project = projectRepository.save(project);
 
         // Creator automatically becomes MANAGER
@@ -150,6 +156,8 @@ public class ProjectServiceImpl implements ProjectService {
             project.setEstimatedBudget(request.getEstimatedBudget());
         if (request.getRealBudget() != null)
             project.setRealBudget(request.getRealBudget());
+        if (request.getType() != null)
+            project.setType(request.getType());
 
         project = projectRepository.save(project);
         return toResponse(project, clientId);
@@ -330,6 +338,17 @@ public class ProjectServiceImpl implements ProjectService {
                 .memberCount(project.getProjectTeams() != null
                         ? project.getProjectTeams().size() : 0)
                 .myRole(myRole)
+                .type(project.getType())
+                // compute task counts for this project
+                .taskCount((int) taskRepository.countByProjectId(project.getId()))
+                .tasksDone((int) taskRepository.countByProjectIdAndStatus(project.getId(), emsi.SmartFlow.entity.enums.TaskStatus.DONE))
+                .progress(computeProgress((int) taskRepository.countByProjectId(project.getId()),
+                        (int) taskRepository.countByProjectIdAndStatus(project.getId(), emsi.SmartFlow.entity.enums.TaskStatus.DONE)))
                 .build();
+    }
+
+    private int computeProgress(int total, int done) {
+        if (total <= 0) return 0;
+        return (int) Math.round((done * 100.0) / total);
     }
 }

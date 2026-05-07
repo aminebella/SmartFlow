@@ -8,7 +8,6 @@ export default function TicketModal({ ticket, sprints, members, onClose, onSubmi
   const [formData, setFormData] = useState(
     ticket || {
       title: "",
-      epic: "",
       priority: "MEDIUM",
       status: "TODO",
       assigneeId: "",
@@ -35,8 +34,10 @@ export default function TicketModal({ ticket, sprints, members, onClose, onSubmi
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-xl shadow-lg max-w-md w-full max-h-[90vh] overflow-y-auto">
+        
         {/* Header */}
-        <div className="sticky top-0 bg-white px-6 py-4 border-b border-slate-200 flex items-center justify-between">
+        <div className="sticky top-0 bg-white px-6 py-4 border-b flex items-center justify-between"
+          style={{ borderColor: '#e8e0cc' }}>
           <h2 className="text-lg font-bold text-slate-800">
             {isEdit ? "Éditer Ticket" : "Nouveau Ticket"}
           </h2>
@@ -52,61 +53,50 @@ export default function TicketModal({ ticket, sprints, members, onClose, onSubmi
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
+          
           {/* Title */}
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
-              Titre
-            </label>
+            <label className="block text-sm font-medium text-slate-700 mb-1">Titre</label>
             <input
               type="text"
               name="title"
               value={formData.title}
               onChange={handleChange}
               placeholder="Ex: Intégration Stripe..."
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+              className="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none transition"
+              style={{ borderColor: '#e2d5a0' }}
+              onFocus={e => e.target.style.borderColor = '#c9b479'}
+              onBlur={e => e.target.style.borderColor = '#e2d5a0'}
             />
           </div>
 
           {/* Description */}
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
-              Description
-            </label>
+            <label className="block text-sm font-medium text-slate-700 mb-1">Description</label>
             <textarea
               name="description"
               value={formData.description || ""}
               onChange={handleChange}
               placeholder="Détails du ticket..."
               rows={3}
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm resize-none"
+              className="w-full px-3 py-2 border rounded-lg text-sm resize-none focus:outline-none transition"
+              style={{ borderColor: '#e2d5a0' }}
+              onFocus={e => e.target.style.borderColor = '#c9b479'}
+              onBlur={e => e.target.style.borderColor = '#e2d5a0'}
             />
-          </div>
-
-          {/* Epic */}
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
-              Epic
-            </label>
-            <input
-  type="text"
-  name="epic"
-  value={formData.epic}
-  onChange={handleChange}
-  placeholder="Ex: Checkout, Auth, Admin..."
-  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-/>
           </div>
 
           {/* Priority */}
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
-              Priorité
-            </label>
+            <label className="block text-sm font-medium text-slate-700 mb-1">Priorité</label>
             <select
               name="priority"
               value={formData.priority}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+              className="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none transition"
+              style={{ borderColor: '#e2d5a0' }}
+              onFocus={e => e.target.style.borderColor = '#c9b479'}
+              onBlur={e => e.target.style.borderColor = '#e2d5a0'}
             >
               <option value="LOW">Low</option>
               <option value="MEDIUM">Medium</option>
@@ -117,14 +107,15 @@ export default function TicketModal({ ticket, sprints, members, onClose, onSubmi
 
           {/* Status */}
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
-              Statut
-            </label>
+            <label className="block text-sm font-medium text-slate-700 mb-1">Statut</label>
             <select
               name="status"
               value={formData.status}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+              className="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none transition"
+              style={{ borderColor: '#e2d5a0' }}
+              onFocus={e => e.target.style.borderColor = '#c9b479'}
+              onBlur={e => e.target.style.borderColor = '#e2d5a0'}
             >
               <option value="TODO">Todo</option>
               <option value="IN_PROGRESS">In Progress</option>
@@ -136,14 +127,15 @@ export default function TicketModal({ ticket, sprints, members, onClose, onSubmi
 
           {/* Assignee */}
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
-              Assigné à
-            </label>
+            <label className="block text-sm font-medium text-slate-700 mb-1">Assigné à</label>
             <select
               name="assigneeId"
               value={formData.assigneeId}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+              className="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none transition"
+              style={{ borderColor: '#e2d5a0' }}
+              onFocus={e => e.target.style.borderColor = '#c9b479'}
+              onBlur={e => e.target.style.borderColor = '#e2d5a0'}
             >
               <option value="">Non assigné</option>
               {members.map((member) => (
@@ -156,14 +148,15 @@ export default function TicketModal({ ticket, sprints, members, onClose, onSubmi
 
           {/* Sprint */}
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
-              Sprint
-            </label>
+            <label className="block text-sm font-medium text-slate-700 mb-1">Sprint</label>
             <select
               name="sprintId"
               value={formData.sprintId}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+              className="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none transition"
+              style={{ borderColor: '#e2d5a0' }}
+              onFocus={e => e.target.style.borderColor = '#c9b479'}
+              onBlur={e => e.target.style.borderColor = '#e2d5a0'}
             >
               <option value="">Aucun sprint</option>
               {sprints.map((sprint) => (
@@ -179,13 +172,15 @@ export default function TicketModal({ ticket, sprints, members, onClose, onSubmi
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg font-medium hover:bg-slate-50 transition text-sm"
+              className="flex-1 px-4 py-2 border text-slate-700 rounded-lg font-medium hover:opacity-80 transition text-sm"
+              style={{ borderColor: '#e2d5a0' }}
             >
               Annuler
             </button>
             <button
               type="submit"
-              className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition text-sm"
+              className="flex-1 px-4 py-2 text-white rounded-lg font-medium hover:opacity-90 transition text-sm"
+              style={{ backgroundColor: '#c9b479' }}
             >
               {isEdit ? "Mettre à jour" : "Créer"}
             </button>

@@ -5,43 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9e2b36ed-ec43-491e-98f1-3300bfb3933a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/Utils/FileStorageUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/Utils/FileStorageUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/auth/AuthenticateService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/auth/AuthenticateService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/auth/UserResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/auth/UserResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/controller/converter/ClientConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/controller/converter/ClientConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/controller/dto/client/ClientResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/controller/dto/client/ClientProfileResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/controller/dto/project/ProjectResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/controller/dto/project/ProjectResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/controller/facade/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/controller/facade/AdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/controller/facade/ClientController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/controller/facade/ClientController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/controller/facade/ProjectController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/controller/facade/ProjectController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/entity/Project.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/entity/Project.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/handller/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/handller/GlobalExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/repo/ProjectRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/repo/ProjectRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/repo/ProjectTeamRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/repo/ProjectTeamRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/service/facade/AdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/service/facade/AdminService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/service/facade/ClientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/service/facade/ClientService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/service/facade/ProjectService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/service/facade/ProjectService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/service/impl/AdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/service/impl/AdminServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/service/impl/ClientServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/service/impl/ClientServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/service/impl/ProjectServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/service/impl/ProjectServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/emsi/SmartFlow/user/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/EspaceClient/projects/[id]/ai/page.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/EspaceClient/projects/[id]/ai/page.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/EspaceClient/projects/[id]/backlog/page.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/EspaceClient/projects/[id]/board/page.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/EspaceClient/projects/[id]/dashboard/page.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/EspaceClient/projects/[id]/dashboard/page.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/EspaceClient/projects/[id]/layout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/EspaceClient/projects/[id]/layout.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/EspaceClient/projects/[id]/sprints/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/EspaceClient/projects/[id]/sprints/page.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/EspaceClient/projects/[id]/tickets/page.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/EspaceClient/projects/[id]/tickets/page.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/admin/projectsAdmin/projectsListAdmin/ProjectsPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/admin/projectsAdmin/projectsListAdmin/ProjectsPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/admin/projectsAdmin/projectsListAdmin/ProjectsToolbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/admin/projectsAdmin/projectsListAdmin/ProjectsToolbar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/client/layoutClient/TopNavbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/client/layoutClient/TopNavbar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/client/sprintClient/SprintCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/client/sprintClient/SprintCard.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/client/sprintClient/SprintForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/client/sprintClient/SprintForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/services/projectService.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/services/projectService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/services/sprintService.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/services/sprintService.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,43 +52,43 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Maven.SmartFlow [clean].executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;Spring Boot.SmartFlowApplication.executor&quot;: &quot;Run&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1&quot;: &quot;true&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Amine&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/DevIT/Education/2.Emsi/2026.4thYear_Sem2/11.Test_qualite_logiciel/Project/Devloppement/SmartFlowV1/Backend&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Maven.SmartFlow [clean].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "Spring Boot.SmartFlowApplication.executor": "Run",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "Rebasing Amine",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/DevIT/Education/2.Emsi/2026.4thYear_Sem2/11.Test_qualite_logiciel/Project/Devloppement/SmartFlowV1/Backend",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql_aurora&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql_aurora"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Admin\Downloads\SmartFlow\SmartFlow\src\main\java\emsi\SmartFlow\service" />
@@ -183,7 +147,9 @@
       <workItem from="1777749299585" duration="1155000" />
       <workItem from="1777750591747" duration="1887000" />
       <workItem from="1777805371349" duration="11959000" />
-      <workItem from="1777899165260" duration="2990000" />
+      <workItem from="1777899165260" duration="7148000" />
+      <workItem from="1777981957772" duration="11855000" />
+      <workItem from="1778069640055" duration="15589000" />
     </task>
     <servers />
   </component>

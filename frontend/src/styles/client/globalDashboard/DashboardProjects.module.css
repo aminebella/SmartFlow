@@ -1,0 +1,163 @@
+.card {
+  background: #ffffff;
+  border: 0.5px solid #E8E6E0;
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin: 0;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.addBtn {
+  font-size: 12px;
+  color: #fff;
+  background: #B8860B;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+
+.addBtn:hover { background: #9A7308; }
+
+.seeAll {
+  font-size: 12px;
+  color: #B8860B;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.15s;
+}
+
+.seeAll:hover { opacity: 0.75; }
+
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.empty {
+  font-size: 13px;
+  color: #8A857F;
+  text-align: center;
+  padding: 1.5rem 0;
+}
+
+/* Each project row — also the clickable link */
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 0.5px solid #F0EEE8;
+  text-decoration: none;
+  transition: background 0.12s;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.row:last-child { border-bottom: none; }
+.row:hover { background: #FAFAF8; }
+
+/* Project initials icon */
+.icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: #FAF0D7;
+  color: #854F0B;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Text info block */
+.info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1A1A1A;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.meta {
+  font-size: 11px;
+  color: #8A857F;
+}
+
+.progBar {
+  height: 4px;
+  background: #F0EEE8;
+  border-radius: 2px;
+  margin-top: 4px;
+  overflow: hidden;
+}
+
+.progFill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+/* Right-side pills + percentage */
+.right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.pct {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1A1A1A;
+}
+
+/* Generic pill */
+.pill {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+/* Status variants */
+.status_active   { background: #EAF3DE; color: #3B6D11; }
+.status_done     { background: #E6F1FB; color: #185FA5; }
+.status_archived { background: #F0EEE8; color: #6B6560; }
+
+/* Role variants */
+.role_manager { background: #EEEDFE; color: #3C3489; }
+.role_member  { background: #FAF0D7; color: #854F0B; }

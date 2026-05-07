@@ -1,61 +1,142 @@
 "use client";
 
 import React, { useMemo, useState } from 'react';
-import Link from 'next/link';
 
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth }     from '@/hooks/useAuth';
 import { useProjects } from '@/hooks/useProjects';
 
-import Loading from '@/app/loading';
-import TopNavbar from '@/components/client/layoutClient/GlobalClientHeader';
-import ProjectsClientList from '@/components/client/projectsClient/ProjectsClientList';
+import Loading                from '@/app/loading';
+import GlobalClientHeader     from '@/components/client/layoutClient/GlobalClientHeader';
+import ProjectsPageList       from '@/components/client/projectsClient/ProjectsPageList';
 
+import styles from '@/styles/client/MyListOfprojects/ProjectsPage.module.css';
 
 export default function ProjectsListPage() {
   const { user, loading: authLoading } = useAuth();
+
+  // Fetch ALL projects for this client (no status filter — we filter client-side)
   const { projects = [], loading: projectsLoading, error } = useProjects('CLIENT');
 
-  const [query, setQuery] = useState('');
-  const [sort, setSort] = useState('name');
+  const [query,  setQuery]  = useState('');
+  const [sort,   setSort]   = useState('name');
+  const [status, setStatus] = useState('all');   // 'all' | 'ACTIVE' | 'ARCHIVED' | 'FINISHED'
+  const [tab,    setTab]    = useState('all');   // 'all' | 'manager' | 'member'
 
-  // Filter and sort projects client-side
+  // ── Counts for tab badges ──────────────────────────────────────────────
+  const managerCount = projects.filter(p => p.myRole === 'MANAGER').length;
+  const memberCount  = projects.filter(p => p.myRole === 'MEMBER').length;
+
+  // ── Filter + sort (client-side) ────────────────────────────────────────
   const filtered = useMemo(() => {
     if (!projects) return [];
     return projects
-      .filter(p => !query || (p.name || '').toLowerCase().includes(query.toLowerCase()))
-      .sort((a, b) => (a[sort] > b[sort] ? 1 : -1));
-  }, [projects, query, sort]);
+      .filter(p => {
+        const matchQuery  = !query  || (p.name || '').toLowerCase().includes(query.toLowerCase());
+        const matchStatus = status === 'all' || p.status === status;
+        // tab filter uses myRole — backend must include myRole in ProjectResponse for /projects/my
+        // see NOTE in DashboardProjects.jsx
+        const matchTab    = tab === 'all'
+          || (tab === 'manager' && p.myRole === 'MANAGER')
+          || (tab === 'member'  && p.myRole === 'MEMBER');
+        return matchQuery && matchStatus && matchTab;
+      })
+      .sort((a, b) => {
+        if (sort === 'name')        return (a.name || '').localeCompare(b.name || '');
+        if (sort === 'progression') return (b.progression ?? 0) - (a.progression ?? 0);
+        if (sort === 'status')      return (a.status || '').localeCompare(b.status || '');
+        return 0;
+      });
+  }, [projects, query, sort, status, tab]);
 
-  // Loading and error handling
   if (authLoading || projectsLoading) {
     return (
-      <div className="min-h-screen bg-slate-50">
-        <TopNavbar />
+      <div style={{ minHeight: '100vh', background: '#F5F4F1' }}>
+        <GlobalClientHeader />
         <Loading />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <TopNavbar />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold text-slate-800">Mes projets</h1>
-          <div className="flex items-center gap-2">
-            <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Rechercher..."
-              className="px-3 py-2 border border-slate-200 rounded-lg" />
-            <select value={sort} onChange={(e) => setSort(e.target.value)} className="px-3 py-2 border rounded-lg">
-              <option value="name">Nom</option>
-              <option value="status">Statut</option>
-            </select>
+    <div style={{ minHeight: '100vh', background: '#F5F4F1' }}>
+      <GlobalClientHeader />
+
+      <div className={styles.pageWrapper}>
+
+        {/* ── Page header ── */}
+        <div className={styles.pageHeader}>
+          <div>
+            <h1 className={styles.pageTitle}>Mes projets</h1>
+            <p className={styles.pageSub}>
+              {projects.length} projet{projects.length !== 1 ? 's' : ''} · Dernière mise à jour à l&apos;instant
+            </p>
           </div>
         </div>
 
+        {/* ── Role tabs ── */}
+        <div className={styles.tabsRow}>
+          <div className={styles.tabs}>
+            {[
+              { key: 'all',     label: 'Tous',     count: projects.length },
+              { key: 'manager', label: 'Manager',  count: managerCount, countColor: '#3C3489' },
+              { key: 'member',  label: 'Membre',   count: memberCount,  countColor: '#854F0B' },
+            ].map(t => (
+              <button
+                key={t.key}
+                className={`${styles.tab} ${tab === t.key ? styles.tabActive : ''}`}
+                onClick={() => setTab(t.key)}
+              >
+                {t.label}
+                <span
+                  className={styles.tabBadge}
+                  style={tab === t.key && t.countColor ? { background: t.countColor } : {}}
+                >
+                  {t.count}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* ── Filter bar ── */}
+        <div className={styles.filterBar}>
+          <div className={styles.searchWrap}>
+            <span className={styles.searchIcon}>⌕</span>
+            <input
+              className={styles.searchInput}
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              placeholder="Rechercher un projet ou manager…"
+            />
+          </div>
+
+          <select
+            className={styles.select}
+            value={status}
+            onChange={e => setStatus(e.target.value)}
+          >
+            <option value="all">Tous les statuts</option>
+            <option value="ACTIVE">Actif</option>
+            <option value="FINISHED">Terminé</option>
+            <option value="ARCHIVED">Archivé</option>
+          </select>
+
+          <select
+            className={styles.select}
+            value={sort}
+            onChange={e => setSort(e.target.value)}
+          >
+            <option value="name">Trier : Nom</option>
+            <option value="progression">Trier : Progression</option>
+            <option value="status">Trier : Statut</option>
+          </select>
+        </div>
+
+        {/* ── Project list ── */}
         {error ? (
-          <div className="text-red-600">{error?.message || error}</div>
+          <div className={styles.errorMsg}>{error?.message || String(error)}</div>
         ) : (
-          <ProjectsClientList projects={filtered} />
+          <ProjectsPageList projects={filtered} />
         )}
       </div>
     </div>

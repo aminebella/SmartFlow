@@ -3,16 +3,20 @@ package emsi.SmartFlow.controller.dto;
 import emsi.SmartFlow.entity.enums.TaskPriority;
 import emsi.SmartFlow.entity.enums.TaskStatus;
 import lombok.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TaskResponse {
+public class TaskResponse implements Serializable {
 
-    private String id;
+    private static final long serialVersionUID = 1L;
+
+    private Long id;
     private String title;
     private String description;
     private TaskPriority priority;
@@ -26,8 +30,9 @@ public class TaskResponse {
     private BigDecimal estimatedCost;
     private BigDecimal realCost;
 
-    private Long assignedUserId;            // ← Long comme User.id
-    private String assignedUserFullName;    // ← champ ajouté
-    private String projectId;
-    private String sprintId;
+    private Long assignedUserId;
+    private String assignedUserFullName;
+    private Long projectId;
+    private Long sprintId;
+    private LocalDateTime updatedAt;
 }

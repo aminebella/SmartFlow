@@ -1,0 +1,136 @@
+.container {
+  min-height: 100vh;
+  background: #F5F4F1;
+}
+
+.content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+/* Header */
+.header {
+  margin-bottom: 2rem;
+}
+
+.headerContent {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  border: 0.5px solid #E8E6E0;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 14px;
+}
+
+.breadcrumbLink {
+  color: #B8860B;
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+
+.breadcrumbLink:hover {
+  opacity: 0.75;
+}
+
+.breadcrumbSeparator {
+  color: #8A857F;
+}
+
+.breadcrumbCurrent {
+  color: #1A1A1A;
+  font-weight: 500;
+}
+
+.title {
+  font-family: 'Syne', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin: 0 0 0.5rem 0;
+}
+
+.subtitle {
+  color: #8A857F;
+  margin: 0;
+  font-size: 14px;
+}
+
+/* Error Message */
+.errorMessage {
+  background: #FEE;
+  color: #D33;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  font-size: 14px;
+  border: 1px solid #FCC;
+}
+
+/* Form Container */
+.formContainer {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  border: 0.5px solid #E8E6E0;
+  margin-bottom: 1.5rem;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+
+.cancelButton {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  background: #F5F4F1;
+  color: #8A857F;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.15s;
+  border: 0.5px solid #E8E6E0;
+}
+
+.cancelButton:hover {
+  background: #E8E6E0;
+  color: #1A1A1A;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .content {
+    padding: 1rem;
+  }
+  
+  .headerContent {
+    padding: 1.5rem;
+  }
+  
+  .formContainer {
+    padding: 1.5rem;
+  }
+  
+  .title {
+    font-size: 20px;
+  }
+  
+  .actions {
+    flex-direction: column;
+  }
+  
+  .cancelButton {
+    text-align: center;
+  }
+}

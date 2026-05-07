@@ -40,4 +40,8 @@ public interface ProjectTeamRepository extends JpaRepository<ProjectTeam, Projec
     // Get List of all members in a project (for getProjectMembers)
     @Query("SELECT pt FROM ProjectTeam pt JOIN FETCH pt.client WHERE pt.project.id = :projectId")
     List<ProjectTeam> findByProjectIdWithClient(Long projectId);
+
+    // Find all project teams for a specific client
+    @Query("SELECT pt FROM ProjectTeam pt JOIN FETCH pt.project WHERE pt.client.id = :clientId")
+    List<ProjectTeam> findByClientId(Long clientId);
 }

@@ -4,16 +4,16 @@ import styles from '@/styles/admin/dashboard/RecentProjects.module.css';
 import { useProjects } from '@/hooks/useProjects';
 import { useAuth } from '@/hooks/useAuth';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8080';
+const BASE_URL = process.env.NEXT_PUBLIC_API_BACKENDSPRINGBOOT_URL ?? 'http://localhost:8080';
 const imgUrl = (path) => {
   if (!path) return null;
   if (path.startsWith('http')) return path;
   return `${BASE_URL}${path}`;
 };
 const statusMeta = {
-  ACTIVE: { label: 'Actif', color: '#3b82f6', bg: '#eff6ff' },
-  FINISHED: { label: 'Terminé', color: '#22c55e', bg: '#f0fdf4' },
-  ARCHIVED: { label: 'Archivé', color: '#6b7280', bg: '#f9fafb' },
+  ACTIVE: { label: 'Active', color: '#2D7A4F', bg: '#E6F4EC' },
+  FINISHED: { label: 'Finished', color: '#4A52B8', bg: '#EEF0FB' },
+  ARCHIVED: { label: 'Archived', color: '#5F5E5A', bg: '#F1EFE8' },
 };
 
 const MONTHS = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'];
@@ -119,7 +119,12 @@ export default function RecentProjects() {
                   <div className={styles.progressBar}>
                     <div
                       className={styles.progressFill}
-                      style={{ width: `${progress}%`, background: meta.color }}
+                      style={{ 
+                        width: `${progress}%`,
+                        backgroundColor: progress >= 75 ? '#E0A820' : 
+                                         progress >= 50 ? '#F4C430' : 
+                                         progress >= 25 ? '#FFE066' : '#FFF3B2'
+                      }}
                     />
                   </div>
                   <span className={styles.progressLabel}>{progress}%</span>

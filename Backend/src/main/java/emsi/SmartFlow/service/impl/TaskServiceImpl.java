@@ -7,6 +7,7 @@ import emsi.SmartFlow.entity.enums.ProjectTeamRole;
 import emsi.SmartFlow.entity.enums.TaskStatus;
 import emsi.SmartFlow.repo.ProjectTeamRepository;
 import emsi.SmartFlow.repo.TaskRepository;
+import emsi.SmartFlow.service.NotificationService;
 import emsi.SmartFlow.service.facade.TaskService;
 import emsi.SmartFlow.user.User;
 import emsi.SmartFlow.user.UserRepository;
@@ -26,44 +27,35 @@ public class TaskServiceImpl implements TaskService {
     private final TaskRepository        taskRepository;
     private final UserRepository        userRepository;
     private final ProjectTeamRepository projectTeamRepository;
+    private final NotificationService   notificationService;
 
     // ════════════════════════════════════════════════════════════════
-    //  HELPER — résout le rôle de l'user dans le projet
+    //  HELPER
     // ════════════════════════════════════════════════════════════════
 
-    private ProjectTeamRole resolveRole(String projectId, User currentUser) {
-        Long pid;
-        try {
-            pid = Long.parseLong(projectId);
-        } catch (NumberFormatException e) {
-            throw new AccessDeniedException("Invalid project ID: " + projectId);
-        }
+    private ProjectTeamRole resolveRole(Long projectId, User currentUser) {
         return projectTeamRepository
-                .findRoleByProjectIdAndUserId(pid, currentUser.getId())
+                .findRoleByProjectIdAndUserId(projectId, currentUser.getId())
                 .orElseThrow(() -> new AccessDeniedException(
                         "You are not a member of project " + projectId));
     }
 
-    private boolean isManager(String projectId, User currentUser) {
+    private boolean isManager(Long projectId, User currentUser) {
         return resolveRole(projectId, currentUser) == ProjectTeamRole.MANAGER;
     }
 
     // ════════════════════════════════════════════════════════════════
-    //  LECTURE TOUTES TÂCHES — sans filtre rôle (tab "All")
+    //  LECTURE
     // ════════════════════════════════════════════════════════════════
 
     @Override
-    public List<TaskResponse> getAllTasksByProject(String projectId) {
+    public List<TaskResponse> getAllTasksByProject(Long projectId) {
         return taskRepository.findByProjectId(projectId)
                 .stream().map(this::toResponse).collect(Collectors.toList());
     }
 
-    // ════════════════════════════════════════════════════════════════
-    //  LECTURE filtrée par rôle
-    // ════════════════════════════════════════════════════════════════
-
     @Override
-    public List<TaskResponse> getTasksByProjectForCurrentUser(String projectId, User currentUser) {
+    public List<TaskResponse> getTasksByProjectForCurrentUser(Long projectId, User currentUser) {
         if (isManager(projectId, currentUser)) {
             return taskRepository.findByProjectId(projectId)
                     .stream().map(this::toResponse).collect(Collectors.toList());
@@ -79,7 +71,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskResponse> getTasksBySprintForCurrentUser(String sprintId, User currentUser) {
+    public List<TaskResponse> getTasksBySprintForCurrentUser(Long sprintId, User currentUser) {
         List<Task> tasks = taskRepository.findBySprintIdAndAssignedUserId(
                 sprintId, currentUser.getId());
         if (tasks.isEmpty()) {
@@ -90,7 +82,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskResponse> getTasksByProjectAndStatusForCurrentUser(
-            String projectId, TaskStatus status, User currentUser) {
+            Long projectId, TaskStatus status, User currentUser) {
         if (isManager(projectId, currentUser)) {
             return taskRepository.findByProjectIdAndStatus(projectId, status)
                     .stream().map(this::toResponse).collect(Collectors.toList());
@@ -101,7 +93,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskResponse> getBacklogTasksForCurrentUser(String projectId, User currentUser) {
+    public List<TaskResponse> getBacklogTasksForCurrentUser(Long projectId, User currentUser) {
         if (isManager(projectId, currentUser)) {
             return taskRepository.findByProjectIdAndSprintIdIsNull(projectId)
                     .stream().map(this::toResponse).collect(Collectors.toList());
@@ -114,7 +106,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     // ════════════════════════════════════════════════════════════════
-    //  CREATE — MANAGER uniquement
+    //  CREATE
     // ════════════════════════════════════════════════════════════════
 
     @Override
@@ -146,16 +138,27 @@ public class TaskServiceImpl implements TaskService {
                 .sprintId(request.getSprintId())
                 .build();
 
-        return toResponse(taskRepository.save(task));
+        Task saved = taskRepository.save(task);
+
+        if (assignedUser != null) {
+            notificationService.createNotification(
+                    assignedUser.getId(),
+                    "Une tâche vous a été assignée : " + saved.getTitle(),
+                    "TASK_ASSIGNED",
+                    saved.getId().toString()  // ✅
+            );
+        }
+
+        return toResponse(saved);
     }
 
     // ════════════════════════════════════════════════════════════════
-    //  UPDATE — MANAGER : tout  |  MEMBER : ses tâches uniquement
+    //  UPDATE
     // ════════════════════════════════════════════════════════════════
 
     @Override
     @Transactional
-    public TaskResponse updateTask(String id, TaskRequest request, User currentUser) {
+    public TaskResponse updateTask(Long id, TaskRequest request, User currentUser) {
         Task task = taskRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Task not found: " + id));
 
@@ -177,6 +180,17 @@ public class TaskServiceImpl implements TaskService {
             if (request.getAssignedUserId() != null) {
                 User assignedUser = userRepository.findById(request.getAssignedUserId())
                         .orElseThrow(() -> new EntityNotFoundException("Assigned user not found"));
+
+                boolean isNewAssignment = task.getAssignedUser() == null ||
+                        !task.getAssignedUser().getId().equals(assignedUser.getId());
+                if (isNewAssignment) {
+                    notificationService.createNotification(
+                            assignedUser.getId(),
+                            "Une tâche vous a été assignée : " + task.getTitle(),
+                            "TASK_ASSIGNED",
+                            task.getId().toString()  // ✅
+                    );
+                }
                 task.setAssignedUser(assignedUser);
             } else {
                 task.setAssignedUser(null);
@@ -199,12 +213,12 @@ public class TaskServiceImpl implements TaskService {
     }
 
     // ════════════════════════════════════════════════════════════════
-    //  DELETE — MANAGER uniquement
+    //  DELETE
     // ════════════════════════════════════════════════════════════════
 
     @Override
     @Transactional
-    public void deleteTask(String id, User currentUser) {
+    public void deleteTask(Long id, User currentUser) {
         Task task = taskRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Task not found: " + id));
 
@@ -221,7 +235,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional
-    public TaskResponse updateTaskStatus(String id, TaskStatus newStatus, User currentUser) {
+    public TaskResponse updateTaskStatus(Long id, TaskStatus newStatus, User currentUser) {
         Task task = taskRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Task not found: " + id));
 
@@ -232,13 +246,26 @@ public class TaskServiceImpl implements TaskService {
             }
         }
 
+        TaskStatus oldStatus = task.getStatus();
         task.setStatus(newStatus);
-        return toResponse(taskRepository.save(task));
+        Task saved = taskRepository.save(task);
+
+        if (task.getAssignedUser() != null && oldStatus != newStatus) {
+            notificationService.createNotification(
+                    task.getAssignedUser().getId(),
+                    "Statut de \"" + task.getTitle() + "\" changé : "
+                            + oldStatus + " → " + newStatus,
+                    "STATUS_CHANGED",
+                    task.getId().toString()  // ✅
+            );
+        }
+
+        return toResponse(saved);
     }
 
     @Override
     @Transactional
-    public TaskResponse assignTask(String taskId, String userId, User currentUser) {
+    public TaskResponse assignTask(Long taskId, Long userId, User currentUser) {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new EntityNotFoundException("Task not found: " + taskId));
 
@@ -246,16 +273,25 @@ public class TaskServiceImpl implements TaskService {
             throw new AccessDeniedException("Only a MANAGER can assign tasks.");
         }
 
-        User user = userRepository.findById(Long.parseLong(userId))
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found: " + userId));
 
         task.setAssignedUser(user);
-        return toResponse(taskRepository.save(task));
+        Task saved = taskRepository.save(task);
+
+        notificationService.createNotification(
+                user.getId(),
+                "Une tâche vous a été assignée : " + task.getTitle(),
+                "TASK_ASSIGNED",
+                task.getId().toString()  // ✅
+        );
+
+        return toResponse(saved);
     }
 
     @Override
     @Transactional
-    public TaskResponse moveTaskToSprint(String taskId, String sprintId, User currentUser) {
+    public TaskResponse moveTaskToSprint(Long taskId, Long sprintId, User currentUser) {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new EntityNotFoundException("Task not found: " + taskId));
 
@@ -268,13 +304,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public TaskResponse getTaskById(String id) {
+    public TaskResponse getTaskById(Long id) {
         return toResponse(taskRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Task not found: " + id)));
     }
 
     // ════════════════════════════════════════════════════════════════
-    //  MAPPER Task → TaskResponse
+    //  MAPPER
     // ════════════════════════════════════════════════════════════════
 
     private TaskResponse toResponse(Task task) {
@@ -296,6 +332,7 @@ public class TaskServiceImpl implements TaskService {
                         ? task.getAssignedUser().getFullName() : null)
                 .projectId(task.getProjectId())
                 .sprintId(task.getSprintId())
+                .updatedAt(task.getUpdatedAt())
                 .build();
     }
 }

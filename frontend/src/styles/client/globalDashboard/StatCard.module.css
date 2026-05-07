@@ -1,50 +1,52 @@
-.statCard {
+.card {
   background: #ffffff;
-  border: 1px solid #E8E6E0;
+  border: 0.5px solid #E8E6E0;
   border-radius: 12px;
-  padding: 16px 18px;
+  padding: 1.1rem 1.25rem 1rem;
   position: relative;
   overflow: hidden;
+  transition: box-shadow 0.15s ease;
 }
 
-.statCard::after {
-  content: '';
+.card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* Bottom accent stripe */
+.accent {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   height: 3px;
-  background: #E8E6E0;
-  border-radius: 0 0 12px 12px;
 }
 
-.statCardAccent::after {
-  background: linear-gradient(90deg, #C9A227, #F0C84A);
-}
-
-.statLabel {
+.label {
   font-size: 11px;
-  color: #A89E8C;
   font-weight: 500;
-  letter-spacing: 0.06em;
+  color: #8A857F;
   text-transform: uppercase;
-  margin-bottom: 6px;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
 }
 
-.statValue {
+.value {
   font-family: 'Syne', sans-serif;
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 700;
   color: #1A1A1A;
   line-height: 1;
-  margin-bottom: 3px;
+  margin-bottom: 6px;
 }
 
-.statCardAccent .statValue {
-  color: #B8890E;
+.hint {
+  font-size: 12px;
+  font-weight: 500;
 }
 
-.statHint {
-  font-size: 11.5px;
-  color: #B0A898;
-}
+/* Hint color variants */
+.hintDefault  { color: #8A857F; }
+.hint_success { color: #3B6D11; }
+.hint_warn    { color: #854F0B; }
+.hint_danger  { color: #993C1D; }
+.hint_info    { color: #185FA5; }

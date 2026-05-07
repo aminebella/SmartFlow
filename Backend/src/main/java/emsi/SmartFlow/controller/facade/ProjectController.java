@@ -7,6 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 
 import emsi.SmartFlow.controller.dto.project.ProjectRequest;
 import emsi.SmartFlow.controller.dto.project.ProjectResponse;
@@ -36,14 +39,16 @@ public class ProjectController {
     // GET /api/v1/projects?status=ARCHIVED
     // GET /api/v1/projects?status=FINISHED
     @GetMapping
-    public ResponseEntity<List<ProjectResponse>> getAllProjects(
+    public ResponseEntity<Page<ProjectResponse>> getAllProjects(
             @RequestParam(required = false) ProjectStatus status,
+            @PageableDefault(size = 10, sort = "id") Pageable pageable,
             @AuthenticationPrincipal User currentUser) {
 
         if (!getRole(currentUser).equals("ADMIN")) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-        return ResponseEntity.ok(projectService.getAllProjects(status));
+
+        return ResponseEntity.ok(projectService.getAllProjects(status, pageable));
     }
 
     // ─── CLIENT: my projects, optional ?status= filter ────────────────────

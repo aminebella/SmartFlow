@@ -4,9 +4,14 @@ import API from "@/api/axios";
 // ─── ADMIN ────────────────────────────────────────────────────────────────
 
 // GET /projects?status=ACTIVE  (status optional)
-export const getAllProjects = async (status = null) => {
+export const getAllProjects = async ({ status = null, page = 0, size = 2 }) => {
   try {
-    const params = status ? { status } : {};
+    const params = {
+      ...(status && { status }),
+      page,
+      size,
+    };
+
     const response = await API.get("/projects", { params });
     return response.data; // List<ProjectResponse>
   } catch (error) {
@@ -17,11 +22,30 @@ export const getAllProjects = async (status = null) => {
 // ─── CLIENT ───────────────────────────────────────────────────────────────
 
 // GET /projects/my?status=ACTIVE  (status optional, default = all)
-export const getMyProjects = async (status = null) => {
+export const getMyProjects = async ({ status = null, page = 0, size = 10 }) => {
   try {
-    const params = status ? { status } : {};
+    const params = {
+      ...(status && { status }),
+      page,
+      size,
+    };
     const response = await API.get("/projects/my", { params });
-    return response.data;
+    
+    // Backend returns List<ProjectResponse> directly, not paginated
+    // Convert to paginated format for consistency
+    const projects = response.data;
+    const startIndex = page * size;
+    const endIndex = startIndex + size;
+    const paginatedProjects = Array.isArray(projects) ? projects.slice(startIndex, endIndex) : [];
+    
+    return {
+      content: paginatedProjects,
+      number: page,
+      totalPages: Math.ceil((projects?.length || 0) / size),
+      totalElements: projects?.length || 0,
+      first: page === 0,
+      last: endIndex >= (projects?.length || 0),
+    };
   } catch (error) {
     throw new Error("Failed to fetch my projects");
   }

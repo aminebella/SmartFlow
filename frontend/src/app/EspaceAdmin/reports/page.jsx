@@ -1,9 +1,19 @@
-// ← platform settings
-export default function SettingsPage() {
+'use client'
+
+import React, { Suspense } from 'react'
+import dynamic from 'next/dynamic'
+
+import ReportsSkeleton from '@/components/skeleton/admin/reports/reportsSkeleton'
+
+const ReportsPage = dynamic(
+  () => import('@/components/admin/reportsAdmin/ReportsPage'),
+  { ssr: false }
+)
+
+export default function Page() {
   return (
-    <div>
-      <h2>Reports Page</h2>
-      <p>This is where you can manage your platform settings.</p>
-    </div>
-  );
+    <Suspense fallback={<ReportsSkeleton />}>
+      <ReportsPage />
+    </Suspense>
+  )
 }

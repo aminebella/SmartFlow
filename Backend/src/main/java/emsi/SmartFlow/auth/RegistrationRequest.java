@@ -37,10 +37,10 @@ public class RegistrationRequest {
     }
 
 
-    public void validateRoleSpecificFields() {
-        if (isClient) {
-            Validate.notNull(postTitle, "postTitle is required for client");
-        }
-    }
+//    public void validateRoleSpecificFields() {
+//        if (isClient) {
+//            Validate.notNull(postTitle, "postTitle is required for client");
+//        }
+//    }
 
 }

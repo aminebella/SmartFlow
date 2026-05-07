@@ -6,37 +6,65 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.time.LocalDateTime;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 @Repository
-public interface TaskRepository extends JpaRepository<Task, String> {
+public interface TaskRepository extends JpaRepository<Task, Long> {
 
     // ── Existantes (inchangées) ──────────────────────────────────────────
 
-    /** MANAGER : toutes les tâches d'un projet */
-    List<Task> findByProjectId(String projectId);
+    List<Task> findByProjectId(Long projectId);
 
-    /** Toutes les tâches d'un sprint */
-    List<Task> findBySprintId(String sprintId);
+    List<Task> findBySprintId(Long sprintId);
 
-    /** Kanban : tâches par statut dans un projet */
-    List<Task> findByProjectIdAndStatus(String projectId, TaskStatus status);
+    List<Task> findByProjectIdAndStatus(Long projectId, TaskStatus status);
 
-    /** Backlog : tâches sans sprint */
-    List<Task> findByProjectIdAndSprintIdIsNull(String projectId);
+    List<Task> findByProjectIdAndSprintIdIsNull(Long projectId);
 
-    // ── Nouvelles : accès par rôle ───────────────────────────────────────
+    List<Task> findByProjectIdAndAssignedUserId(Long projectId, Long userId);
 
-    /** MEMBER : ses tâches dans un projet */
-    List<Task> findByProjectIdAndAssignedUserId(String projectId, Long userId);
-
-    /** Toutes les tâches assignées à un user (tous projets) */
     List<Task> findByAssignedUserId(Long userId);
 
-    /** Tâches assignées à un user dans un sprint */
-    List<Task> findBySprintIdAndAssignedUserId(String sprintId, Long userId);
+    List<Task> findBySprintIdAndAssignedUserId(Long sprintId, Long userId);
 
-    /** Tâches assignées à un user filtrées par statut */
     List<Task> findByProjectIdAndStatusAndAssignedUserId(
-            String projectId, TaskStatus status, Long userId
+            Long projectId, TaskStatus status, Long userId
     );
+
+    // Amine 's Part
+    // Count tasks by status
+    long countByStatus(TaskStatus status);
+
+    // Count tasks created between two datetimes
+    long countByCreatedAtBetween(LocalDateTime from, LocalDateTime to);
+
+    // Aggregate tasks count grouped by year and month
+    @Query("SELECT FUNCTION('YEAR', t.createdAt) as yr, FUNCTION('MONTH', t.createdAt) as m, COUNT(t) as cnt " +
+            "FROM Task t " +
+            "WHERE t.createdAt BETWEEN :from AND :to " +
+            "GROUP BY FUNCTION('YEAR', t.createdAt), FUNCTION('MONTH', t.createdAt) " +
+            "ORDER BY FUNCTION('YEAR', t.createdAt), FUNCTION('MONTH', t.createdAt)")
+    List<Object[]> countGroupedByYearMonth(@Param("from") LocalDateTime from, @Param("to") LocalDateTime to);
+
+    // Aggregate tasks count grouped by day
+    @Query("SELECT FUNCTION('DAY', t.createdAt) as d, COUNT(t) as cnt " +
+            "FROM Task t " +
+            "WHERE t.createdAt BETWEEN :from AND :to " +
+            "GROUP BY FUNCTION('DAY', t.createdAt) " +
+            "ORDER BY FUNCTION('DAY', t.createdAt)")
+    List<Object[]> countGroupedByDay(@Param("from") LocalDateTime from, @Param("to") LocalDateTime to);
+
+    // Count tasks for a specific project
+    long countByProjectId(Long projectId);
+
+    // Count tasks with given status for a specific project
+    long countByProjectIdAndStatus(Long projectId, TaskStatus status);
+
+    // Count tasks assigned to a user by status
+    long countByAssignedUserIdAndStatus(Long assignedUserId, TaskStatus status);
+
+    // Find top 5 recent tasks assigned to a user
+    List<Task> findTop5ByAssignedUserIdOrderByCreatedAtDesc(Long assignedUserId);
 }

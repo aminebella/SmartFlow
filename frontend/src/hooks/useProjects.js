@@ -6,8 +6,13 @@ import { getMyProjects, getAllProjects } from "@/services/projectService";
 
 // Usage: const { projects, loading, error, refetch } = useProjects(role, status);
 // role = "ADMIN" or "CLIENT" — determines which endpoint to call
-export function useProjects(role, status = null) {
+export function useProjects(role, status = null, page = 0, size = 10) {
   const [projects, setProjects] = useState([]);
+  const [pagination, setPagination] = useState({
+    page: 0,
+    totalPages: 0,
+    totalElements: 0,
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -15,9 +20,14 @@ export function useProjects(role, status = null) {
     try {
       setLoading(true);
       const data = role === "ADMIN"
-        ? await getAllProjects(status)
-        : await getMyProjects(status);
-      setProjects(data);
+        ? await getAllProjects({ status, page, size })
+        : await getMyProjects({ status, page, size });
+      setProjects(data.content);
+      setPagination({
+        page: data.number,
+        totalPages: data.totalPages,
+        totalElements: data.totalElements,
+      });
     } catch (err) {
       setError(err);
     } finally {
@@ -27,7 +37,7 @@ export function useProjects(role, status = null) {
 
   useEffect(() => {
     if (role) fetchProjects();
-  }, [role, status]);
+  }, [role, status, page, size]);
 
-  return { projects, loading, error, refetch: fetchProjects };
+  return { projects, pagination, loading, error, refetch: fetchProjects };
 }

@@ -2,9 +2,9 @@ package emsi.SmartFlow.controller.dto;
 
 import emsi.SmartFlow.entity.enums.TaskPriority;
 import emsi.SmartFlow.entity.enums.TaskStatus;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -12,9 +12,11 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TaskRequest {
+public class TaskRequest implements Serializable {
 
-    @NotBlank(message = "Title is mandatory")
+    private static final long serialVersionUID = 1L;
+
+    @NotNull(message = "Title is mandatory")
     private String title;
 
     private String description;
@@ -33,10 +35,10 @@ public class TaskRequest {
     private BigDecimal estimatedCost;
     private BigDecimal realCost;
 
-    private Long assignedUserId;    // ← Long objet (majuscule) supporte null
+    private Long assignedUserId;
 
-    @NotBlank(message = "Project ID is mandatory")
-    private String projectId;
+    @NotNull(message = "Project ID is mandatory")
+    private Long projectId;
 
-    private String sprintId;        // null = backlog
+    private Long sprintId;
 }

@@ -15,11 +15,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.util.List;
 
 import emsi.SmartFlow.entity.enums.ProjectStatus;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "projects", uniqueConstraints = {
         // Same owner cannot have 2 projects with same name
         @UniqueConstraint(columnNames = {"name", "owner_id"})
@@ -64,6 +67,13 @@ public class Project {
     @Column(nullable = false)
     @Builder.Default
     private ProjectStatus status = ProjectStatus.ACTIVE;// Default = ACTIVE on creation, no need to set it manually
+
+    @Column(nullable = false)
+    private String type;
+
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "project", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
     private List<Sprint> sprints;

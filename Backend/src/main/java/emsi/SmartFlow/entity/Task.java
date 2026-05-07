@@ -5,8 +5,11 @@ import emsi.SmartFlow.entity.enums.TaskStatus;
 import emsi.SmartFlow.user.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tasks")
@@ -17,8 +20,8 @@ import java.time.LocalDate;
 public class Task {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
     private String title;
@@ -45,16 +48,30 @@ public class Task {
     @Column(precision = 10, scale = 2)
     private BigDecimal realCost;
 
-    // User existe déjà → on garde la relation @ManyToOne
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "assignedUserId")
     private User assignedUser;
 
-    // Project n'existe pas encore → on stocke juste l'ID
     @Column(name = "projectId", nullable = false)
-    private String projectId;
+    private Long projectId;   // ← Long
 
-    // Sprint n'existe pas encore → on stocke juste l'ID
     @Column(name = "sprintId")
-    private String sprintId;
+    private Long sprintId;    // ← Long
+
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 }

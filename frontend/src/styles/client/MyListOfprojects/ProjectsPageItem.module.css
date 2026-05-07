@@ -1,0 +1,227 @@
+/* ── Card ─────────────────────────────────────────────────────── */
+.item {
+  background: #ffffff;
+  border: 0.5px solid #E8E6E0;
+  border-radius: 13px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+  cursor: default;
+}
+
+.item:hover {
+  border-color: #DDD5C0;
+  box-shadow: 0 4px 16px rgba(184, 134, 11, 0.09);
+  transform: translateY(-1px);
+}
+
+/* ── Left accent stripe ───────────────────────────────────────── */
+.stripe {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  border-radius: 13px 0 0 13px;
+}
+
+/* ── Project icon ─────────────────────────────────────────────── */
+.icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #C9A227 0%, #8A6A0A 100%);
+  color: #ffffff;
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  letter-spacing: 0.03em;
+}
+
+/* ── Body (name + desc + members) ────────────────────────────── */
+.body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.nameRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.name {
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1A1A1A;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.desc {
+  font-size: 12px;
+  color: #9A9590;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 420px;
+}
+
+/* ── Member avatars ───────────────────────────────────────────── */
+.membersRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.avatarStack {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  margin-left: -6px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.avatar:first-child {
+  margin-left: 0;
+}
+
+.avatarPlaceholder {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #EEE9E0;
+  color: #7A7268;
+  font-size: 9px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatarExtra {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #F0EDE8;
+  color: #8A8580;
+  font-size: 9px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ffffff;
+  margin-left: -6px;
+  flex-shrink: 0;
+}
+
+.memberLabel {
+  font-size: 11px;
+  color: #8A857F;
+}
+
+/* ── Right side ───────────────────────────────────────────────── */
+.right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 7px;
+  flex-shrink: 0;
+}
+
+/* Pills row */
+.pills {
+  display: flex;
+  gap: 5px;
+}
+
+.pill {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 10px;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+
+/* Status variants */
+.status_active   { background: #EAF3DE; color: #3B6D11; }
+.status_done     { background: #E6F1FB; color: #185FA5; }
+.status_archived { background: #F0EEE8; color: #6B6560; }
+
+/* Role variants */
+.role_manager { background: #EEEDFE; color: #3C3489; }
+.role_member  { background: #FAF0D7; color: #854F0B; }
+
+/* Progress */
+.progRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.progTrack {
+  width: 90px;
+  height: 4px;
+  background: #F0EEE8;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progFill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+.progPct {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1A1A1A;
+  min-width: 32px;
+  text-align: right;
+}
+
+/* Open button — reuses your existing gold style */
+.openBtn {
+  font-family: 'Syne', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  background: #C9A227;
+  border-radius: 8px;
+  padding: 6px 14px;
+  text-decoration: none;
+  display: inline-block;
+  white-space: nowrap;
+  transition: background 0.15s ease, transform 0.1s ease;
+  line-height: 1.4;
+}
+
+.openBtn:hover {
+  background: #B8890E;
+  transform: scale(1.02);
+}

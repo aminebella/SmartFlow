@@ -1,0 +1,574 @@
+/* ===== SmartFlow — Projects List ===== */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&family=DM+Sans:wght@400;500&display=swap');
+
+/* ===== Page root ===== */
+.pageRoot {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-family: 'DM Sans', sans-serif;
+  padding: 24px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+/* ===== Page heading ===== */
+.pageHeading {
+  font-family: 'Outfit', sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #1C1C1E;
+  margin: 0;
+}
+
+.pageSub {
+  font-size: 12px;
+  color: #999;
+  margin-top: 4px;
+}
+
+/* ===== Stats row ===== */
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.statCard {
+  background: #fff;
+  border: 0.5px solid #E5E3DC;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.statLabel {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #AAA;
+  margin-bottom: 6px;
+}
+
+.statValue {
+  font-family: 'Outfit', sans-serif;
+  font-size: 26px;
+  font-weight: 600;
+  color: #1C1C1E;
+  line-height: 1;
+}
+
+.statSub {
+  font-size: 11px;
+  color: #999;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.statDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* ===== Main card ===== */
+.mainCard {
+  background: #fff;
+  border: 0.5px solid #E5E3DC;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 22px;
+  border-bottom: 0.5px solid #F0EEE7;
+}
+
+.cardTitle {
+  font-family: 'Outfit', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1C1C1E;
+}
+
+/* ===== Toolbar ===== */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 22px;
+  border-bottom: 0.5px solid #F0EEE7;
+  flex-wrap: wrap;
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 0.5px solid #E5E3DC;
+  border-radius: 8px;
+  padding: 7px 12px;
+  background: #F7F6F2;
+  flex: 1;
+  max-width: 300px;
+  transition: all 0.14s;
+}
+
+.searchBox:focus-within {
+  border-color: #E0A820;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(224,168,32,0.08);
+}
+
+.searchBox input {
+  border: none;
+  background: transparent;
+  font-size: 12px;
+  color: #444;
+  outline: none;
+  width: 100%;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.searchBox input::placeholder {
+  color: #BBB;
+}
+
+.sfSelect {
+  border: 0.5px solid #E5E3DC;
+  border-radius: 8px;
+  padding: 7px 10px;
+  font-size: 12px;
+  color: #555;
+  background: #fff;
+  outline: none;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: border-color 0.12s;
+}
+
+.sfSelect:focus {
+  border-color: #E0A820;
+}
+
+.toolbarRight {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.btnExport {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #1C1C1E;
+  color: #E0A820;
+  border: none;
+  border-radius: 8px;
+  padding: 7px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btnExport:hover {
+  background: #333;
+}
+
+/* Export dropdown */
+.exportDropdown {
+  position: absolute;
+  right: 0;
+  top: 38px;
+  background: #fff;
+  border: 0.5px solid #E5E3DC;
+  border-radius: 10px;
+  padding: 14px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  z-index: 50;
+  min-width: 220px;
+}
+
+.exportDropdownTitle {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #888;
+  margin-bottom: 10px;
+}
+
+.exportColList {
+  display: grid;
+  gap: 7px;
+  margin-bottom: 12px;
+}
+
+.exportColLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #444;
+  cursor: pointer;
+}
+
+.exportColLabel input[type="checkbox"] {
+  accent-color: #E0A820;
+}
+
+.exportActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 0.5px solid #F0EEE7;
+}
+
+.btnCancel {
+  padding: 6px 12px;
+  border-radius: 7px;
+  border: 0.5px solid #E5E3DC;
+  background: #fff;
+  font-size: 12px;
+  cursor: pointer;
+  color: #555;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.btnDownload {
+  padding: 6px 12px;
+  border-radius: 7px;
+  background: #E0A820;
+  color: #1C1C1E;
+  border: none;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ===== Table ===== */
+.tableWrap {
+  overflow-x: auto;
+}
+
+.sfTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.sfTable thead tr {
+  border-bottom: 0.5px solid #F0EEE7;
+}
+
+.sfTable th {
+  text-align: left;
+  padding: 10px 20px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+  color: #AAA;
+  background: #F7F6F2;
+  white-space: nowrap;
+}
+
+.sfTable td {
+  padding: 13px 20px;
+  border-bottom: 0.5px solid #F0EEE7;
+  vertical-align: middle;
+}
+
+.sfTable tr:last-child td {
+  border-bottom: none;
+}
+
+.sfTable tbody tr {
+  transition: background 0.1s;
+  cursor: pointer;
+}
+
+.sfTable tbody tr:hover td {
+  background: #FAFAF7;
+}
+
+/* ===== Row: project name cell ===== */
+.projNameWrap {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.projAccent {
+  width: 3px;
+  height: 36px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.projName {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1C1C1E;
+}
+
+.projDesc {
+  font-size: 11px;
+  color: #AAA;
+  margin-top: 2px;
+  max-width: 220px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ===== Project type badge ===== */
+.projTypeBadge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #F7F6F2;
+  color: #444;
+  font-size: 11px;
+  font-weight: 500;
+  border: 0.5px solid #E5E3DC;
+}
+
+/* ===== Row: manager cell ===== */
+.managerCell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.managerName {
+  font-size: 12px;
+  color: #444;
+}
+
+/* ===== Row: avatars ===== */
+.avatarStack {
+  display: flex;
+  align-items: center;
+}
+
+.avSm {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 500;
+  color: #fff;
+  border: 1.5px solid #fff;
+  flex-shrink: 0;
+}
+
+.avCount {
+  background: #ECEAE2 !important;
+  color: #666 !important;
+  font-size: 9px;
+}
+
+/* ===== Badges ===== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.badgeActive   { background: #E6F4EC; color: #2D7A4F; }
+.badgeArchived { background: #F1EFE8; color: #5F5E5A; }
+.badgeFinished { background: #EEF0FB; color: #4A52B8; }
+
+/* ===== Deadline cell ===== */
+.deadlineCell {
+  font-size: 12px;
+  color: #555;
+}
+
+.deadlineLate { color: #A32D2D; }
+.deadlineSoon { color: #996B00; }
+
+/* ===== Action buttons ===== */
+.actionBtns {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.btnIcon {
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  border: 0.5px solid #E5E3DC;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #AAA;
+  transition: all 0.12s;
+  flex-shrink: 0;
+}
+
+.btnIcon:hover {
+  border-color: #E0A820;
+  color: #E0A820;
+  background: #FFF8E6;
+}
+
+.btnIconWarn:hover {
+  border-color: #E0A820;
+  color: #996B00;
+  background: #FFF3DC;
+}
+
+.btnIconSuccess:hover {
+  border-color: #9FE1CB;
+  color: #2D7A4F;
+  background: #E6F4EC;
+}
+
+.btnIconDanger:hover {
+  border-color: #F09595;
+  color: #A32D2D;
+  background: #FCEBEB;
+}
+
+.btnIcon:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ===== Member count cell ===== */
+.memberCount {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1C1C1E;
+}
+
+.memberSuffix {
+  font-size: 11px;
+  color: #BBB;
+  margin-left: 3px;
+}
+
+/* ===== Progression cell ===== */
+.progressionCell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 120px;
+}
+
+.progressBar {
+  width: 100%;
+  height: 6px;
+  background: #F0EEE7;
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s ease, background-color 0.3s ease;
+  min-width: 2px;
+}
+
+.progressText {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1C1C1E;
+  font-family: 'Outfit', sans-serif;
+}
+
+.progressDetails {
+  font-size: 10px;
+  color: #AAA;
+  font-weight: 400;
+}
+
+/* ===== Pagination ===== */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 22px;
+  border-top: 0.5px solid #F0EEE7;
+  font-size: 12px;
+  color: #AAA;
+}
+
+/* ===== Empty / Loading / Error ===== */
+.emptyState {
+  padding: 56px 20px;
+  text-align: center;
+  color: #BBB;
+  font-size: 13px;
+}
+
+.emptyIcon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.emptyTitle {
+  font-size: 14px;
+  font-weight: 500;
+  color: #888;
+  margin-bottom: 4px;
+}
+
+.loadingState {
+  padding: 56px 20px;
+  text-align: center;
+  color: #BBB;
+  font-size: 13px;
+}
+
+.errorMsg {
+  padding: 16px 22px;
+  color: #A32D2D;
+  background: #FCEBEB;
+  font-size: 13px;
+  border-bottom: 0.5px solid #F09595;
+}
+
+/* ===== Export success toast ===== */
+.exportToast {
+  margin: 0 22px 12px;
+  color: #2D7A4F;
+  background: #E6F4EC;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  border: 0.5px solid #9FE1CB;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+  .statsRow { grid-template-columns: repeat(2, 1fr); }
+  .pageRoot  { padding: 16px; }
+}
+
+@media (max-width: 600px) {
+  .statsRow { grid-template-columns: 1fr; }
+}

@@ -48,8 +48,8 @@ public class AuthenticateService {
     private final JwtService jwtService;
 
 
+
     public ResponseEntity<?> register(@RequestBody @Valid RegistrationRequest request) throws MessagingException {
-        request.validateRoleSpecificFields();// → Check: if registering as client, bio is required
 
         // Check duplicate email
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
@@ -232,6 +232,7 @@ public class AuthenticateService {
         }
 
         return UserResponse.builder()
+                .id(user.getId())        // ← ajoute cette ligne
                 .email(user.getEmail())
                 .fullName(user.getFullName())
                 .roles(roles)
