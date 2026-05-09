@@ -2,6 +2,7 @@ package emsi.SmartFlow.controller.facade;
 
 import emsi.SmartFlow.controller.dto.AiAnalysisRequest;
 import emsi.SmartFlow.controller.dto.AiAnalysisResponse;
+import emsi.SmartFlow.controller.dto.ApiResponse;
 import emsi.SmartFlow.service.facade.AiAnalysisService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,14 @@ import org.springframework.web.multipart.MultipartFile;
 public class AiAnalysisController {
 
     private final AiAnalysisService aiAnalysisService;
+
+    @PostMapping("/validate")
+    public ResponseEntity<ApiResponse> validateAndSave(
+            @PathVariable Long projectId,
+            @RequestBody AiAnalysisRequest request) {
+        log.info("[AI] Validation et sauvegarde pour projectId={}", projectId);
+        return ResponseEntity.ok(aiAnalysisService.validateAndSave(projectId, request));
+    }
 
     // ── POST : Upload PDF → Gemini → retourner résultat ─────────────
     @PostMapping(value = "/analyze", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

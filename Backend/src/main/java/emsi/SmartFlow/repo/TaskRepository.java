@@ -67,4 +67,11 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     // Find top 5 recent tasks assigned to a user
     List<Task> findTop5ByAssignedUserIdOrderByCreatedAtDesc(Long assignedUserId);
+
+    // Find top 5 recent tasks by assigned user and status
+    @Query("SELECT t FROM Task t WHERE t.assignedUser.id = :userId AND t.status IN :statuses ORDER BY t.createdAt DESC")
+    List<Task> findTop5ByAssignedUserIdAndStatusInOrderByCreatedAtDesc(
+        @Param("userId") Long userId, 
+        @Param("statuses") List<TaskStatus> statuses
+    );
 }

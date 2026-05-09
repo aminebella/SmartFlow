@@ -5,7 +5,7 @@ import TicketFilterPanel from "./TicketFilterPanel.jsx";
 function exportToCSV(tickets, members, sprints, projectId) {
   const header = ["KEY", "TITLE", "PRIORITY", "STATUS", "ASSIGNEE", "SPRINT", "UPDATED"];
   const rows = tickets.map((t) => {
-    const assignee = members.find((m) => m.id === t.assigneeId);
+    const assignee = members.find((m) => m.clientId === ticket.assignedUserId);
     const sprint   = sprints.find((s) => s.id === t.sprintId);
     return [
       t.key || t.id,
@@ -13,7 +13,7 @@ function exportToCSV(tickets, members, sprints, projectId) {
       t.priority,
       t.status,
       assignee ? (assignee.fullName || assignee.name || assignee.email) : "",
-      sprint   ? sprint.name : "",
+      sprint   ? sprint.title : "",
       t.updatedAt || "",
     ];
   });

@@ -4,22 +4,18 @@
    Variables
 ───────────────────────────────────────────────── */
 :root {
-  /* surfaces */
   --bg:  #F5F4F1;
   --bg2: #FFFFFF;
   --bg3: #F9F8F5;
   --bg4: #EFEDE8;
 
-  /* borders */
   --border:  #E4E1D9;
   --border2: #D4D0C6;
 
-  /* text */
   --text1: #1A1916;
   --text2: #4A4840;
   --text3: #9C9890;
 
-  /* gold — primary accent (from logo) */
   --gold:        #B8860B;
   --gold-light:  #D4A017;
   --gold-bright: #F0C040;
@@ -27,7 +23,6 @@
   --gold-border: rgba(184, 134, 11, 0.28);
   --gold-hover:  #9A7009;
 
-  /* semantic */
   --green:      #1A7A45;
   --green-bg:   #EAF5EE;
   --red:        #C0392B;
@@ -39,7 +34,6 @@
   --purple:     #6840B8;
   --purple-bg:  #F0EBFC;
 
-  /* layout */
   --radius:      8px;
   --radius-sm:   5px;
   --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 1px rgba(0, 0, 0, 0.04);
@@ -79,6 +73,16 @@
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+/* Loading / error states */
+.dash-loading,
+.dash-error {
+  padding: 40px 0;
+  text-align: center;
+  font-size: 14px;
+  color: var(--text3);
+}
+.dash-error { color: var(--red); }
 
 /* ─────────────────────────────────────────────────
    Section header
@@ -159,6 +163,7 @@
   margin-bottom: 18px;
 }
 
+/* Sprint (wide) + Team (narrow sidebar) */
 .two-col {
   display: grid;
   grid-template-columns: 1fr 320px;
@@ -172,8 +177,8 @@
 }
 
 @media (max-width: 640px) {
-  .stats-grid       { grid-template-columns: 1fr 1fr; }
-  .dashboard-root   { padding: 16px; }
+  .stats-grid     { grid-template-columns: 1fr 1fr; }
+  .dashboard-root { padding: 16px; }
 }
 
 /* ─────────────────────────────────────────────────
@@ -316,9 +321,8 @@
   height: 100%;
   border-radius: 4px;
   background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  transition: width 0.4s ease;
 }
-
-.progress-fill-green { background: var(--green); }
 
 .progress-labels {
   display: flex;
@@ -444,7 +448,7 @@
 .team-member-tasks { font-size: 11px; color: var(--text3); white-space: nowrap; }
 
 /* ─────────────────────────────────────────────────
-   Data table
+   Data table (RecentTasks)
 ───────────────────────────────────────────────── */
 .table-wrap { padding: 0 6px; }
 
@@ -478,50 +482,13 @@
   font-family: var(--mono);
   font-size: 11px;
   color: var(--text3);
+  white-space: nowrap;
 }
 
 .ticket-title {
   font-weight: 500;
-  max-width: 240px;
+  max-width: 260px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-/* ─────────────────────────────────────────────────
-   Activity feed
-───────────────────────────────────────────────── */
-.card-body-activity { padding-top: 10px; }
-
-.act-item {
-  display: flex;
-  gap: 10px;
-  padding: 9px 0;
-  border-bottom: 1px solid var(--border);
-}
-.act-item:last-child { border-bottom: none; padding-bottom: 0; }
-
-.act-icon {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.act-body { flex: 1; }
-
-.act-text {
-  font-size: 12.5px;
-  color: var(--text2);
-  line-height: 1.4;
-}
-.act-text strong { color: var(--text1); font-weight: 600; }
-
-.act-time {
-  font-size: 11px;
-  color: var(--text3);
-  margin-top: 2px;
 }

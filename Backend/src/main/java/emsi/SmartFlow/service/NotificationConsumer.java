@@ -34,7 +34,7 @@ public class NotificationConsumer {
                 .message(event.getMessage())
                 .type(event.getType())
                 .relatedEntityId(event.getRelatedEntityId())
-                .isRead(false)
+                .read(false)
                 .build();
 
         notificationRepository.save(notification);

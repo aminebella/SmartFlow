@@ -13,6 +13,7 @@ export function useTickets(projectId) {
   const [sprints,     setSprints]     = useState([]);
   const [members,     setMembers]     = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
+  const [isManager,   setIsManager]   = useState(false);
   const [loading,     setLoading]     = useState(true);
   const [error,       setError]       = useState("");
 
@@ -38,6 +39,15 @@ export function useTickets(projectId) {
           : null;
         setCurrentUser(me);
 
+        // ✅ Vérification rôle — séparée pour ne pas bloquer le reste
+        try {
+          const roleRes = await API.get(`/tasks/project/${projectId}/can-create`);
+          setIsManager(roleRes.data?.data === true);
+        } catch (roleErr) {
+          console.warn("Impossible de vérifier le rôle :", roleErr.message);
+          setIsManager(false);
+        }
+
         // Sprints
         setSprints(sprintsData.status === "fulfilled" && Array.isArray(sprintsData.value)
           ? sprintsData.value : []);
@@ -46,7 +56,7 @@ export function useTickets(projectId) {
         setMembers(membersData.status === "fulfilled" && Array.isArray(membersData.value)
           ? membersData.value : []);
 
-        // Tickets enrichis avec isAssignedToMe
+        // Tickets
         if (ticketsData.status === "fulfilled" && Array.isArray(ticketsData.value)) {
           const enriched = ticketsData.value.map((t) => ({
             ...t,
@@ -104,6 +114,7 @@ export function useTickets(projectId) {
 
   return {
     tickets, sprints, members, currentUser,
+    isManager,
     loading, error, activeSprint,
     addTicket, editTicket, removeTicket,
   };

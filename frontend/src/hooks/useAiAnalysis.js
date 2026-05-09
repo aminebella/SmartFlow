@@ -1,5 +1,6 @@
 'use client';
 import { useState } from "react";
+import API from "@/api/axios";
 
 export function useAiAnalysis(projectId) {
 
@@ -11,7 +12,6 @@ export function useAiAnalysis(projectId) {
   const [fileName, setFileName] = useState(null);
   const [saved, setSaved] = useState(false);
 
-  // ── Analyse document ─────────────────────────────
   const analyzeDocument = async (file) => {
     setLoading(true);
     setError(null);
@@ -24,23 +24,14 @@ export function useAiAnalysis(projectId) {
       const formData = new FormData();
       formData.append("file", file);
 
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BACKENDSPRINGBOOT_URL}/projects/${projectId}/ai-analysis/analyze`,
-        {
-          method: "POST",
-          credentials: "include",
-          body: formData,
-        }
+      const response = await API.post(
+        `/projects/${projectId}/ai-analysis/analyze`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
       );
 
-      if (!response.ok) {
-        const errText = await response.text();
-        throw new Error(`API error: ${response.status} - ${errText}`);
-      }
+      const parsed = response.data;
 
-      const parsed = await response.json();
-
-      // ✅ Sécuriser toutes les données
       const safeData = {
         projectSummary: parsed.projectSummary || "",
         documentQuality: parsed.documentQuality || "LOW",
@@ -50,35 +41,26 @@ export function useAiAnalysis(projectId) {
         risks: Array.isArray(parsed.risks) ? parsed.risks : [],
         humanResources: Array.isArray(parsed.humanResources) ? parsed.humanResources : [],
         materialResources: Array.isArray(parsed.materialResources) ? parsed.materialResources : [],
-        timeline: parsed.timeline || {
-          startDate: null,
-          endDate: null,
-          phases: [],
-          justification: ""
-        },
-        costEstimation: parsed.costEstimation || {
-          estimatedTotalCost: null,
-          currency: "MAD",
-          breakdown: [],
-          assumptions: ""
-        },
+        timeline: parsed.timeline || { startDate: null, endDate: null, phases: [], justification: "" },
+        costEstimation: parsed.costEstimation || { estimatedTotalCost: null, currency: "MAD", breakdown: [], assumptions: "" },
       };
 
       setResult(safeData);
-      setEdited(safeData);   // ✅ edited = true → boutons apparaissent
+      setEdited(safeData);
 
     } catch (err) {
-      setError(err.message || "Erreur lors de l'analyse");
+      setError(err.response?.data?.error || err.message || "Erreur lors de l'analyse");
     } finally {
       setLoading(false);
     }
   };
 
-  // ── Modification ─────────────────────────────
+  // ── Modifications générales ─────────────────────────────
   const updateEdited = (field, value) => {
     setEdited(prev => ({ ...prev, [field]: value }));
   };
 
+  // ── Tasks ─────────────────────────────
   const updateTask = (index, field, value) => {
     setEdited(prev => {
       const tasks = [...(prev?.tasks || [])];
@@ -100,56 +82,110 @@ export function useAiAnalysis(projectId) {
       ...prev,
       tasks: [
         ...(prev?.tasks || []),
-        {
-          title: "",
-          description: "",
-          priority: "MEDIUM",
-          estimatedComplexity: "MEDIUM",
-          sprint: "Sprint 1"
-        }
+        { title: "", description: "", priority: "MEDIUM", estimatedComplexity: "MEDIUM", sprint: "Sprint 1" }
       ]
     }));
   };
 
+  // ── Sprints ─────────────────────────────
+  const updateSprint = (index, field, value) => {
+    setEdited(prev => {
+      const sprints = [...(prev?.sprints || [])];
+      if (!sprints[index]) return prev;
+      sprints[index] = { ...sprints[index], [field]: value };
+      return { ...prev, sprints };
+    });
+  };
+
+  const removeSprint = (index) => {
+    setEdited(prev => ({
+      ...prev,
+      sprints: (prev?.sprints || []).filter((_, i) => i !== index)
+    }));
+  };
+
+  // ── Risks ─────────────────────────────
+  const updateRisk = (index, field, value) => {
+    setEdited(prev => {
+      const risks = [...(prev?.risks || [])];
+      if (!risks[index]) return prev;
+      risks[index] = { ...risks[index], [field]: value };
+      return { ...prev, risks };
+    });
+  };
+
+  // ── Human Resources ─────────────────────────────
+  const updateResource = (index, field, value) => {
+    setEdited(prev => {
+      const humanResources = [...(prev?.humanResources || [])];
+      if (!humanResources[index]) return prev;
+      humanResources[index] = { ...humanResources[index], [field]: value };
+      return { ...prev, humanResources };
+    });
+  };
+
+  // ── Cost Estimation ─────────────────────────────
+  const updateCost = (field, value) => {
+    setEdited(prev => ({
+      ...prev,
+      costEstimation: {
+        ...prev.costEstimation,
+        [field]: value,
+      }
+    }));
+  };
+
+  const updateBreakdownItem = (index, field, value) => {
+    setEdited(prev => {
+      const breakdown = [...(prev?.costEstimation?.breakdown || [])];
+      if (!breakdown[index]) return prev;
+      breakdown[index] = { ...breakdown[index], [field]: value };
+      return {
+        ...prev,
+        costEstimation: { ...prev.costEstimation, breakdown }
+      };
+    });
+  };
+const updateTimeline = (field, value) => {
+  setEdited(prev => ({
+    ...prev,
+    timeline: { ...prev.timeline, [field]: value }
+  }));
+};
+
+const updatePhase = (index, field, value) => {
+  setEdited(prev => {
+    const phases = [...(prev?.timeline?.phases || [])];
+    if (!phases[index]) return prev;
+    phases[index] = { ...phases[index], [field]: value };
+    return { ...prev, timeline: { ...prev.timeline, phases } };
+  });
+};
   // ── Sauvegarde ─────────────────────────────
   const saveToDatabase = async () => {
     if (!edited || !projectId) return;
-
     setSaving(true);
     setError(null);
 
     try {
-      // ✅ URL correcte avec base URL du backend
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BACKENDSPRINGBOOT_URL}/projects/${projectId}/ai-analysis`,
+      await API.post(
+        `/projects/${projectId}/ai-analysis/validate`,
         {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({
-            projectSummary: edited.projectSummary,
-            tasks: edited.tasks || [],
-            sprints: edited.sprints || [],
-            risks: edited.risks || [],
-            humanResources: edited.humanResources || [],
-            materialResources: edited.materialResources || [],
-            timeline: edited.timeline || {},
-            costEstimation: edited.costEstimation || {},
-            confidenceScore: edited.confidenceScore,
-            documentQuality: edited.documentQuality,
-          }),
+          projectSummary: edited.projectSummary,
+          tasks: edited.tasks || [],
+          sprints: edited.sprints || [],
+          risks: edited.risks || [],
+          humanResources: edited.humanResources || [],
+          materialResources: edited.materialResources || [],
+          timeline: edited.timeline || {},
+          costEstimation: edited.costEstimation || {},
+          confidenceScore: edited.confidenceScore,
+          documentQuality: edited.documentQuality,
         }
       );
-
-      if (!response.ok) {
-        const errText = await response.text();
-        throw new Error(`Erreur sauvegarde: ${response.status} - ${errText}`);
-      }
-
       setSaved(true);
-
     } catch (err) {
-      setError(err.message || "Erreur lors de la sauvegarde");
+      setError(err.response?.data?.error || err.message || "Erreur lors de la sauvegarde");
     } finally {
       setSaving(false);
     }
@@ -165,18 +201,16 @@ export function useAiAnalysis(projectId) {
   };
 
   return {
-    loading,
-    saving,
-    error,
-    saved,
-    result,
-    edited,
-    fileName,
+    loading, saving, error, saved,
+    result, edited, fileName,
     analyzeDocument,
     updateEdited,
-    updateTask,
-    removeTask,
-    addTask,
+    updateTask, removeTask, addTask,
+    updateSprint, removeSprint,
+    updateRisk,
+    updateResource,
+    updateCost, updateBreakdownItem,
+    updateTimeline, updatePhase,  // ← vérifie que cette ligne existe
     saveToDatabase,
     reset,
   };

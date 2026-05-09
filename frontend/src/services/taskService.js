@@ -14,13 +14,25 @@ export const getTicketById = async (ticketId) => {
 
 // POST /api/tasks
 export const createTicket = async (projectId, data) => {
-  const res = await API.post(`/tasks`, { ...data, projectId });
+  const payload = {
+    ...data,
+    projectId,
+    assignedUserId: data.assignedUserId ? Number(data.assignedUserId) : null,
+    sprintId: data.sprintId ? Number(data.sprintId) : null,
+  };
+  const res = await API.post(`/tasks`, payload);
   return res.data?.data ?? res.data;
 };
 
 // PUT /api/tasks/{id}
 export const updateTicket = async (projectId, ticketId, data) => {
-  const res = await API.put(`/tasks/${ticketId}`, { ...data, projectId });
+  const payload = {
+    ...data,
+    projectId,
+    assignedUserId: data.assignedUserId ? Number(data.assignedUserId) : null,
+    sprintId: data.sprintId ? Number(data.sprintId) : null,
+  };
+  const res = await API.put(`/tasks/${ticketId}`, payload);
   return res.data?.data ?? res.data;
 };
 

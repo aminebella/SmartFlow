@@ -1,6 +1,7 @@
 'use client'
 
 import styles from '@/styles/admin/projects/projectDetailsAdmin.module.css'
+import { Avatar } from '@/components/ui/Avatar'
 
 function formatDate(dateStr) {
   if (!dateStr) return '—'
@@ -9,30 +10,7 @@ function formatDate(dateStr) {
   return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
 }
 
-const avatarColors = [
-  { bg: '#EEF0FB', color: '#4A52B8' },
-  { bg: '#E6F4EC', color: '#2D7A4F' },
-  { bg: '#FAECE7', color: '#993C1D' },
-  { bg: '#FFF3DC', color: '#996B00' },
-  { bg: '#EEEDFE', color: '#534AB7' },
-  { bg: '#FBEAF0', color: '#993556' },
-]
-
-function Initials({ name, index }) {
-  const c = avatarColors[index % avatarColors.length]
-  const initials = name
-    ? name.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase()
-    : '?'
-  return (
-    <div className={styles.memberAv} style={{ background: c.bg, color: c.color }}>
-      {initials}
-    </div>
-  )
-}
-
 export default function ProjectTeam({ project }) {
-  // Use real members from project object (fetched by ProjectDetails)
-  // Expected member shape: { id, name, role, joinedDate, taskCount? }
   const members = Array.isArray(project.members) ? project.members : []
 
   return (
@@ -55,22 +33,25 @@ export default function ProjectTeam({ project }) {
           {members.map((member, i) => (
             <div key={member.clientId ?? i} className={styles.memberRow}>
               <div className={styles.memberLeft}>
-                <Initials name={member.fullName} index={i} />
+
+                {/* Avatar — affiche memberPicture ou initiales en fallback */}
+                <Avatar
+                  src={member.memberPicture}
+                  name={member.fullName}
+                  size={36}
+                  className={styles.memberAv}
+                />
+
                 <div>
-                  {/* TODO: field = member.name */}
                   <div className={styles.memberName}>{member.fullName || '—'}</div>
-                  <div className={styles.memberRole}>
-                    {/* TODO: field = member.role */}
-                    {member.role || '—'}
-                  </div>
+                  <div className={styles.memberRole}>{member.role || '—'}</div>
                 </div>
               </div>
+
               <div className={styles.memberRight}>
-                {/* TODO: field = member.joinedDate — add this to your backend Member DTO */}
                 <div className={styles.memberJoined}>
                   Joined {formatDate(member.joinedAt)}
                 </div>
-                {/* TODO: field = member.taskCount — optional, add if available */}
                 {member.taskCount != null && (
                   <span className={styles.memberTasks}>{member.taskCount} tasks</span>
                 )}

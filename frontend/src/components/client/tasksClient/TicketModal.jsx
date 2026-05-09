@@ -10,7 +10,7 @@ export default function TicketModal({ ticket, sprints, members, onClose, onSubmi
       title: "",
       priority: "MEDIUM",
       status: "TODO",
-      assigneeId: "",
+      assignedUserId: "",
       sprintId: "",
       description: "",
     }
@@ -121,7 +121,6 @@ export default function TicketModal({ ticket, sprints, members, onClose, onSubmi
               <option value="IN_PROGRESS">In Progress</option>
               <option value="REVIEW">Review</option>
               <option value="DONE">Done</option>
-              <option value="BLOCKED">Blocked</option>
             </select>
           </div>
 
@@ -129,8 +128,8 @@ export default function TicketModal({ ticket, sprints, members, onClose, onSubmi
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">Assigné à</label>
             <select
-              name="assigneeId"
-              value={formData.assigneeId}
+              name="assignedUserId"
+              value={formData.assignedUserId}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none transition"
               style={{ borderColor: '#e2d5a0' }}
@@ -139,8 +138,8 @@ export default function TicketModal({ ticket, sprints, members, onClose, onSubmi
             >
               <option value="">Non assigné</option>
               {members.map((member) => (
-                <option key={member.id} value={member.id}>
-                  {member.name || member.fullName}
+                <option key={member.clientId} value={member.clientId}>
+                  {member.fullName}
                 </option>
               ))}
             </select>
@@ -161,7 +160,7 @@ export default function TicketModal({ ticket, sprints, members, onClose, onSubmi
               <option value="">Aucun sprint</option>
               {sprints.map((sprint) => (
                 <option key={sprint.id} value={sprint.id}>
-                  {sprint.name}
+                  {sprint.title}
                 </option>
               ))}
             </select>

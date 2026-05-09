@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9e2b36ed-ec43-491e-98f1-3300bfb3933a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="9e2b36ed-ec43-491e-98f1-3300bfb3933a" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -68,10 +66,10 @@
     "Spring Boot.SmartFlowApplication.executor": "Run",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "Amine",
+    "git-widget-placeholder": "Rebasing Amine",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/DevIT/Education/2.Emsi/2026.4thYear_Sem2/11.Test_qualite_logiciel/Project/Devloppement/SmartFlowV1/Backend",
+    "last_opened_file_path": "F:/DevIT/Education/2.Emsi/2026.4thYear_Sem2/11.Test_qualite_logiciel/Project/Devloppement/SmartFlowV1/Backend",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -151,6 +149,13 @@
       <workItem from="1777981957772" duration="11855000" />
       <workItem from="1778069640055" duration="15589000" />
       <workItem from="1778156570257" duration="1752000" />
+      <workItem from="1778170354775" duration="1795000" />
+      <workItem from="1778173269987" duration="420000" />
+      <workItem from="1778174100799" duration="12105000" />
+      <workItem from="1778269327649" duration="15890000" />
+      <workItem from="1778327665541" duration="18356000" />
+      <workItem from="1778354706465" duration="2953000" />
+      <workItem from="1778358441730" duration="2884000" />
     </task>
     <servers />
   </component>

@@ -79,6 +79,19 @@ public class TaskController {
                 .message("Task retrieved successfully")
                 .data(taskService.getTaskById(id)).build());
     }
+    // ✅ Vérification rôle MANAGER
+    @GetMapping("/project/{projectId}/can-create")
+    public ResponseEntity<ApiResponse<Boolean>> canCreateTask(
+            @PathVariable Long projectId,
+            @AuthenticationPrincipal User currentUser
+    ) {
+        boolean isManager = taskService.isManagerOfProject(projectId, currentUser);
+        return ResponseEntity.ok(ApiResponse.<Boolean>builder()
+                .timestamp(LocalDateTime.now()).status(200)
+                .message(isManager ? "User is manager" : "User is not manager")
+                .data(isManager).build());
+    }
+
 
     @PostMapping
     public ResponseEntity<ApiResponse<TaskResponse>> createTask(
@@ -144,7 +157,7 @@ public class TaskController {
     @PatchMapping("/{id}/move-to-sprint")
     public ResponseEntity<ApiResponse<TaskResponse>> moveToSprint(
             @PathVariable Long id,
-            @RequestParam Long sprintId,
+            @RequestParam(required = false) Long sprintId,
             @AuthenticationPrincipal User currentUser
     ) {
         return ResponseEntity.ok(ApiResponse.<TaskResponse>builder()

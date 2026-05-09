@@ -1,0 +1,548 @@
+/* ─── Animations ─────────────────────────────────────────────────────────── */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.45; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Page ───────────────────────────────────────────────────────────────── */
+.page {
+  min-height: 100vh;
+  padding: 40px 32px;
+  background: #F9F8F5;
+  font-family: system-ui, sans-serif;
+}
+
+/* ─── Header ─────────────────────────────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 800;
+  color: #3a2a1a;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #9a8a78;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.roleBadge {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.roleBadge--manager {
+  background: #faf3e0;
+  color: #6b3a1f;
+}
+
+.roleBadge--member {
+  background: #f3edd6;
+  color: #a08c4a;
+}
+
+.addBtn {
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  background: #6b3a1f;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 4px 12px rgba(107, 58, 31, 0.22);
+}
+
+.addBtn:hover {
+  background: #5a2f18;
+}
+
+/* ─── Count row ──────────────────────────────────────────────────────────── */
+.countRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.countLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b3a1f;
+}
+
+.countBadge {
+  padding: 2px 10px;
+  border-radius: 20px;
+  background: #f3edd6;
+  color: #6b3a1f;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* ─── Toast ──────────────────────────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 2000;
+  padding: 12px 20px;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  animation: slideIn 0.3s ease;
+}
+
+.toast--success { background: #8a9e6b; }
+.toast--error   { background: #c47a5a; }
+
+/* ─── Skeleton ───────────────────────────────────────────────────────────── */
+.skeletonRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e8e0cc;
+}
+
+.skeletonAvatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #e8e0cc;
+  flex-shrink: 0;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeletonLines {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.skeletonLine {
+  height: 14px;
+  border-radius: 6px;
+  background: #e8e0cc;
+  animation: pulse 1.5s ease-in-out infinite 0.1s;
+}
+
+.skeletonLine--short  { width: 140px; }
+.skeletonLine--long   { width: 200px; height: 12px; animation-delay: 0.2s; }
+
+.skeletonBadge {
+  width: 72px;
+  height: 26px;
+  border-radius: 20px;
+  background: #e8e0cc;
+  animation: pulse 1.5s ease-in-out infinite 0.15s;
+}
+
+/* ─── Empty state ────────────────────────────────────────────────────────── */
+.emptyWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 24px;
+  text-align: center;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.emptyIconWrap {
+  position: relative;
+  margin-bottom: 32px;
+}
+
+.emptyIconCard {
+  width: 96px;
+  height: 96px;
+  border-radius: 22px;
+  background: linear-gradient(145deg, #f3edd6, #e8e0cc);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(107, 58, 31, 0.12);
+  transform: rotate(-6deg);
+}
+
+.emptyPlusBubble {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #6b3a1f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(107, 58, 31, 0.35);
+}
+
+.emptyTitle {
+  font-size: 22px;
+  font-weight: 700;
+  color: #3a2a1a;
+  margin-bottom: 12px;
+  line-height: 1.35;
+}
+
+.emptyDesc {
+  font-size: 15px;
+  color: #7a6a58;
+  line-height: 1.65;
+  margin-bottom: 28px;
+}
+
+.emptyBtn {
+  padding: 12px 28px;
+  border-radius: 10px;
+  border: none;
+  background: #6b3a1f;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 4px 14px rgba(107, 58, 31, 0.25);
+}
+
+.emptyBtn:hover {
+  background: #5a2f18;
+}
+
+/* ─── Members list ───────────────────────────────────────────────────────── */
+.membersWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.membersThead {
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 16px;
+  margin-bottom: 4px;
+}
+
+.membersTh {
+  flex: 1;
+  font-size: 11px;
+  font-weight: 700;
+  color: #a08c4a;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.membersTh--wide  { flex: 2; }
+.membersTh--right { text-align: right; }
+
+.memberRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 20px;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e8e0cc;
+  transition: box-shadow 0.15s;
+}
+
+.memberRow:hover {
+  box-shadow: 0 4px 16px rgba(107, 58, 31, 0.08);
+}
+
+.memberCell {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.memberCell--wide  { flex: 2; gap: 12px; }
+.memberCell--right { justify-content: flex-end; }
+
+.memberAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #d4c48a, #a08c4a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.memberAvatarImg {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.memberAvatarLetter {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.memberName  { font-size: 14px; font-weight: 600; color: #3a2a1a; }
+.memberEmail { font-size: 12px; color: #9a8a78; margin-top: 2px; }
+
+.roleBadgeBase {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.roleBadge--managerRow { background: #faf3e0; color: #6b3a1f; }
+.roleBadge--memberRow  { background: #f3edd6; color: #a08c4a; }
+
+.statusDot  { width: 8px; height: 8px; border-radius: 50%; background: #8a9e6b; flex-shrink: 0; }
+.statusText { font-size: 13px; color: #8a9e6b; font-weight: 500; }
+
+.removeBtn {
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid #c47a5a;
+  background: transparent;
+  color: #c47a5a;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.removeBtn:hover:not(:disabled) {
+  color: #a03020;
+  border-color: #a03020;
+}
+
+.removeBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ─── Modal ──────────────────────────────────────────────────────────────── */
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(58, 42, 26, 0.45);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modalPanel {
+  background: #faf8f2;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 520px;
+  box-shadow: 0 24px 60px rgba(58, 42, 26, 0.22);
+  border: 1px solid #e8e0cc;
+  overflow: hidden;
+}
+
+.modalHeader {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 24px 24px 0;
+}
+
+.modalTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #3a2a1a;
+  margin-bottom: 6px;
+}
+
+.modalSubtitle {
+  font-size: 13px;
+  color: #7a6a58;
+  line-height: 1.55;
+}
+
+.modalCloseBtn {
+  background: #f3edd6;
+  border: none;
+  cursor: pointer;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.modalCloseBtn:hover { background: #e8e0cc; }
+
+.modalBody {
+  padding: 20px 24px 24px;
+}
+
+.modalLabel {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b3a1f;
+  margin-bottom: 8px;
+}
+
+/* ─── Search input ───────────────────────────────────────────────────────── */
+.searchWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 2px solid #d4c48a;
+  border-radius: 10px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.searchWrap:focus-within {
+  border-color: #a08c4a;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  pointer-events: none;
+}
+
+.searchInput {
+  flex: 1;
+  padding: 11px 12px 11px 38px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #3a2a1a;
+  background: transparent;
+}
+
+.searchSpinner {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  margin-right: 12px;
+  border: 2px solid #e8e0cc;
+  border-top-color: #6b3a1f;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+/* ─── Search dropdown ────────────────────────────────────────────────────── */
+.dropdown {
+  margin-top: 8px;
+  border: 1px solid #e8e0cc;
+  border-radius: 10px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.dropdownRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #f3edd6;
+  transition: background 0.15s;
+}
+
+.dropdownRow:last-child { border-bottom: none; }
+.dropdownRow:hover      { background: #faf8f2; }
+
+.dropdownAvatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #d4c48a, #a08c4a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.dropdownAvatarImg    { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+.dropdownAvatarLetter { font-size: 15px; font-weight: 700; color: #fff; }
+
+.dropdownName  { font-size: 14px; font-weight: 600; color: #3a2a1a; margin-bottom: 2px; }
+.dropdownEmail { font-size: 12px; color: #9a8a78; }
+
+.dropdownAddBtn {
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: none;
+  background: #6b3a1f;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.dropdownAddBtn:hover:not(:disabled) { background: #5a2f18; }
+.dropdownAddBtn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.alreadyBadge {
+  padding: 5px 12px;
+  border-radius: 8px;
+  background: #f3edd6;
+  color: #a08c4a;
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.noResult {
+  padding: 16px 0;
+  font-size: 14px;
+  color: #9a8a78;
+  text-align: center;
+}

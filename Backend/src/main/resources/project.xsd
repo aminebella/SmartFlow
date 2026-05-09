@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="http://smartflow.emsi/projects"
+           targetNamespace="http://smartflow.emsi/projects"
+           elementFormDefault="qualified">
+
+    <!-- ── GET ALL PROJECTS ── -->
+    <xs:element name="getAllProjectsRequest">
+        <xs:complexType>
+            <xs:sequence/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getAllProjectsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="projects" type="tns:ProjectDto" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- ── GET PROJECT BY ID ── -->
+    <xs:element name="getProjectByIdRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getProjectByIdResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="project" type="tns:ProjectDto"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- ── CREATE PROJECT ── -->
+    <xs:element name="createProjectRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name"        type="xs:string"/>
+                <xs:element name="description" type="xs:string" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="createProjectResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="project" type="tns:ProjectDto"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- ── DELETE PROJECT ── -->
+    <xs:element name="deleteProjectRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="deleteProjectResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="success" type="xs:boolean"/>
+                <xs:element name="message" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- ── PROJECT DTO ── -->
+    <xs:complexType name="ProjectDto">
+        <xs:sequence>
+            <xs:element name="id"          type="xs:long"   minOccurs="0"/>
+            <xs:element name="name"        type="xs:string"/>
+            <xs:element name="description" type="xs:string" minOccurs="0"/>
+            <xs:element name="createdAt"   type="xs:string" minOccurs="0"/>
+            <xs:element name="status" type="xs:string" minOccurs="0"/>
+            <xs:element name="ownerName" type="xs:string" minOccurs="0"/>
+            <xs:element name="memberCount" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

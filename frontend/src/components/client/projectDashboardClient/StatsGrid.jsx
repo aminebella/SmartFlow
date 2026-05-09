@@ -1,27 +1,49 @@
-const stats = [
-  {
-    label: "Sprint Progress",
-    value: "68%",
-    trend: { text: "↑ 12% vs last sprint", type: "up" },
-  },
-  {
-    label: "Tickets Closed",
-    value: "34",
-    trend: { text: "↑ 8 this week", type: "up" },
-  },
-  {
-    label: "Active Blockers",
-    value: "3",
-    trend: { text: "↑ 2 since yesterday", type: "down" },
-  },
-  {
-    label: "Team Members",
-    value: "8",
-    trend: { text: "All active this sprint", type: "neutral" },
-  },
-];
+/**
+ * StatsGrid — 4 KPI cards at the top of the project dashboard.
+ * Props: { dashboard }  ← full ProjectDashboardSummary object
+ */
+export default function StatsGrid({ dashboard }) {
+  const stats = [
+    {
+      label: 'Sprint Progress',
+      value: `${dashboard?.sprintProgress ?? 0}%`,
+      trend: {
+        text: dashboard?.sprintProgress > 0
+          ? `${dashboard.sprintProgress}% of sprints completed`
+          : 'No completed sprints yet',
+        type: dashboard?.sprintProgress > 0 ? 'up' : 'neutral',
+      },
+    },
+    {
+      label: 'Tasks Completed',
+      value: String(dashboard?.tasksDone ?? 0),
+      trend: {
+        text: dashboard?.tasksDone > 0
+          ? `↑ ${dashboard.tasksDone} tasks done`
+          : 'No completed tasks yet',
+        type: dashboard?.tasksDone > 0 ? 'up' : 'neutral',
+      },
+    },
+    {
+      label: 'Active Tasks',
+      value: String(dashboard?.activeTasks ?? 0),
+      trend: {
+        text: dashboard?.activeTasks > 0
+          ? `${dashboard.activeTasks} in progress`
+          : 'No active tasks',
+        type: dashboard?.activeTasks > 0 ? 'down' : 'neutral',
+      },
+    },
+    {
+      label: 'Team Members',
+      value: String(dashboard?.teamMemberCount ?? 0),
+      trend: {
+        text: `${dashboard?.teamMemberCount ?? 0} member${(dashboard?.teamMemberCount ?? 0) !== 1 ? 's' : ''} in project`,
+        type: 'neutral',
+      },
+    },
+  ];
 
-export default function StatsGrid() {
   return (
     <div className="stats-grid">
       {stats.map((s) => (

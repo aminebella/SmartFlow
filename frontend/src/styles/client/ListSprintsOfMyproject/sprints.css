@@ -2,22 +2,22 @@
 /* Ces variables viennent déjà de ton layout parent,
    on les redéclare ici juste au cas où */
 :root {
-  --bg: #f4f5f7;
+  --bg: #faf8f2;
   --bg2: #ffffff;
-  --bg3: #f8f9fb;
-  --bg4: #eef0f4;
-  --border: #e3e6ec;
+  --bg3: #f9f7f0;
+  --bg4: #f3edd6;
+  --border: #e8e0cc;
   --text1: #1a2030;
   --text2: #4a5568;
-  --text3: #8a95a8;
-  --accent: #0c66e4;
-  --accent-bg: #e8f0fd;
-  --accent-hover: #0958c9;
-  --green: #1d9e5c;
-  --green-bg: #e6f7ee;
-  --yellow: #d97706;
+  --text3: #a08c4a;
+  --accent: #c9b479;
+  --accent-bg: #f3edd6;
+  --accent-hover: #b09a5e;
+  --green: #8a9e6b;
+  --green-bg: #e8f0e0;
+  --yellow: #c9b479;
   --yellow-bg: #fef3e2;
-  --red: #d93025;
+  --red: #c47a5a;
   --red-bg: #fde8e7;
   --radius: 8px;
   --radius-sm: 5px;
@@ -615,7 +615,7 @@
 }
 
 .sprint-row-active {
-  border-left: 3px solid var(--green);
+  border-left: 3px solid var(--accent);
 }
 
 /* ── Row header (always visible, clickable) ── */
@@ -694,12 +694,12 @@
 }
 
 .sprint-action-complete {
-  border-color: var(--green);
-  color: var(--green);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .sprint-action-complete:hover {
-  background: var(--green-bg);
+  background: var(--accent-bg);
 }
 
 .sprint-action-start {

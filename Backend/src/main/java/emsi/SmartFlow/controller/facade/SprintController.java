@@ -85,5 +85,28 @@ public class SprintController {
                 .data(null)
                 .build());
     }
-}
 
+    // POST /api/v1/sprints/{id}/start
+    @PostMapping("sprints/{id}/start")
+    public ResponseEntity<ApiResponse<SprintResponse>> startSprint(@PathVariable Long id) {
+        var data = sprintService.startSprint(id);
+        return ResponseEntity.ok(ApiResponse.<SprintResponse>builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.OK.value())
+                .message("Sprint démarré")
+                .data(data)
+                .build());
+    }
+
+    // POST /api/v1/sprints/{id}/complete
+    @PostMapping("sprints/{id}/complete")
+    public ResponseEntity<ApiResponse<SprintResponse>> completeSprint(@PathVariable Long id) {
+        var data = sprintService.completeSprint(id);
+        return ResponseEntity.ok(ApiResponse.<SprintResponse>builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.OK.value())
+                .message("Sprint terminé")
+                .data(data)
+                .build());
+    }
+}

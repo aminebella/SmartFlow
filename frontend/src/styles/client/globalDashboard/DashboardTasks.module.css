@@ -62,6 +62,13 @@
   padding: 9px 10px;
   background: #F5F4F1;
   border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.15s;
+}
+
+.item:hover {
+  background: #E8E6E0;
 }
 
 /* Status dot */

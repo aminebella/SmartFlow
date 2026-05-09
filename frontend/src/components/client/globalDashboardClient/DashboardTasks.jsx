@@ -44,9 +44,9 @@ export default function DashboardTasks({ tasks = [], loading }) {
       ) : (
         <div className={styles.list}>
           {tasks.map((t, i) => {
-            const due = dueLabel(t.due);
+            const due = dueLabel(t.dueDate);
             return (
-              <div key={i} className={styles.item}>
+              <Link key={i} href={`/EspaceClient/projects/${t.projectId}/tasks`} className={styles.item}>
                 <div className={`${styles.dot} ${due ? styles[`dot_${due.cls}`] : styles.dot_ok}`} />
                 <div className={styles.body}>
                   <span className={styles.taskTitle}>{t.title}</span>
@@ -57,7 +57,7 @@ export default function DashboardTasks({ tasks = [], loading }) {
                     {due.text}
                   </span>
                 )}
-              </div>
+              </Link>
             );
           })}
         </div>

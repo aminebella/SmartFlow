@@ -33,7 +33,7 @@ public interface TaskService {
     );
 
     List<TaskResponse> getBacklogTasksForCurrentUser(Long projectId, User currentUser);
-
+    boolean isManagerOfProject(Long projectId, User currentUser);
     // ── Actions spéciales ────────────────────────────────────────────────
 
     TaskResponse updateTaskStatus(Long id, TaskStatus newStatus, User currentUser);

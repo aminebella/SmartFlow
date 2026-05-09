@@ -193,6 +193,30 @@
 
 	<build>
 		<plugins>
+            <plugin>
+                <groupId>org.jvnet.jaxb</groupId>
+                <artifactId>jaxb-maven-plugin</artifactId>
+                <version>4.0.0</version>
+                <executions>
+                    <execution>
+                        <id>generate</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <schemaDirectory>${project.basedir}/src/main/resources</schemaDirectory>
+                    <schemaIncludes>
+                        <include>project.xsd</include>
+                    </schemaIncludes>
+                    <generateDirectory>${project.build.directory}/generated-sources/jaxb</generateDirectory>
+                    <generatePackage>emsi.SmartFlow.soap.generated</generatePackage>
+                    <verbose>true</verbose>
+                </configuration>
+            </plugin>
+
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>

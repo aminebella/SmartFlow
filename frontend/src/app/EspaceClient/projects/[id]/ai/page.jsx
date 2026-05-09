@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useRef } from "react";
 import { useParams } from "next/navigation"; 
 import { useAiAnalysis } from "@/hooks/useAiAnalysis.js";
 import AiUploadZone   from "@/components/client/ai/AiAnalysisUpload.jsx";
@@ -11,6 +10,7 @@ import AiRisks        from "@/components/client/ai/AiAnalysisRisks.jsx";
 import AiCost         from "@/components/client/ai/AiAnalysisCost.jsx";
 import AiTeam         from "@/components/client/ai/AiAnalysisTeam.jsx";
 import AiTimeline     from "@/components/client/ai/AiAnalysisTimeline.jsx";
+
 export default function AiAnalysisPage() {
   const { id: projectId } = useParams();
 
@@ -19,18 +19,18 @@ export default function AiAnalysisPage() {
     result, edited, fileName,
     analyzeDocument,
     updateEdited, updateTask, removeTask, addTask,
+    updateSprint, removeSprint,
+    updateRisk,
+    updateResource,
+    updateCost, updateBreakdownItem,
+    updateTimeline, updatePhase,
     saveToDatabase, reset,
   } = useAiAnalysis(projectId);
-
-  const handleFileSelect = (file) => {
-    analyzeDocument(file);
-  };
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#F9F8F5' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
 
-        {/* ══ Header ══════════════════════════════════════════════ */}
         <div className="flex items-center justify-between mb-6">
           <div>
             <div className="flex items-center gap-2">
@@ -43,7 +43,6 @@ export default function AiAnalysisPage() {
             </p>
           </div>
 
-          {/* Boutons action */}
           {edited && !saved && (
             <div className="flex items-center gap-3">
               <button
@@ -74,16 +73,14 @@ export default function AiAnalysisPage() {
           )}
         </div>
 
-        {/* ══ Upload Zone ══════════════════════════════════════════ */}
         {!result && (
           <AiUploadZone
-            onFileSelect={handleFileSelect}
+            onFileSelect={analyzeDocument}
             loading={loading}
             fileName={fileName}
           />
         )}
 
-        {/* ══ Erreur ═══════════════════════════════════════════════ */}
         {error && (
           <div className="flex items-center gap-3 p-4 rounded-lg mb-6"
             style={{ backgroundColor: '#fdf0ec', border: '1px solid #f0c4b0' }}>
@@ -95,10 +92,8 @@ export default function AiAnalysisPage() {
           </div>
         )}
 
-        {/* ══ Résultats ════════════════════════════════════════════ */}
         {edited && (
           <>
-            {/* Bannière preview */}
             {!saved && (
               <div className="flex items-center justify-between p-3 rounded-lg mb-6"
                 style={{ backgroundColor: '#faf3e0', border: '1px solid #c9b479' }}>
@@ -117,7 +112,6 @@ export default function AiAnalysisPage() {
               </div>
             )}
 
-            {/* Project Summary */}
             {edited.projectSummary && (
               <div className="bg-white rounded-xl p-5 mb-5"
                 style={{ border: '1px solid #e8e0cc' }}>
@@ -133,12 +127,14 @@ export default function AiAnalysisPage() {
               </div>
             )}
 
-            {/* Métriques */}
             <AiMetrics edited={edited} />
 
-            {/* Grille principale */}
-            <div className="grid grid-cols-2 gap-5 mb-5">
-              <AiSprints sprints={edited.sprints} />
+            <div className="grid grid-cols-2 gap-5 mb-5" style={{ minHeight: '600px' }}>
+              <AiSprints
+                sprints={edited.sprints}
+                onUpdateSprint={updateSprint}
+                onRemoveSprint={removeSprint}
+              />
               <AiTasks
                 tasks={edited.tasks}
                 onUpdateTask={updateTask}
@@ -148,15 +144,27 @@ export default function AiAnalysisPage() {
             </div>
 
             <div className="grid grid-cols-2 gap-5 mb-5">
-              <AiRisks risks={edited.risks} />
-              <AiCost costEstimation={edited.costEstimation} />
+              <AiRisks
+                risks={edited.risks}
+                onUpdateRisk={updateRisk}
+              />
+              <AiCost
+                costEstimation={edited.costEstimation}
+                onUpdateCost={updateCost}
+                onUpdateBreakdownItem={updateBreakdownItem}
+              />
             </div>
 
             <div className="grid grid-cols-2 gap-5 mb-5">
-              <AiTeam humanResources={edited.humanResources} />
+              <AiTeam
+                humanResources={edited.humanResources}
+                onUpdateResource={updateResource}
+              />
               <AiTimeline
                 timeline={edited.timeline}
                 confidenceScore={edited.confidenceScore}
+                onUpdateTimeline={updateTimeline}
+                onUpdatePhase={updatePhase}
               />
             </div>
           </>

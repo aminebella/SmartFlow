@@ -12,4 +12,5 @@ public class ProjectMemberResponse {
     private String fullName;
     private String role; // MANAGER or MEMBER
     private LocalDateTime joinedAt;
+    private String memberPicture;     // img de profil
 }

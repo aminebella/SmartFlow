@@ -50,3 +50,11 @@ export const updateClientProfile = async (
 
   return response.data;
 };
+// ─── manager endpoints ───────────────────────────────────────────────────────────
+
+export const searchClientsByEmail = async (projectId, email) => {
+  const response = await API.get(`/manager/projects/${projectId}/clients/search`, {
+    params: { email },
+  });
+  return response.data; // [{ id, email, fullName, profilePicture }]
+};

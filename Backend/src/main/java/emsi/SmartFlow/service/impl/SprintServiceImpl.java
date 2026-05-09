@@ -84,6 +84,34 @@ public class SprintServiceImpl implements SprintService {
         sprintRepo.deleteById(sprintId);
     }
 
+    @Override
+    public SprintResponse startSprint(Long sprintId) {
+        var sprint = sprintRepo.findById(sprintId)
+                .orElseThrow(() -> new ResourceNotFoundException("Sprint introuvable (id=" + sprintId + ")"));
+        if (sprint.getStatus() != SprintStatus.PLANNED) {
+            throw new IllegalStateException("Seul un sprint planifié peut être démarré");
+        }
+        sprint.setStatus(SprintStatus.ACTIVE);
+        if (sprint.getStartDate() == null) {
+            sprint.setStartDate(java.time.LocalDate.now());
+        }
+        return toResponse(sprintRepo.save(sprint));
+    }
+
+    @Override
+    public SprintResponse completeSprint(Long sprintId) {
+        var sprint = sprintRepo.findById(sprintId)
+                .orElseThrow(() -> new ResourceNotFoundException("Sprint introuvable (id=" + sprintId + ")"));
+        if (sprint.getStatus() != SprintStatus.ACTIVE) {
+            throw new IllegalStateException("Seul un sprint actif peut être terminé");
+        }
+        sprint.setStatus(SprintStatus.COMPLETED);
+        if (sprint.getEndDate() == null) {
+            sprint.setEndDate(java.time.LocalDate.now());
+        }
+        return toResponse(sprintRepo.save(sprint));
+    }
+
     private SprintResponse toResponse(Sprint sprint) {
         return new SprintResponse(
                 sprint.getId(),
@@ -96,4 +124,3 @@ public class SprintServiceImpl implements SprintService {
         );
     }
 }
-

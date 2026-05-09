@@ -161,4 +161,18 @@ export const getMyRole = async (projectId) => {
 };
 
 
-// Imane Part:
+// ─────────────────────────────────────────────────────────────────────────────
+// ADD THESE FUNCTIONS to your existing projectService.js
+// Do NOT create a new file — just append to services/projectService.js
+// ─────────────────────────────────────────────────────────────────────────────
+
+
+/**
+ * GET /api/v1/projects/{projectId}/dashboard
+ * Returns the full ProjectDashboardSummary DTO
+ */
+export const getProjectDashboard = async (projectId) => {
+  const res = await API.get(`/projects/${projectId}/dashboard`);
+  // Backend wraps in ApiResponse<T> → res.data.data is the actual summary
+  return res.data?.data ?? res.data;
+};

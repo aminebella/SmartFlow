@@ -1,21 +1,6 @@
 // UserRow.jsx
 import { useRouter } from 'next/navigation';
-
-const AVATAR_COLORS = ['#0073ea','#00c875','#ffb900','#e2445c','#784bd1','#00cec9','#fd79a8'];
-const BASE_URL      = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8080/api/v1';
-const imgUrl        = (path) => {
-  if (!path) return null;
-  if (path.startsWith('http://') || path.startsWith('https://')) return path;
-  return `${BASE_URL}${path}`;
-};
-
-const getInitials = (fullName = '') => {
-  const parts = fullName.trim().split(' ');
-  if (parts.length >= 2) return `${parts[0].charAt(0)}${parts[1].charAt(0)}`.toUpperCase();
-  return fullName.charAt(0).toUpperCase() || '?';
-};
-
-const getColor  = (fullName = '') => AVATAR_COLORS[fullName.charCodeAt(0) % AVATAR_COLORS.length];
+import { Avatar } from '@/components/ui/Avatar';
 
 const formatDate = (d) => d
   ? new Date(d).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })
@@ -25,8 +10,8 @@ const isBlocked  = (user) => user.accountLocked || !user.enabled;
 const getStatus  = (user) => isBlocked(user) ? 'Bloqué' : 'Actif';
 
 export default function UserRow({ user, onToggleBlock, actionLoading }) {
-  const router = useRouter();
-  const busy   = actionLoading === user.id;
+  const router  = useRouter();
+  const busy    = actionLoading === user.id;
   const blocked = isBlocked(user);
 
   return (
@@ -34,19 +19,12 @@ export default function UserRow({ user, onToggleBlock, actionLoading }) {
       {/* Identité */}
       <td>
         <div className="user-row-name">
-          {imgUrl(user.profilePicture) ? (
-            <div className="av-user" style={{ overflow: 'hidden', backgroundColor: getColor(user.fullName ?? '') }}>
-              <img
-                src={imgUrl(user.profilePicture)}
-                alt={user.fullName}
-                style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
-              />
-            </div>
-          ) : (
-            <div className="av-user" style={{ backgroundColor: getColor(user.fullName ?? '') }}>
-              {getInitials(user.fullName)}
-            </div>
-          )}
+          <Avatar
+            src={user.profilePicture}
+            name={user.fullName}
+            size={36}
+            className="av-user"
+          />
           <div>
             <div className="user-name">{user.fullName}</div>
             <div className="user-sub">{(user.roles ?? ['CLIENT'])[0]}</div>

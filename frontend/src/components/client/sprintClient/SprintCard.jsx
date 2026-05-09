@@ -3,18 +3,16 @@ import { useState } from 'react';
 import '@/styles/client/ListSprintsOfMyProject/sprints.css';
 
 const STATUS_CONFIG = {
-  PLANNED:   { label: 'Planned',   color: '#8a95a8', bg: '#eef0f4', dot: '#8a95a8' },
-  ACTIVE:    { label: 'Active',    color: '#1d9e5c', bg: '#e6f7ee', dot: '#1d9e5c' },
-  COMPLETED: { label: 'Completed', color: '#0c66e4', bg: '#e8f0fd', dot: '#0c66e4' },
+  PLANNED:   { label: 'Planned',   color: '#a08c4a', bg: '#f3edd6', dot: '#e2d5a0' },
+  ACTIVE:    { label: 'Active',    color: '#8a9e6b', bg: '#e8f0e0', dot: '#8a9e6b' },
+  COMPLETED: { label: 'Completed', color: '#c9b479', bg: '#faf8f2', dot: '#c9b479' },
 };
 
-function getProgress(startDate, endDate) {
-  const now   = Date.now();
-  const start = new Date(startDate).getTime();
-  const end   = new Date(endDate).getTime();
-  if (now <= start) return 0;
-  if (now >= end)   return 100;
-  return Math.round(((now - start) / (end - start)) * 100);
+function getProgress(tickets) {
+  const total = tickets.length;
+  if (total === 0) return 0;
+  const done = tickets.filter(t => t.status === 'DONE').length;
+  return Math.round((done / total) * 100);
 }
 
 function getDaysLeft(endDate) {
@@ -29,13 +27,12 @@ function fmtDate(iso) {
   });
 }
 
-export default function SprintCard({ sprint, onEdit, onDelete }) {
+export default function SprintCard({ sprint, tickets = [], onEdit, onDelete, onStart, onComplete, onRemoveTicket }) {
   const [expanded, setExpanded] = useState(sprint.status === 'ACTIVE');
   const [menuOpen, setMenuOpen] = useState(false);
 
   const cfg      = STATUS_CONFIG[sprint.status] ?? STATUS_CONFIG.PLANNED;
-  const progress = sprint.status === 'ACTIVE'    ? getProgress(sprint.startDate, sprint.endDate)
-                 : sprint.status === 'COMPLETED' ? 100 : 0;
+  const progress = getProgress(tickets);
   const daysLeft = getDaysLeft(sprint.endDate);
   const isActive = sprint.status === 'ACTIVE';
 
@@ -68,7 +65,7 @@ export default function SprintCard({ sprint, onEdit, onDelete }) {
           {isActive && (
             <button
               className="sprint-action-btn sprint-action-complete"
-              onClick={e => { e.stopPropagation(); onEdit(sprint); }}
+              onClick={e => { e.stopPropagation(); onComplete(sprint.id); }}
             >
               Complete Sprint
             </button>
@@ -76,7 +73,7 @@ export default function SprintCard({ sprint, onEdit, onDelete }) {
           {sprint.status === 'PLANNED' && (
             <button
               className="sprint-action-btn sprint-action-start"
-              onClick={e => { e.stopPropagation(); onEdit(sprint); }}
+              onClick={e => { e.stopPropagation(); onStart(sprint.id); }}
             >
               Start Sprint
             </button>
@@ -111,7 +108,7 @@ export default function SprintCard({ sprint, onEdit, onDelete }) {
             <div className="sprint-stat">
               <div className="sprint-stat-bar-wrap">
                 <div className="sprint-stat-bar-track">
-                  <div className="sprint-stat-bar-fill" style={{ width: `${progress}%` }} />
+                  <div className="sprint-stat-bar-fill" style={{ width: `${progress}%`, background: 'linear-gradient(90deg, #e2d5a0, #c9b479)' }} />
                 </div>
                 <span className="sprint-stat-bar-pct">{progress}%</span>
               </div>
@@ -119,10 +116,17 @@ export default function SprintCard({ sprint, onEdit, onDelete }) {
             </div>
 
             <div className="sprint-stat">
-              <span className="sprint-stat-value" style={{ color: daysLeft <= 3 ? 'var(--red)' : 'var(--yellow)' }}>
+              <span className="sprint-stat-value" style={{ color: daysLeft <= 3 ? 'var(--red)' : 'var(--accent)' }}>
                 {daysLeft}
               </span>
               <span className="sprint-stat-label">DAYS LEFT</span>
+            </div>
+
+            <div className="sprint-stat">
+              <span className="sprint-stat-value" style={{ color: 'var(--text1)' }}>
+                {tickets.length}
+              </span>
+              <span className="sprint-stat-label">TICKETS</span>
             </div>
           </div>
 
@@ -130,6 +134,74 @@ export default function SprintCard({ sprint, onEdit, onDelete }) {
           {sprint.goal && (
             <div className="sprint-row-goal">
               <span className="sprint-row-goal-label">Objectif :</span> {sprint.goal}
+            </div>
+          )}
+
+          {/* Linked tickets */}
+          {tickets.length > 0 && (
+            <div className="sprint-tickets" style={{ marginTop: 16 }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+                <thead>
+                  <tr style={{ borderBottom: '1px solid #e2d5a0', color: '#a08c4a', fontSize: 11, textTransform: 'uppercase' }}>
+                    <th style={{ textAlign: 'left', padding: '6px 8px' }}>Key</th>
+                    <th style={{ textAlign: 'left', padding: '6px 8px' }}>Title</th>
+                    <th style={{ textAlign: 'left', padding: '6px 8px' }}>Priority</th>
+                    <th style={{ textAlign: 'left', padding: '6px 8px' }}>Status</th>
+                    <th style={{ textAlign: 'left', padding: '6px 8px' }}>Assignee</th>
+                    <th style={{ textAlign: 'center', padding: '6px 8px' }}></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {tickets.map(t => (
+                    <tr key={t.id} style={{ borderBottom: '1px solid #f0ebe0' }}>
+                      <td style={{ padding: '6px 8px', color: '#c9b479', fontWeight: 600 }}>{t.key || t.id}</td>
+                      <td style={{ padding: '6px 8px', color: '#334155' }}>{t.title}</td>
+                      <td style={{ padding: '6px 8px' }}>
+                        <span style={{
+                          background: t.priority === 'CRITICAL' ? '#6b3a1f' : t.priority === 'HIGH' ? '#c9b479' : t.priority === 'MEDIUM' ? '#e2d5a0' : '#f3edd6',
+                          color: t.priority === 'CRITICAL' || t.priority === 'HIGH' ? '#fff' : '#7a6830',
+                          padding: '2px 8px',
+                          borderRadius: 999,
+                          fontSize: 11,
+                          fontWeight: 500,
+                        }}>
+                          {t.priority}
+                        </span>
+                      </td>
+                      <td style={{ padding: '6px 8px' }}>
+                        <span style={{
+                          background: t.status === 'DONE' ? '#e8f0e0' : t.status === 'IN_PROGRESS' ? '#c9b479' : '#f3edd6',
+                          color: t.status === 'DONE' ? '#8a9e6b' : t.status === 'IN_PROGRESS' ? '#fff' : '#a08c4a',
+                          padding: '2px 8px',
+                          borderRadius: 999,
+                          fontSize: 11,
+                          fontWeight: 500,
+                        }}>
+                          {t.status?.replace('_', ' ')}
+                        </span>
+                      </td>
+                      <td style={{ padding: '6px 8px', color: '#64748b' }}>{t.assigneeName || t.assigneeId || '—'}</td>
+                      <td style={{ padding: '6px 8px', textAlign: 'center' }}>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); onRemoveTicket(t.id); }}
+                          title="Retirer du sprint"
+                          style={{
+                            background: 'none',
+                            border: 'none',
+                            cursor: 'pointer',
+                            color: '#c47a5a',
+                            fontSize: 16,
+                            lineHeight: 1,
+                            padding: 2,
+                          }}
+                        >
+                          ×
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           )}
 

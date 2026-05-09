@@ -25,7 +25,6 @@ const mainLinks = [
 ];
 
 const configLinks = [
-  { href: '/EspaceAdmin/settings',      label: 'Paramètres',       icon: Settings },
   { href: '/EspaceAdmin/reports',       label: 'Rapports',         icon: BarChart2 },
   { href: '/EspaceAdmin/notifications', label: 'Notifications',    icon: Bell },
 ];
@@ -61,7 +60,6 @@ export default function AdminSidebar({ isOpen, onClose }) {
   ];
 
   const configLinksWithBadges = [
-    { href: '/EspaceAdmin/settings',      label: 'Paramètres',       icon: Settings },
     { href: '/EspaceAdmin/reports',       label: 'Rapports',         icon: BarChart2 },
     { href: '/EspaceAdmin/notifications', label: 'Notifications',    icon: Bell,            badge: 0 }, // TODO: Add notifications hook when available
   ];

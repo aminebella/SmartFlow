@@ -1,6 +1,6 @@
 'use client';
 
-export default function TicketHeader({ count, activeSprint, loading, onCreateClick }) {
+export default function TicketHeader({ count, activeSprint, loading, isManager, onCreateClick }) {
   return (
     <div className="flex items-center justify-between mb-6">
       <div>
@@ -14,7 +14,7 @@ export default function TicketHeader({ count, activeSprint, loading, onCreateCli
                 <span className="inline-flex items-center gap-1">
                   <span className="w-2 h-2 rounded-full" style={{ backgroundColor: '#c9b479' }} />
                   <span className="font-medium" style={{ color: '#c9b479' }}>
-                    {activeSprint.name} actif
+                    {activeSprint.title} actif
                   </span>
                 </span>
               </>
@@ -23,14 +23,17 @@ export default function TicketHeader({ count, activeSprint, loading, onCreateCli
         )}
       </div>
 
-      <button
-        onClick={onCreateClick}
-        className="inline-flex items-center gap-2 text-white text-sm font-medium px-4 py-2.5 rounded-lg shadow-sm transition hover:opacity-90"
-        style={{ backgroundColor: '#c9b479' }}
-      >
-        <span className="text-lg leading-none font-light">+</span>
-        New Ticket
-      </button>
+      {/* ✅ Bouton visible UNIQUEMENT pour le MANAGER */}
+      {isManager && (
+        <button
+          onClick={onCreateClick}
+          className="inline-flex items-center gap-2 text-white text-sm font-medium px-4 py-2.5 rounded-lg shadow-sm transition hover:opacity-90"
+          style={{ backgroundColor: '#c9b479' }}
+        >
+          <span className="text-lg leading-none font-light">+</span>
+          New Ticket
+        </button>
+      )}
     </div>
   );
 }

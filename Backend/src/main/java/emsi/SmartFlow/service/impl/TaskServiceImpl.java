@@ -43,7 +43,13 @@ public class TaskServiceImpl implements TaskService {
     private boolean isManager(Long projectId, User currentUser) {
         return resolveRole(projectId, currentUser) == ProjectTeamRole.MANAGER;
     }
-
+    @Override
+    public boolean isManagerOfProject(Long projectId, User currentUser) {
+        return projectTeamRepository
+                .findRoleByProjectIdAndUserId(projectId, currentUser.getId())
+                .map(role -> role == ProjectTeamRole.MANAGER)
+                .orElse(false);
+    }
     // ════════════════════════════════════════════════════════════════
     //  LECTURE
     // ════════════════════════════════════════════════════════════════
@@ -53,12 +59,11 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.findByProjectId(projectId)
                 .stream().map(this::toResponse).collect(Collectors.toList());
     }
-
     @Override
     public List<TaskResponse> getTasksByProjectForCurrentUser(Long projectId, User currentUser) {
         if (isManager(projectId, currentUser)) {
             return taskRepository.findByProjectId(projectId)
-                    .stream().map(this::toResponse).collect(Collectors.toList());
+                    .stream().map(this::toResponse).collect(Collectors.toList()); // ← manquait cette ligne
         }
         return taskRepository.findByProjectIdAndAssignedUserId(projectId, currentUser.getId())
                 .stream().map(this::toResponse).collect(Collectors.toList());
@@ -68,6 +73,7 @@ public class TaskServiceImpl implements TaskService {
     public List<TaskResponse> getMyTasks(User currentUser) {
         return taskRepository.findByAssignedUserId(currentUser.getId())
                 .stream().map(this::toResponse).collect(Collectors.toList());
+        // ← supprime le doublon ".stream().map(this::toResponse).collect(Collectors.toList());"
     }
 
     @Override
@@ -119,7 +125,9 @@ public class TaskServiceImpl implements TaskService {
         User assignedUser = null;
         if (request.getAssignedUserId() != null) {
             assignedUser = userRepository.findById(request.getAssignedUserId())
-                    .orElseThrow(() -> new EntityNotFoundException("Assigned user not found"));
+                    .orElseThrow(() -> new EntityNotFoundException(
+                            "Assigned user not found: " + request.getAssignedUserId()));
+            System.out.println("✅ Assigning task to user: " + assignedUser.getId() + " - " + assignedUser.getEmail());
         }
 
         Task task = Task.builder()

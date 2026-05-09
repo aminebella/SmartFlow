@@ -57,7 +57,8 @@ public class ClientDashboardServiceImpl implements ClientDashboardService {
 
         // Task statistics for this client
         long tasksDone = taskRepository.countByAssignedUserIdAndStatus(clientId, TaskStatus.DONE);
-        long tasksTodo = taskRepository.countByAssignedUserIdAndStatus(clientId, TaskStatus.TODO);
+        long tasksTodo = taskRepository.countByAssignedUserIdAndStatus(clientId, TaskStatus.TODO)
+                + taskRepository.countByAssignedUserIdAndStatus(clientId, TaskStatus.IN_PROGRESS);
 
         // Calculate productivity
         double productivity = 0.0;
@@ -65,8 +66,11 @@ public class ClientDashboardServiceImpl implements ClientDashboardService {
             productivity = (double) tasksDone / (tasksDone + tasksTodo) * 100;
         }
 
-        // Get recent tasks assigned to client
-        List<Task> recentTasks = taskRepository.findTop5ByAssignedUserIdOrderByCreatedAtDesc(clientId);
+        // Get recent tasks assigned to client (only TODO and IN_PROGRESS for "Tâches à faire")
+        List<Task> recentTasks = taskRepository.findTop5ByAssignedUserIdAndStatusInOrderByCreatedAtDesc(
+                clientId, 
+                List.of(TaskStatus.TODO, TaskStatus.IN_PROGRESS)
+        );
         List<ClientDashboardSummary.TaskSummary> taskSummaries = recentTasks.stream()
                 .map(task -> {
                     // Get project info from repository since Task only has projectId

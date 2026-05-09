@@ -1,6 +1,7 @@
 'use client'
 
 import styles from '@/styles/admin/projects/projectsListAdmin.module.css'
+import { Avatar } from '@/components/ui/Avatar'
 
 /* ── helpers ── */
 const AVATAR_COLORS = [
@@ -8,12 +9,6 @@ const AVATAR_COLORS = [
   '#f97316','#10b981','#14b8a6','#0ea5e9',
   '#a855f7','#22c55e','#f59e0b','#ef4444',
 ]
-
-function avatarColor(str = '') {
-  let hash = 0
-  for (let i = 0; i < str.length; i++) hash = str.charCodeAt(i) + ((hash << 5) - hash)
-  return AVATAR_COLORS[Math.abs(hash) % AVATAR_COLORS.length]
-}
 
 const ACCENT_COLORS = ['#E0A820','#378ADD','#2D7A4F','#A32D2D','#534AB7','#E0A820','#0F6E56']
 function accentColor(id) { return ACCENT_COLORS[id % ACCENT_COLORS.length] }
@@ -23,10 +18,6 @@ function fmtDate(iso) {
   if (!iso) return '—'
   const d = new Date(iso)
   return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`
-}
-
-function initials(name = '') {
-  return name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2)
 }
 
 function DeadlineBadge({ dateStr }) {
@@ -52,23 +43,14 @@ function DeadlineBadge({ dateStr }) {
   )
 }
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8080'
-const imgUrl = (path) => {
-  if (!path) return null
-  if (path.startsWith('http')) return path
-  return `${BASE_URL}${path}`
-}
-
 export default function ProjectRow({ project, onView, onArchive, onRestore, isActing }) {
-  /* status config */
   const statusCfg = {
     ACTIVE:   { label: 'Active',   cls: styles.badgeActive   },
     ARCHIVED: { label: 'Archived', cls: styles.badgeArchived },
     FINISHED: { label: 'Finished', cls: styles.badgeFinished },
   }[project.status] ?? { label: project.status, cls: styles.badgeArchived }
 
-  const color      = accentColor(project.id)
-  const ownerColor = avatarColor(project.ownerName || '')
+  const color = accentColor(project.id)
 
   return (
     <tr>
@@ -91,28 +73,19 @@ export default function ProjectRow({ project, onView, onArchive, onRestore, isAc
 
       {/* Project type */}
       <td>
-        <div className={styles.projTypeBadge}>{(project.type || 'No Type').toString().replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</div>
+        <div className={styles.projTypeBadge}>
+          {(project.type || 'No Type').toString().replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
+        </div>
       </td>
 
-      {/* Manager / owner */}
+      {/* Manager / owner — Avatar remplace imgUrl + initials manuel */}
       <td>
         <div className={styles.managerCell}>
-          {project.ownerPicture ? (
-            <img
-              src={imgUrl(project.ownerPicture)}
-              alt={project.ownerName}
-              style={{ width: 28, height: 28, borderRadius: '50%', objectFit: 'cover', border: '1.5px solid #fff', flexShrink: 0 }}
-              title={project.ownerName}
-            />
-          ) : (
-            <div
-              className={styles.avSm}
-              style={{ background: ownerColor }}
-              title={project.ownerName}
-            >
-              {initials(project.ownerName)}
-            </div>
-          )}
+          <Avatar
+            src={project.ownerPicture}
+            name={project.ownerName}
+            size={28}
+          />
           <span className={styles.managerName}>{project.ownerName || '—'}</span>
         </div>
       </td>
@@ -132,26 +105,22 @@ export default function ProjectRow({ project, onView, onArchive, onRestore, isAc
       <td>
         <div className={styles.progressionCell}>
           <div className={styles.progressBar}>
-            <div 
+            <div
               className={styles.progressFill}
-              style={{ 
+              style={{
                 width: `${project.progress || 0}%`,
-                backgroundColor: project.progress >= 75 ? '#E0A820' : 
-                                 project.progress >= 50 ? '#F4C430' : 
+                backgroundColor: project.progress >= 75 ? '#E0A820' :
+                                 project.progress >= 50 ? '#F4C430' :
                                  project.progress >= 25 ? '#FFE066' : '#FFF3B2'
               }}
             />
           </div>
-          <div className={styles.progressText}>
-            {project.progress || 0}%
-          </div>
-          <div className={styles.progressDetails}>
-            {project.tasksDone || 0}/{project.taskCount || 0} tasks
-          </div>
+          <div className={styles.progressText}>{project.progress || 0}%</div>
+          <div className={styles.progressDetails}>{project.tasksDone || 0}/{project.taskCount || 0} tasks</div>
         </div>
       </td>
 
-      {/* Member avatars stack */}
+      {/* Member avatars stack — placeholders numeriques, pas de photo disponible ici */}
       <td>
         {project.memberCount > 0 ? (
           <div className={styles.avatarStack}>
@@ -161,9 +130,7 @@ export default function ProjectRow({ project, onView, onArchive, onRestore, isAc
                 className={styles.avSm}
                 style={{
                   background: AVATAR_COLORS[i % AVATAR_COLORS.length],
-                  width: 24,
-                  height: 24,
-                  fontSize: 9,
+                  width: 24, height: 24, fontSize: 9,
                   marginLeft: i > 0 ? -7 : 0,
                   zIndex: 3 - i,
                 }}
@@ -185,7 +152,7 @@ export default function ProjectRow({ project, onView, onArchive, onRestore, isAc
         )}
       </td>
 
-      {/* Deadline with days-remaining badge */}
+      {/* Deadline */}
       <td>
         <DeadlineBadge dateStr={project.estimatedEndDate} />
       </td>
@@ -193,27 +160,15 @@ export default function ProjectRow({ project, onView, onArchive, onRestore, isAc
       {/* Actions */}
       <td>
         <div className={styles.actionBtns}>
-          {/* View */}
-          <button
-            className={styles.btnIcon}
-            title="View project"
-            onClick={() => onView(project.id)}
-            disabled={isActing}
-          >
+          <button className={styles.btnIcon} title="View project" onClick={() => onView(project.id)} disabled={isActing}>
             <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
               <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
               <circle cx="12" cy="12" r="3"/>
             </svg>
           </button>
 
-          {/* Archive (ACTIVE only) */}
           {project.status === 'ACTIVE' && (
-            <button
-              className={`${styles.btnIcon} ${styles.btnIconWarn}`}
-              title="Archive project"
-              onClick={() => onArchive(project.id)}
-              disabled={isActing}
-            >
+            <button className={`${styles.btnIcon} ${styles.btnIconWarn}`} title="Archive project" onClick={() => onArchive(project.id)} disabled={isActing}>
               <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                 <polyline points="21 8 21 21 3 21 3 8"/>
                 <rect x="1" y="3" width="22" height="5" rx="1"/>
@@ -222,14 +177,8 @@ export default function ProjectRow({ project, onView, onArchive, onRestore, isAc
             </button>
           )}
 
-          {/* Restore (ARCHIVED or FINISHED) */}
           {(project.status === 'ARCHIVED' || project.status === 'FINISHED') && (
-            <button
-              className={`${styles.btnIcon} ${styles.btnIconSuccess}`}
-              title="Restore project"
-              onClick={() => onRestore(project.id, project.status)}
-              disabled={isActing}
-            >
+            <button className={`${styles.btnIcon} ${styles.btnIconSuccess}`} title="Restore project" onClick={() => onRestore(project.id, project.status)} disabled={isActing}>
               <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                 <polyline points="1 4 1 10 7 10"/>
                 <path d="M3.51 15a9 9 0 1 0 .49-3.5"/>

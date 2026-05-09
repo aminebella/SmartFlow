@@ -13,4 +13,5 @@ public class NotificationEvent implements Serializable {
     private String message;
     private String type;
     private String relatedEntityId;
+
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useMemo, useState } from 'react';
+import Link from 'next/link';
 
 import { useAuth }     from '@/hooks/useAuth';
 import { useProjects } from '@/hooks/useProjects';
@@ -71,6 +72,9 @@ export default function ProjectsListPage() {
               {projects.length} projet{projects.length !== 1 ? 's' : ''} · Dernière mise à jour à l&apos;instant
             </p>
           </div>
+          <Link href="/EspaceClient/projects/new" className={styles.createButton}>
+            + Créer un projet
+          </Link>
         </div>
 
         {/* ── Role tabs ── */}

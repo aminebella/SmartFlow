@@ -251,6 +251,7 @@ public class ProjectServiceImpl implements ProjectService {
                         .fullName(pt.getClient().getFirstname() + " " + pt.getClient().getLastname())
                         .role(pt.getProjectRole().name())
                         .joinedAt(pt.getJoinedAt())
+                        .memberPicture(pt.getClient().getProfilePicture())
                         .build())
                 .collect(Collectors.toList());
     }

@@ -26,5 +26,6 @@ public interface ClientRepo extends JpaRepository<Client,Long> {
 
     // Trouver par location
     List<Client> findByLocation(String location);
+    List<Client> findByEmailContainingIgnoreCase(String email);
 
 }

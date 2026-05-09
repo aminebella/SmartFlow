@@ -4,6 +4,7 @@ import emsi.SmartFlow.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "notifications")
@@ -20,6 +21,7 @@ public class Notification {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipient_id", nullable = false)
+    @JsonIgnore
     private User recipient;
 
     @Column(nullable = false)
@@ -32,9 +34,14 @@ public class Notification {
 
     private String relatedEntityId; // String car Task.id est un String UUID
 
-    @Column(nullable = false)
-    private boolean isRead = false;
+    @Column(name = "is_read", nullable = false)
+    private boolean read = false;
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
 }

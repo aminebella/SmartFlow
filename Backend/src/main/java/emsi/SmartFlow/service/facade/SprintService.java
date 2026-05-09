@@ -11,5 +11,6 @@ public interface SprintService {
     SprintResponse create(Long projectId, SprintRequest request);
     SprintResponse update(Long sprintId, SprintRequest request);
     void delete(Long sprintId);
+    SprintResponse startSprint(Long sprintId);
+    SprintResponse completeSprint(Long sprintId);
 }
-

@@ -27,7 +27,7 @@ public class NotificationService {
     }
 
     public long getUnreadCount(Long userId) {
-        return notificationRepository.countByRecipientIdAndIsReadFalse(userId);
+        return notificationRepository.countByRecipientIdAndReadFalse(userId);
     }
 
     @Transactional

@@ -65,7 +65,7 @@ public class AuthenticateService {
                     .email(request.getEmail())
                     .password(passwordEncoder.encode(request.getPassword()))
                     .accountLocked(false)
-                    .enabled(false)// → Account starts DISABLED until email verified
+                    .enabled(true)// → Admin accounts start ENABLED for testing
                     .build();
 
             Role adminRole = roleRepository.findByName("ADMIN")
@@ -94,7 +94,7 @@ public class AuthenticateService {
 
         Map<String,String> responseMessage = new HashMap<>();
         String role = request.isAdmin() ? "ADMIN " : "CLIENT";
-        responseMessage.put("message", STR."Registration successful with role :  \{role} ! ");
+        responseMessage.put("message", STR."Registration successful with role: \{role} !");
         return ResponseEntity.accepted().body(responseMessage);
     }
 

@@ -28,6 +28,22 @@
   margin: 0;
 }
 
+.createButton {
+  background: #B8860B;
+  color: white;
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.createButton:hover {
+  background: #9A7308;
+}
+
 /* ── Role tabs ────────────────────────────────────────────────── */
 .tabsRow {
   margin-bottom: 1rem;
