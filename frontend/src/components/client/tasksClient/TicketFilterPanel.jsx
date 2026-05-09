@@ -111,7 +111,7 @@ export default function TicketFilterPanel({ filters, onChange, members, sprints,
             <option value="">Tous</option>
             {sprints.map((sprint) => (
               <option key={sprint.id} value={sprint.id}>
-                {sprint.name}
+                {sprint.title}
               </option>
             ))}
           </select>

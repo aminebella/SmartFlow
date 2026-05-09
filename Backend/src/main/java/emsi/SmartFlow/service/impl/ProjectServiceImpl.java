@@ -247,7 +247,7 @@ public class ProjectServiceImpl implements ProjectService {
         // 3. Map to DTO
         return members.stream()
                 .map(pt -> ProjectMemberResponse.builder()
-                        .clientId(pt.getClient().getId())
+                        .id(pt.getClient().getId())
                         .fullName(pt.getClient().getFirstname() + " " + pt.getClient().getLastname())
                         .role(pt.getProjectRole().name())
                         .joinedAt(pt.getJoinedAt())

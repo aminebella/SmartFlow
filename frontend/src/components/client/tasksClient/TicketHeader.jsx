@@ -14,7 +14,7 @@ export default function TicketHeader({ count, activeSprint, loading, onCreateCli
                 <span className="inline-flex items-center gap-1">
                   <span className="w-2 h-2 rounded-full" style={{ backgroundColor: '#c9b479' }} />
                   <span className="font-medium" style={{ color: '#c9b479' }}>
-                    {activeSprint.name} actif
+                    {activeSprint.title} actif
                   </span>
                 </span>
               </>

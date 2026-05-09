@@ -161,7 +161,7 @@ export default function TicketModal({ ticket, sprints, members, onClose, onSubmi
               <option value="">Aucun sprint</option>
               {sprints.map((sprint) => (
                 <option key={sprint.id} value={sprint.id}>
-                  {sprint.name}
+                  {sprint.title}
                 </option>
               ))}
             </select>

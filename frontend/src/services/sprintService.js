@@ -54,9 +54,9 @@ export async function deleteSprint(id) {
 
 // Imane Part: 
 
-// GET /api/sprints/project/{projectId}
+// GET /api/projects/{projectId}/sprints
 export const getSprintsByProject = async (projectId) => {
-  const res = await API.get(`/sprints/project/${projectId}`);
+  const res = await API.get(`/projects/${projectId}/sprints`);
   return res.data?.data ?? res.data ?? [];
 };
 

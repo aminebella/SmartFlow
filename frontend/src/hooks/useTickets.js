@@ -51,7 +51,7 @@ export function useTickets(projectId) {
           const enriched = ticketsData.value.map((t) => ({
             ...t,
             isAssignedToMe: me
-              ? String(t.assignedUserId) === String(me.id)
+              ? String(t.assigneeId) === String(me.id)
               : false,
           }));
           setTickets(enriched);
@@ -78,7 +78,7 @@ export function useTickets(projectId) {
     const enriched = {
       ...newTicket,
       isAssignedToMe: currentUser
-        ? String(newTicket.assignedUserId) === String(currentUser.id)
+        ? String(newTicket.assigneeId) === String(currentUser.id)
         : false,
     };
     setTickets((prev) => [...prev, enriched]);
@@ -90,7 +90,7 @@ export function useTickets(projectId) {
     const enriched = {
       ...updated,
       isAssignedToMe: currentUser
-        ? String(updated.assignedUserId) === String(currentUser.id)
+        ? String(updated.assigneeId) === String(currentUser.id)
         : false,
     };
     setTickets((prev) => prev.map((t) => t.id === ticketId ? enriched : t));

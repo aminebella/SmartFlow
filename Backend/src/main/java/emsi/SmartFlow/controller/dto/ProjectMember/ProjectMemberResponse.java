@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 public class ProjectMemberResponse {
-    private Long clientId;
+    private Long id;
     private String fullName;
     private String role; // MANAGER or MEMBER
     private LocalDateTime joinedAt;

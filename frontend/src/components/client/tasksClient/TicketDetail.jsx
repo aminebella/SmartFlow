@@ -147,7 +147,7 @@ export function TicketFormModal({ ticket, sprints, members, onClose, onSubmit })
               >
                 <option value="">— Sans sprint —</option>
                 {sprints.map((s) => (
-                  <option key={s.id} value={s.id}>{s.name}</option>
+                  <option key={s.id} value={s.id}>{s.title}</option>
                 ))}
               </select>
             </div>
@@ -292,7 +292,7 @@ export function TicketFilterPanel({ filters, onChange, members, sprints, onClose
           <select className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={filters.sprintId} onChange={(e) => set("sprintId", e.target.value)}>
             <option value="">Tous</option>
-            {sprints.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
+            {sprints.map((s) => <option key={s.id} value={s.id}>{s.title}</option>)}
           </select>
         </div>
       </div>

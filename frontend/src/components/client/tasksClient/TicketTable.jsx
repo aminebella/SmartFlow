@@ -114,7 +114,7 @@ const timeAgo = (dateStr) => {
                 {/* SPRINT */}
                 <td className="px-4 py-3 hidden md:table-cell">
                   <span className="text-xs px-2 py-1 bg-[#f3edd6] text-[#a08c4a] rounded-full border border-[#e2d5a0] inline-block">
-                    {sprint ? sprint.name : "—"}
+                    {sprint ? sprint.title : "—"}
                   </span>
                 </td>
 

@@ -10,7 +10,10 @@ import {
   createSprint,
   updateSprint,
   deleteSprint,
+  startSprint,
+  completeSprint,
 } from '@/services/sprintService';
+import { getTickets, moveTicketToSprint } from '@/services/taskService';
 
 import '@/styles/client/ListSprintsOfMyProject/sprints.css';
 
@@ -18,6 +21,7 @@ import '@/styles/client/ListSprintsOfMyProject/sprints.css';
 export default function Page() {
   const { id } = useParams();
   const [sprints, setSprints] = useState([]);
+  const [tickets, setTickets] = useState([]);
   const [open,    setOpen]    = useState(false);
   const [edit,    setEdit]    = useState(null);
   const [loading, setLoading] = useState(true);
@@ -31,8 +35,12 @@ export default function Page() {
     try {
       setLoading(true);
       setError('');
-      const data = await listSprintsByProject(id);
-      setSprints(data ?? []);
+      const [sprintsData, ticketsData] = await Promise.all([
+        listSprintsByProject(id),
+        getTickets(id),
+      ]);
+      setSprints(sprintsData ?? []);
+      setTickets(ticketsData ?? []);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -74,6 +82,36 @@ export default function Page() {
       await deleteSprint(sprintId);
       setSprints(s => s.filter(x => x.id !== sprintId));
       showToast('Sprint supprimé.');
+    } catch (err) {
+      showToast('Erreur : ' + err.message);
+    }
+  }
+
+  async function handleStartSprint(sprintId) {
+    try {
+      const updated = await startSprint(sprintId);
+      setSprints(s => s.map(x => x.id === updated.id ? updated : x));
+      showToast('Sprint démarré.');
+    } catch (err) {
+      showToast('Erreur : ' + err.message);
+    }
+  }
+
+  async function handleCompleteSprint(sprintId) {
+    try {
+      const updated = await completeSprint(sprintId);
+      setSprints(s => s.map(x => x.id === updated.id ? updated : x));
+      showToast('Sprint terminé.');
+    } catch (err) {
+      showToast('Erreur : ' + err.message);
+    }
+  }
+
+  async function handleRemoveTicketFromSprint(ticketId) {
+    try {
+      await moveTicketToSprint(ticketId, null);
+      setTickets(t => t.map(x => x.id === ticketId ? { ...x, sprintId: null } : x));
+      showToast('Ticket retiré du sprint.');
     } catch (err) {
       showToast('Erreur : ' + err.message);
     }
@@ -172,8 +210,12 @@ export default function Page() {
             <SprintCard
               key={s.id}
               sprint={s}
+              tickets={tickets.filter(t => String(t.sprintId) === String(s.id))}
               onEdit={sp => { setEdit(sp); setOpen(true); }}
               onDelete={handleDelete}
+              onStart={handleStartSprint}
+              onComplete={handleCompleteSprint}
+              onRemoveTicket={handleRemoveTicketFromSprint}
             />
           ))}
         </div>

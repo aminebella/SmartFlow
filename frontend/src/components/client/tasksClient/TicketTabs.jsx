@@ -13,7 +13,7 @@ function exportToCSV(tickets, members, sprints, projectId) {
       t.priority,
       t.status,
       assignee ? (assignee.fullName || assignee.name || assignee.email) : "",
-      sprint   ? sprint.name : "",
+      sprint   ? sprint.title : "",
       t.updatedAt || "",
     ];
   });

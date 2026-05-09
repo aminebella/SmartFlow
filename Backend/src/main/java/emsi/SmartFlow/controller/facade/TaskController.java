@@ -144,7 +144,7 @@ public class TaskController {
     @PatchMapping("/{id}/move-to-sprint")
     public ResponseEntity<ApiResponse<TaskResponse>> moveToSprint(
             @PathVariable Long id,
-            @RequestParam Long sprintId,
+            @RequestParam(required = false) Long sprintId,
             @AuthenticationPrincipal User currentUser
     ) {
         return ResponseEntity.ok(ApiResponse.<TaskResponse>builder()
