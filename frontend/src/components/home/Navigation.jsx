@@ -26,10 +26,10 @@ export default function Navigation() {
           </nav>
 
           <div className="nav-actions">
-            <button className="btn-ghost-nav">Log in</button>
+            <button className="btn-ghost-nav" onClick={() => router.push("/register")}>Log in</button>
             <button
               className="btn-primary-nav"
-              onClick={() => router.push("/register")}
+              onClick={() => router.push("/login")}
             >
               Get Started
             </button>

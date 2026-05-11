@@ -1,4 +1,8 @@
+"use client";
+import { useRouter } from "next/navigation";
+
 export default function Hero() {
+  const router = useRouter();
     return (
       <section className="hero">
         {/* HERO */}
@@ -21,7 +25,7 @@ export default function Hero() {
               </p>
 
               <div className="hero-ctas">
-                <button className="btn-hero-primary">
+                <button className="btn-hero-primary" onClick={() => router.push("/login")}>
                   <span className="play-icon">
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2">
                       <polyline points="3,8 8,3 13,8" />
@@ -30,7 +34,7 @@ export default function Hero() {
                   </span>
                   Start Managing Your Projects
                 </button>
-                <button className="btn-hero-secondary">Schedule a Demo</button>
+                <button className="btn-hero-secondary" onClick={() => router.push("/login")}>Schedule a Demo</button>
               </div>
 
               <div className="hero-trust">

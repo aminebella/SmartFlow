@@ -54,11 +54,13 @@ public class TaskServiceImpl implements TaskService {
     //  LECTURE
     // ════════════════════════════════════════════════════════════════
 
+    @Transactional(readOnly = true)
     @Override
     public List<TaskResponse> getAllTasksByProject(Long projectId) {
         return taskRepository.findByProjectId(projectId)
                 .stream().map(this::toResponse).collect(Collectors.toList());
     }
+
     @Override
     public List<TaskResponse> getTasksByProjectForCurrentUser(Long projectId, User currentUser) {
         if (isManager(projectId, currentUser)) {
@@ -69,6 +71,7 @@ public class TaskServiceImpl implements TaskService {
                 .stream().map(this::toResponse).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<TaskResponse> getMyTasks(User currentUser) {
         return taskRepository.findByAssignedUserId(currentUser.getId())
@@ -98,6 +101,7 @@ public class TaskServiceImpl implements TaskService {
                 .stream().map(this::toResponse).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<TaskResponse> getBacklogTasksForCurrentUser(Long projectId, User currentUser) {
         if (isManager(projectId, currentUser)) {
@@ -311,6 +315,7 @@ public class TaskServiceImpl implements TaskService {
         return toResponse(taskRepository.save(task));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public TaskResponse getTaskById(Long id) {
         return toResponse(taskRepository.findById(id)
