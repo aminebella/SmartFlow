@@ -20,8 +20,21 @@ export default function RoleModal({ initialData, onSave, onClose }) {
   };
 
   return (
-    <div className={s.modalOverlay} onClick={onClose}>
-      <div className={s.modal} onClick={(e) => e.stopPropagation()}>
+    <div
+      className={s.modalOverlay}
+      onClick={onClose}
+      onKeyDown={(e) => { if (e.key === 'Escape') onClose(); }}
+      role="button"
+      tabIndex={0}
+      aria-label="Fermer la modale"
+    >
+      <div
+        className={s.modal}
+        onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+      >
         <div className={s.modalHeader}>
           <h2 className={s.modalTitle}>Informations sur votre rôle</h2>
           <button className={s.modalClose} onClick={onClose}><XIcon /></button>

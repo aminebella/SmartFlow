@@ -43,7 +43,14 @@ export default function SprintForm({ open, initial, onClose, onSubmit, loading }
 
   return (
     <>
-      <div className="sprint-overlay" onClick={onClose} />
+      <div
+        className="sprint-overlay"
+        onClick={onClose}
+        onKeyDown={(e) => { if (e.key === 'Escape') onClose(); }}
+        role="button"
+        tabIndex={0}
+        aria-label="Fermer"
+      />
 
       <div className="sprint-modal">
 

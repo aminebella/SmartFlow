@@ -704,7 +704,6 @@
 
 .sprint-action-start {
   border-color: var(--accent);
-  color: var(--accent);
   background: var(--accent);
   color: #fff;
 }

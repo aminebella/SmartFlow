@@ -58,6 +58,9 @@ export default function AiMetrics({ edited, onUpdateMetric }) {
               className={`text-2xl font-semibold ${m.field ? 'cursor-pointer hover:opacity-70 transition' : ''}`}
               style={{ color: '#c9b479' }}
               onClick={() => startEditing(m.field, m.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') startEditing(m.field, m.value); }}
+              role={m.field ? 'button' : undefined}
+              tabIndex={m.field ? 0 : -1}
               title={m.field ? 'Cliquer pour modifier' : undefined}
             >
               {m.value}
@@ -80,6 +83,9 @@ export default function AiMetrics({ edited, onUpdateMetric }) {
             <p
               className={`text-xs text-slate-400 mt-1 ${m.subField ? 'cursor-pointer hover:opacity-70 transition' : ''}`}
               onClick={() => startEditing(m.subField, m.sub)}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') startEditing(m.subField, m.sub); }}
+              role={m.subField ? 'button' : undefined}
+              tabIndex={m.subField ? 0 : -1}
               title={m.subField ? 'Cliquer pour modifier' : undefined}
             >
               {m.sub}

@@ -40,7 +40,14 @@ export default function SprintCard({ sprint, tickets = [], onEdit, onDelete, onS
     <div className={`sprint-row ${isActive ? 'sprint-row-active' : ''}`}>
 
       {/* ── Top bar ── */}
-      <div className="sprint-row-header" onClick={() => setExpanded(e => !e)}>
+      <div
+        className="sprint-row-header"
+        onClick={() => setExpanded(e => !e)}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setExpanded(e => !e); }}
+        role="button"
+        tabIndex={0}
+        aria-expanded={expanded}
+      >
 
         <div className="sprint-row-header-left">
           {/* Status dot */}
@@ -80,14 +87,31 @@ export default function SprintCard({ sprint, tickets = [], onEdit, onDelete, onS
           )}
 
           {/* Menu ⋯ */}
-          <div style={{ position: 'relative' }} onClick={e => e.stopPropagation()}>
+          <div
+            style={{ position: 'relative' }}
+            onClick={(e) => e.stopPropagation()}
+            onKeyDown={(e) => e.stopPropagation()}
+            role="none"
+          >
             <button className="sprint-menu-btn" onClick={() => setMenuOpen(o => !o)}>⋯</button>
             {menuOpen && (
               <div className="sprint-dropdown" onMouseLeave={() => setMenuOpen(false)}>
-                <div className="sprint-dropdown-item" onClick={() => { onEdit(sprint); setMenuOpen(false); }}>
+                <div
+                  className="sprint-dropdown-item"
+                  onClick={() => { onEdit(sprint); setMenuOpen(false); }}
+                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { onEdit(sprint); setMenuOpen(false); } }}
+                  role="button"
+                  tabIndex={0}
+                >
                   ✏️ &nbsp;Modifier
                 </div>
-                <div className="sprint-dropdown-item danger" onClick={() => { onDelete(sprint.id); setMenuOpen(false); }}>
+                <div
+                  className="sprint-dropdown-item danger"
+                  onClick={() => { onDelete(sprint.id); setMenuOpen(false); }}
+                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { onDelete(sprint.id); setMenuOpen(false); } }}
+                  role="button"
+                  tabIndex={0}
+                >
                   🗑️ &nbsp;Supprimer
                 </div>
               </div>

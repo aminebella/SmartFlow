@@ -19,6 +19,9 @@ export default function TaskCard({ task, onClick }) {
   return (
     <div
       onClick={() => onClick?.(task)}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onClick?.(task); }}
+      role="button"
+      tabIndex={0}
       className="bg-white rounded-lg border border-gray-200 p-3 shadow-sm hover:shadow-md cursor-pointer transition-all hover:border-blue-300"
     >
       {/* Clé du ticket */}

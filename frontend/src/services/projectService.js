@@ -59,7 +59,6 @@ export const getProjectById = async (id) => {
   } catch (error) {
     throw new Error("Failed to fetch project");
   }
-  return response.data; // ProjectResponse
 };
 
 // POST /projects

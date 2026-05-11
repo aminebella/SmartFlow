@@ -9,7 +9,14 @@ export function AddMemberModal({ projectId, memberIds, onAdd, onClose, addingId 
   };
 
   return (
-    <div className={styles.modalBackdrop} onClick={handleBackdrop}>
+    <div
+      className={styles.modalBackdrop}
+      onClick={handleBackdrop}
+      onKeyDown={(e) => { if (e.key === 'Escape') handleBackdrop(e); }}
+      role="button"
+      tabIndex={0}
+      aria-label="Fermer"
+    >
       <div className={styles.modalPanel}>
 
         {/* Header */}

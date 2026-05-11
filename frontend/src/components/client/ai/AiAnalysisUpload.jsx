@@ -21,6 +21,9 @@ export default function AiUploadZone({ onFileSelect, loading, fileName }) {
   return (
     <div
       onClick={() => !loading && inputRef.current.click()}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { if (!loading) inputRef.current.click(); } }}
+      role="button"
+      tabIndex={0}
       onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
       onDragLeave={() => setDragging(false)}
       onDrop={handleDrop}

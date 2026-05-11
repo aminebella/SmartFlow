@@ -39,6 +39,9 @@ export default function TaskCard({ task, members, onEdit, isDraggable = true }) 
       }}
       onDragEnd={() => setIsDragging(false)}
       onClick={() => onEdit?.(task)}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onEdit?.(task); }}
+      role="button"
+      tabIndex={0}
       className={`bg-white border border-[#e8e0cc] rounded-lg p-3 cursor-pointer transition-all hover:shadow-md ${
         isDragging ? 'opacity-50 rotate-2' : ''
       }`}

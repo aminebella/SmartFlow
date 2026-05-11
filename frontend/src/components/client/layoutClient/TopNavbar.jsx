@@ -274,6 +274,9 @@ export default function TopNavbar() {
                     <div
                       key={notif.id}
                       onClick={() => !notif.read && markAsRead(notif.id)}
+                      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { if (!notif.read) markAsRead(notif.id); } }}
+                      role="button"
+                      tabIndex={0}
                       className={`flex items-start gap-3 px-4 py-3 border-b border-slate-50 cursor-pointer transition hover:bg-slate-50 ${
                         !notif.read ? "bg-blue-50/50" : ""
                       }`}
