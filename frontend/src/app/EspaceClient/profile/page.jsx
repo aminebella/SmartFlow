@@ -192,6 +192,10 @@ export default function ProfilePage() {
           backgroundPosition: "center"
         } : {}}
         onClick={handleCoverClick}
+        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") handleCoverClick(); }}
+        role="button"
+        tabIndex={isEditing ? 0 : -1}
+        aria-label={isEditing ? "Changer la couverture" : undefined}
         title={coverSrc ? "" : "Aucune image de couverture"}
       >
         {/* DEBUG — retire après résolution */}
@@ -219,6 +223,10 @@ export default function ProfilePage() {
             <div
               className={s.avatarCircle}
               onClick={handleAvatarClick}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") handleAvatarClick(); }}
+              role="button"
+              tabIndex={isEditing ? 0 : -1}
+              aria-label={isEditing ? "Changer la photo de profil" : undefined}
               style={{ cursor: isEditing ? "pointer" : "default" }}
             >
               {avatarSrc
