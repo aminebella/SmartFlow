@@ -6,3 +6,5 @@ backup
 bootstrap.py
 *.log
 .DS_Store
+.env
+.idea/workspace.xml
