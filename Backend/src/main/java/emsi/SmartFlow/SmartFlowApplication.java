@@ -25,35 +25,35 @@ public class SmartFlowApplication {
 
         ApplicationContext context = SpringApplication.run(SmartFlowApplication.class, args);
         String[] beanNames = context.getBeanDefinitionNames();
-        FileWriter writer = new FileWriter("beans.txt");
         Arrays.sort(beanNames);
-        for (String beanName : beanNames) {
-            Object bean = context.getBean(beanName);
-            writer.write(beanName + " -> " + bean.getClass().getName() + "\n");
-        }
 
-        writer.close();
+        // try-with-resources → automatically closes the writer even if an exception occurs
+        try (FileWriter writer = new FileWriter("beans.txt")) {
+            for (String beanName : beanNames) {
+                Object bean = context.getBean(beanName);
+                writer.write(beanName + " -> " + bean.getClass().getName() + "\n");
+            }
+        }
 
         System.out.println("Beans exportés dans beans.txt");
     }
+
 
     @Bean
     public CommandLineRunner initialization(
             RoleRepository roleRepository,
             UserRepository userRepository,
             PasswordEncoder passwordEncoder) {
-// implementer la methode run de CommandLineRunner
         return args -> {
 
             Role clientRole = roleRepository.findByName("CLIENT").orElse(null);
-
             if (clientRole == null) {
                 clientRole = roleRepository.save(
                         Role.builder().name("CLIENT").build()
                 );
             }
-            Role adminRole = roleRepository.findByName("ADMIN").orElse(null);
 
+            Role adminRole = roleRepository.findByName("ADMIN").orElse(null);
             if (adminRole == null) {
                 adminRole = roleRepository.save(
                         Role.builder().name("ADMIN").build()
@@ -62,11 +62,14 @@ public class SmartFlowApplication {
 
             if (userRepository.findByEmail("adminSmartFlow@gmail.com").isEmpty()) {
 
+                // Read password from environment variable instead of hardcoding
+                String adminPassword = System.getenv("ADMIN_DEFAULT_PASSWORD");
+
                 Admin admin = Admin.builder()
                         .firstname("Admin")
                         .lastname("SmartFlow")
                         .email("adminSmartFlow@gmail.com")
-                        .password(passwordEncoder.encode("adminSmartFlow1"))
+                        .password(passwordEncoder.encode(adminPassword))
                         .accountLocked(false)
                         .enabled(true)
                         .roles(List.of(adminRole))

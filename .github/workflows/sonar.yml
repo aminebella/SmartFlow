@@ -30,6 +30,8 @@ jobs:
 
       - name: Build and Test
         working-directory: Backend
+        env:
+          ADMIN_DEFAULT_PASSWORD: ${{ secrets.ADMIN_DEFAULT_PASSWORD }}
         run: ./mvnw clean verify
 
       - name: SonarCloud Scan
