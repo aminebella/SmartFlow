@@ -8,9 +8,10 @@ import emsi.SmartFlow.entity.enums.SprintStatus;
 import emsi.SmartFlow.exception.ResourceNotFoundException;
 import emsi.SmartFlow.repo.ProjectRepository;
 import emsi.SmartFlow.repo.SprintRepo;
-import emsi.SmartFlow.repo.TaskRepository;
 import emsi.SmartFlow.service.impl.SprintServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,141 +29,322 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class SprintServiceImplTest {
 
-    @Mock private SprintRepo sprintRepo;
+    @Mock private SprintRepo        sprintRepo;
     @Mock private ProjectRepository projectRepo;
-    @Mock private TaskRepository taskRepo;
 
     @InjectMocks
     private SprintServiceImpl sprintService;
 
     private Project project;
-    private Sprint sprint;
+    private Sprint  plannedSprint;
+    private Sprint  activeSprint;
     private SprintRequest request;
 
     @BeforeEach
     void setUp() {
         project = Project.builder().id(1L).build();
 
-        sprint = Sprint.builder()
-                .id(1L)
-                .title("Sprint 1")
-                .goal("Objectif test")
+        plannedSprint = Sprint.builder()
+                .id(1L).title("Sprint 1").goal("Objectif test")
                 .startDate(LocalDate.of(2026, 5, 1))
                 .endDate(LocalDate.of(2026, 5, 15))
-                .status(SprintStatus.PLANNED)
-                .project(project)
+                .status(SprintStatus.PLANNED).project(project)
+                .build();
+
+        activeSprint = Sprint.builder()
+                .id(2L).title("Sprint 2").goal("Goal active")
+                .startDate(LocalDate.of(2026, 5, 1))
+                .endDate(LocalDate.of(2026, 5, 15))
+                .status(SprintStatus.ACTIVE).project(project)
                 .build();
 
         request = new SprintRequest(
-                "Sprint 1",
-                "Objectif test",
+                "Sprint 1", "Objectif test",
                 LocalDate.of(2026, 5, 1),
                 LocalDate.of(2026, 5, 15),
                 SprintStatus.PLANNED
         );
     }
 
-    @Test
-    void listByProject_shouldReturnSprints() {
-        when(projectRepo.existsById(1L)).thenReturn(true);
-        when(sprintRepo.findByProjectIdOrderByStartDateAscIdAsc(1L))
-                .thenReturn(List.of(sprint));
+    // ═══════════════════════════════════════════════════════════
+    //  listByProject
+    // ═══════════════════════════════════════════════════════════
+    @Nested
+    @DisplayName("listByProject()")
+    class ListByProjectTests {
 
-        List<SprintResponse> result = sprintService.listByProject(1L);
+        @Test
+        void returnsSprintList_whenProjectExists() {
+            when(projectRepo.existsById(1L)).thenReturn(true);
+            when(sprintRepo.findByProjectIdOrderByStartDateAscIdAsc(1L))
+                    .thenReturn(List.of(plannedSprint));
 
-        assertThat(result).hasSize(1);
-        verify(sprintRepo).findByProjectIdOrderByStartDateAscIdAsc(1L);
+            List<SprintResponse> result = sprintService.listByProject(1L);
+
+            assertThat(result).hasSize(1);
+            assertThat(result.get(0).title()).isEqualTo("Sprint 1");
+        }
+
+        @Test
+        void throwsResourceNotFound_whenProjectMissing() {
+            when(projectRepo.existsById(99L)).thenReturn(false);
+
+            assertThatThrownBy(() -> sprintService.listByProject(99L))
+                    .isInstanceOf(ResourceNotFoundException.class)
+                    .hasMessageContaining("99");
+
+            verify(sprintRepo, never()).findByProjectIdOrderByStartDateAscIdAsc(any());
+        }
+
+        @Test
+        void returnsEmptyList_whenProjectHasNoSprints() {
+            when(projectRepo.existsById(1L)).thenReturn(true);
+            when(sprintRepo.findByProjectIdOrderByStartDateAscIdAsc(1L))
+                    .thenReturn(List.of());
+
+            assertThat(sprintService.listByProject(1L)).isEmpty();
+        }
     }
 
-    @Test
-    void listByProject_shouldThrowIfProjectNotFound() {
-        when(projectRepo.existsById(99L)).thenReturn(false);
+    // ═══════════════════════════════════════════════════════════
+    //  getById
+    // ═══════════════════════════════════════════════════════════
+    @Nested
+    @DisplayName("getById()")
+    class GetByIdTests {
 
-        assertThatThrownBy(() -> sprintService.listByProject(99L))
-                .isInstanceOf(ResourceNotFoundException.class);
+        @Test
+        void returnsSprint_whenFound() {
+            when(sprintRepo.findById(1L)).thenReturn(Optional.of(plannedSprint));
 
-        verify(sprintRepo, never()).findByProjectIdOrderByStartDateAscIdAsc(any());
+            SprintResponse result = sprintService.getById(1L);
+
+            assertThat(result.id()).isEqualTo(1L);
+            assertThat(result.status()).isEqualTo(SprintStatus.PLANNED);
+        }
+
+        @Test
+        void throwsResourceNotFound_whenMissing() {
+            when(sprintRepo.findById(99L)).thenReturn(Optional.empty());
+
+            assertThatThrownBy(() -> sprintService.getById(99L))
+                    .isInstanceOf(ResourceNotFoundException.class);
+        }
     }
 
-    @Test
-    void getById_shouldReturnSprint() {
-        when(sprintRepo.findById(1L)).thenReturn(Optional.of(sprint));
+    // ═══════════════════════════════════════════════════════════
+    //  create
+    // ═══════════════════════════════════════════════════════════
+    @Nested
+    @DisplayName("create()")
+    class CreateTests {
 
-        SprintResponse result = sprintService.getById(1L);
+        @Test
+        void createsSprint_withGivenStatus() {
+            when(projectRepo.findById(1L)).thenReturn(Optional.of(project));
+            when(sprintRepo.save(any(Sprint.class))).thenReturn(plannedSprint);
 
-        assertThat(result.id()).isEqualTo(1L);
+            SprintResponse result = sprintService.create(1L, request);
+
+            assertThat(result.title()).isEqualTo("Sprint 1");
+            verify(sprintRepo).save(any(Sprint.class));
+        }
+
+        @Test
+        void createsSprint_defaultsToPlanned_whenStatusNull() {
+            SprintRequest nullStatusReq = new SprintRequest(
+                    "No Status Sprint", null,
+                    LocalDate.of(2026, 5, 1), LocalDate.of(2026, 5, 15),
+                    null
+            );
+            Sprint saved = Sprint.builder().id(3L).title("No Status Sprint")
+                    .status(SprintStatus.PLANNED).project(project).build();
+
+            when(projectRepo.findById(1L)).thenReturn(Optional.of(project));
+            when(sprintRepo.save(any(Sprint.class))).thenReturn(saved);
+
+            SprintResponse result = sprintService.create(1L, nullStatusReq);
+
+            assertThat(result.status()).isEqualTo(SprintStatus.PLANNED);
+        }
+
+        @Test
+        void throwsResourceNotFound_whenProjectMissing() {
+            when(projectRepo.findById(99L)).thenReturn(Optional.empty());
+
+            assertThatThrownBy(() -> sprintService.create(99L, request))
+                    .isInstanceOf(ResourceNotFoundException.class);
+
+            verify(sprintRepo, never()).save(any());
+        }
     }
 
-    @Test
-    void getById_shouldThrowIfNotFound() {
-        when(sprintRepo.findById(99L)).thenReturn(Optional.empty());
+    // ═══════════════════════════════════════════════════════════
+    //  update
+    // ═══════════════════════════════════════════════════════════
+    @Nested
+    @DisplayName("update()")
+    class UpdateTests {
 
-        assertThatThrownBy(() -> sprintService.getById(99L))
-                .isInstanceOf(ResourceNotFoundException.class);
+        @Test
+        void updatesSprint_whenFound() {
+            SprintRequest updateReq = new SprintRequest(
+                    "Sprint Updated", "New Goal",
+                    LocalDate.of(2026, 6, 1), LocalDate.of(2026, 6, 15),
+                    SprintStatus.ACTIVE
+            );
+            when(sprintRepo.findById(1L)).thenReturn(Optional.of(plannedSprint));
+            when(sprintRepo.save(any())).thenReturn(plannedSprint);
+
+            SprintResponse result = sprintService.update(1L, updateReq);
+
+            assertThat(result).isNotNull();
+            verify(sprintRepo).save(plannedSprint);
+        }
+
+        @Test
+        void doesNotUpdateStatus_whenStatusNull() {
+            SprintRequest nullStatusReq = new SprintRequest(
+                    "Sprint Updated", "Goal",
+                    LocalDate.of(2026, 6, 1), LocalDate.of(2026, 6, 15),
+                    null
+            );
+            when(sprintRepo.findById(1L)).thenReturn(Optional.of(plannedSprint));
+            when(sprintRepo.save(any())).thenReturn(plannedSprint);
+
+            sprintService.update(1L, nullStatusReq);
+
+            // status should remain PLANNED (unchanged)
+            assertThat(plannedSprint.getStatus()).isEqualTo(SprintStatus.PLANNED);
+        }
+
+        @Test
+        void throwsResourceNotFound_whenMissing() {
+            when(sprintRepo.findById(99L)).thenReturn(Optional.empty());
+
+            assertThatThrownBy(() -> sprintService.update(99L, request))
+                    .isInstanceOf(ResourceNotFoundException.class);
+        }
     }
 
-    @Test
-    void create_shouldCreateSprint() {
-        when(projectRepo.findById(1L)).thenReturn(Optional.of(project));
-        when(sprintRepo.save(any(Sprint.class))).thenReturn(sprint);
+    // ═══════════════════════════════════════════════════════════
+    //  delete
+    // ═══════════════════════════════════════════════════════════
+    @Nested
+    @DisplayName("delete()")
+    class DeleteTests {
 
-        SprintResponse result = sprintService.create(1L, request);
+        @Test
+        void deletesSprint_whenFound() {
+            when(sprintRepo.existsById(1L)).thenReturn(true);
 
-        assertThat(result.title()).isEqualTo("Sprint 1");
-        verify(sprintRepo).save(any(Sprint.class));
+            sprintService.delete(1L);
+
+            verify(sprintRepo).deleteById(1L);
+        }
+
+        @Test
+        void throwsResourceNotFound_whenMissing() {
+            when(sprintRepo.existsById(99L)).thenReturn(false);
+
+            assertThatThrownBy(() -> sprintService.delete(99L))
+                    .isInstanceOf(ResourceNotFoundException.class);
+
+            verify(sprintRepo, never()).deleteById(any());
+        }
     }
 
-    @Test
-    void create_shouldThrowIfProjectNotFound() {
-        when(projectRepo.findById(99L)).thenReturn(Optional.empty());
+    // ═══════════════════════════════════════════════════════════
+    //  startSprint
+    // ═══════════════════════════════════════════════════════════
+    @Nested
+    @DisplayName("startSprint()")
+    class StartSprintTests {
 
-        assertThatThrownBy(() -> sprintService.create(99L, request))
-                .isInstanceOf(ResourceNotFoundException.class);
+        @Test
+        void startsSprint_whenPlanned() {
+            when(sprintRepo.findById(1L)).thenReturn(Optional.of(plannedSprint));
+            when(sprintRepo.save(any())).thenReturn(plannedSprint);
 
-        verify(sprintRepo, never()).save(any());
+            SprintResponse result = sprintService.startSprint(1L);
+
+            assertThat(result).isNotNull();
+            assertThat(plannedSprint.getStatus()).isEqualTo(SprintStatus.ACTIVE);
+        }
+
+        @Test
+        void setsStartDateToNow_whenStartDateIsNull() {
+            plannedSprint.setStartDate(null);
+            when(sprintRepo.findById(1L)).thenReturn(Optional.of(plannedSprint));
+            when(sprintRepo.save(any())).thenReturn(plannedSprint);
+
+            sprintService.startSprint(1L);
+
+            assertThat(plannedSprint.getStartDate()).isNotNull();
+        }
+
+        @Test
+        void throwsIllegalState_whenNotPlanned() {
+            when(sprintRepo.findById(2L)).thenReturn(Optional.of(activeSprint));
+
+            assertThatThrownBy(() -> sprintService.startSprint(2L))
+                    .isInstanceOf(IllegalStateException.class)
+                    .hasMessageContaining("planifié");
+        }
+
+        @Test
+        void throwsResourceNotFound_whenMissing() {
+            when(sprintRepo.findById(99L)).thenReturn(Optional.empty());
+
+            assertThatThrownBy(() -> sprintService.startSprint(99L))
+                    .isInstanceOf(ResourceNotFoundException.class);
+        }
     }
 
-    @Test
-    void delete_shouldDeleteSprint() {
-        when(sprintRepo.existsById(1L)).thenReturn(true);
+    // ═══════════════════════════════════════════════════════════
+    //  completeSprint
+    // ═══════════════════════════════════════════════════════════
+    @Nested
+    @DisplayName("completeSprint()")
+    class CompleteSprintTests {
 
-        sprintService.delete(1L);
+        @Test
+        void completesSprint_whenActive() {
+            when(sprintRepo.findById(2L)).thenReturn(Optional.of(activeSprint));
+            when(sprintRepo.save(any())).thenReturn(activeSprint);
 
-        verify(sprintRepo).deleteById(1L);
-    }
+            SprintResponse result = sprintService.completeSprint(2L);
 
-    @Test
-    void delete_shouldThrowIfNotFound() {
-        when(sprintRepo.existsById(99L)).thenReturn(false);
+            assertThat(result).isNotNull();
+            assertThat(activeSprint.getStatus()).isEqualTo(SprintStatus.COMPLETED);
+        }
 
-        assertThatThrownBy(() -> sprintService.delete(99L))
-                .isInstanceOf(ResourceNotFoundException.class);
-    }
+        @Test
+        void setsEndDateToNow_whenEndDateIsNull() {
+            activeSprint.setEndDate(null);
+            when(sprintRepo.findById(2L)).thenReturn(Optional.of(activeSprint));
+            when(sprintRepo.save(any())).thenReturn(activeSprint);
 
-    @Test
-    void create_shouldDefaultToPlanned() {
-        SprintRequest req = new SprintRequest(
-                "Sprint sans status",
-                null,
-                LocalDate.of(2026, 5, 1),
-                LocalDate.of(2026, 5, 15),
-                null
-        );
+            sprintService.completeSprint(2L);
 
-        Sprint saved = Sprint.builder()
-                .id(2L)
-                .title("Sprint sans status")
-                .status(SprintStatus.PLANNED)
-                .project(project)
-                .startDate(LocalDate.of(2026, 5, 1))
-                .endDate(LocalDate.of(2026, 5, 15))
-                .build();
+            assertThat(activeSprint.getEndDate()).isNotNull();
+        }
 
-        when(projectRepo.findById(1L)).thenReturn(Optional.of(project));
-        when(sprintRepo.save(any(Sprint.class))).thenReturn(saved);
+        @Test
+        void throwsIllegalState_whenNotActive() {
+            when(sprintRepo.findById(1L)).thenReturn(Optional.of(plannedSprint));
 
-        SprintResponse result = sprintService.create(1L, req);
+            assertThatThrownBy(() -> sprintService.completeSprint(1L))
+                    .isInstanceOf(IllegalStateException.class)
+                    .hasMessageContaining("actif");
+        }
 
-        assertThat(result.status()).isEqualTo(SprintStatus.PLANNED);
+        @Test
+        void throwsResourceNotFound_whenMissing() {
+            when(sprintRepo.findById(99L)).thenReturn(Optional.empty());
+
+            assertThatThrownBy(() -> sprintService.completeSprint(99L))
+                    .isInstanceOf(ResourceNotFoundException.class);
+        }
     }
 }
