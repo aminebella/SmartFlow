@@ -10,39 +10,26 @@ public class FileStorageUtils {
     private static final String UPLOAD_DIR = "src/main/resources/static/uploads/";
 
     public static String saveFile(MultipartFile file, String subFolder) throws IOException {
-        if (file == null || file.isEmpty()) return null;
-
-        // ─── 1. Validation extension ──────────────────────────
-        String originalFilename = file.getOriginalFilename();
-        if (originalFilename == null) {
-            throw new IllegalArgumentException("Nom de fichier invalide");
-        }
-        String extension = originalFilename.toLowerCase();
-        boolean validExtension = extension.endsWith(".png") ||
-                extension.endsWith(".jpg") ||
-                extension.endsWith(".jpeg") ||
-                extension.endsWith(".webp");
-        if (!validExtension) {
-            throw new IllegalArgumentException("Format non accepté. Utilisez : JPG, PNG, WEBP");
-        }
-
-        // ─── 2. Validation ContentType (double sécurité) ──────
-        String contentType = file.getContentType();
-        if (contentType == null || !contentType.startsWith("image/")) {
-            throw new IllegalArgumentException("Le fichier doit être une image");
-        }
-
-        // ─── 3. Validation taille : max 2MB ───────────────────
-        if (file.getSize() > 2 * 1024 * 1024) {
-            throw new IllegalArgumentException("L'image ne doit pas dépasser 2MB");
-        }
         // créer le dossier si n'existe pas
         Path folderPath = Paths.get(UPLOAD_DIR + subFolder);
         Files.createDirectories(folderPath);
 
         // nom unique pour éviter les conflits
-        String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
-        Path filePath = folderPath.resolve(filename);
+        // FIX: Use only UUID as filename, ignore original filename entirely (path traversal fix)
+        String originalFilename = file.getOriginalFilename();
+        String extension = "";
+        if (originalFilename != null && originalFilename.contains(".")) {
+            String rawExt = originalFilename.substring(originalFilename.lastIndexOf("."));
+            // FIX: Sanitize extension — only allow alphanumeric chars
+            extension = rawExt.replaceAll("[^a-zA-Z0-9.]", "");
+        }
+        String filename = UUID.randomUUID() + extension;
+
+        // FIX: Resolve against the folder and verify the result stays inside it
+        Path filePath = folderPath.resolve(filename).normalize();
+        if (!filePath.startsWith(folderPath.normalize())) {
+            throw new IOException("Invalid file path detected");
+        }
 
         // sauvegarder le fichier
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
@@ -52,8 +39,15 @@ public class FileStorageUtils {
     }
 
     public static void deleteFile(String filePath) throws IOException {
-        if (filePath == null) return;
-        Path path = Paths.get("src/main/resources/static" + filePath);
+        if (filePath == null || filePath.isBlank()) return;   // also handles blank
+
+        // FIX: Normalize and validate path stays within static dir
+        Path base = Paths.get("src/main/resources/static").normalize();
+        Path path = base.resolve(filePath.startsWith("/") ? filePath.substring(1) : filePath).normalize();
+        if (!path.startsWith(base)) {
+            throw new IOException("Invalid file path detected");
+        }
+
         Files.deleteIfExists(path);
     }
 }
