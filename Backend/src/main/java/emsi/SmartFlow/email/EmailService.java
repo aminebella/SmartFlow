@@ -30,6 +30,10 @@ public class EmailService {
     private final SpringTemplateEngine templateEngine;
     private final TokenRepository tokenRepository;
     private final UserRepository userRepository;
+
+    // FIX: SecureRandom moved to field level — SonarQube: "Save and re-use this Random"
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
+
     @Value("${application.mailing.frontend.activation-url}")
     private String activationUrl;
 
@@ -45,10 +49,10 @@ public class EmailService {
                     newToken,
                     "Account activation"
             );
-        }catch (MessagingException e){
+        } catch (MessagingException e) {
             tokenRepository.deleteByUserId(user.getId());
             userRepository.deleteById(user.getId());
-            throw new MessagingException("Failed to send validation email to " + user.getEmail() , e);
+            throw new MessagingException("Failed to send validation email to " + user.getEmail(), e);
         }
     }
 
@@ -67,9 +71,9 @@ public class EmailService {
     private String generateActiveCode(int lenght) {
         String character = "0123456789";
         StringBuilder codeBuilder = new StringBuilder();
-        SecureRandom secureRandom = new SecureRandom();
-        for(int i= 0;i<lenght;i++){
-            int randomIndex = secureRandom.nextInt(character.length());
+        // FIX: now uses the shared static field instead of creating a new instance each call
+        for (int i = 0; i < lenght; i++) {
+            int randomIndex = SECURE_RANDOM.nextInt(character.length());
             codeBuilder.append(character.charAt(randomIndex));
         }
         return codeBuilder.toString();
@@ -98,10 +102,10 @@ public class EmailService {
                 StandardCharsets.UTF_8.name()
         );
 
-        Map<String,Object> proprites = new HashMap<>();
-        proprites.put("username",username);
-        proprites.put("confirmationUrl",confirmationUrl);
-        proprites.put("activation_code",activationCode);
+        Map<String, Object> proprites = new HashMap<>();
+        proprites.put("username", username);
+        proprites.put("confirmationUrl", confirmationUrl);
+        proprites.put("activation_code", activationCode);
 
         Context context = new Context();
         context.setVariables(proprites);
@@ -110,15 +114,13 @@ public class EmailService {
         helper.addTo(to);
         helper.setSubject(subject);
 
-        String template = templateEngine.process(templateName , context);
-        helper.setText(template,true);
-
+        String template = templateEngine.process(templateName, context);
+        helper.setText(template, true);
 
         try {
             mailSender.send(mimeMessage);
-        }catch (MailException e){
+        } catch (MailException e) {
             throw new MessagingException("Failed to send email", e);
         }
-
     }
 }
