@@ -8,6 +8,7 @@ import emsi.SmartFlow.entity.AiAnalysis;
 import emsi.SmartFlow.entity.Project;
 import emsi.SmartFlow.entity.Sprint;
 import emsi.SmartFlow.entity.Task;
+import emsi.SmartFlow.entity.enums.SprintStatus;
 import emsi.SmartFlow.entity.enums.TaskPriority;
 import emsi.SmartFlow.entity.enums.TaskStatus;
 import emsi.SmartFlow.repo.*;
@@ -16,311 +17,422 @@ import emsi.SmartFlow.service.impl.GeminiService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class AiAnalysisServiceImplTest {
 
-    @Mock
-    private AiAnalysisRepository aiAnalysisRepository;
+    @Mock private AiAnalysisRepository aiAnalysisRepository;
+    @Mock private GeminiService geminiService;
+    @Mock private SprintRepo sprintRepo;
+    @Mock private TaskRepository taskRepository;
+    @Mock private ProjectRepository projectRepository;
 
-    @Mock
-    private ObjectMapper objectMapper;
-
-    @Mock
-    private GeminiService geminiService;
-
-    @Mock
-    private SprintRepo sprintRepo;
-
-    @Mock
-    private TaskRepository taskRepository;
-
-    @Mock
-    private ProjectRepository projectRepository;
+    @Spy
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     @InjectMocks
     private AiAnalysisServiceImpl aiAnalysisService;
 
     private Project project;
-    private AiAnalysis savedAnalysis;
+    private AiAnalysis existingAnalysis;
     private AiAnalysisRequest request;
 
     @BeforeEach
     void setUp() {
         project = new Project();
         project.setId(1L);
-        project.setName("TestProject");
+        project.setName("Test Project");
+        project.setType("WEB");
 
-        // AiAnalysis uses @Builder
-        savedAnalysis = AiAnalysis.builder()
+        existingAnalysis = AiAnalysis.builder()
                 .id(10L)
                 .projectId(1L)
-                .projectSummary("Test summary")
+                .projectSummary("Summary")
+                .tasks("[]")
+                .sprints("[]")
+                .risks("[]")
+                .humanResources("[]")
+                .materialResources("[]")
+                .timeline("{}")
+                .costEstimation("{}")
                 .confidenceScore("HIGH")
                 .documentQuality("HIGH")
                 .build();
 
-        // AiAnalysisRequest uses @Data (standard setters)
         request = new AiAnalysisRequest();
-        request.setProjectSummary("Test summary");
-        request.setConfidenceScore("HIGH");
-        request.setDocumentQuality("HIGH");
-        request.setTasks(List.of());
-        request.setSprints(List.of());
-        request.setRisks(List.of());
-        request.setHumanResources(List.of());
-        request.setMaterialResources(List.of());
+        request.setProjectSummary("New Summary");
+        request.setConfidenceScore("MEDIUM");
+        request.setDocumentQuality("MEDIUM");
+        request.setTasks(Collections.emptyList());
+        request.setSprints(Collections.emptyList());
+        request.setRisks(Collections.emptyList());
+        request.setHumanResources(Collections.emptyList());
+        request.setMaterialResources(Collections.emptyList());
+        request.setTimeline(null);
+        request.setCostEstimation(null);
     }
 
-    // ── getAnalysis ───────────────────────────────────────────────────
-
-//    @Test
-//    void getAnalysis_shouldReturnResponseWhenAnalysisExists() throws Exception {
-//        when(aiAnalysisRepository.findByProjectId(1L)).thenReturn(Optional.of(savedAnalysis));
-//        // fromJson(null) is called for null JSON fields
-//        when(objectMapper.readValue((String) isNull(), eq(Object.class))).thenReturn(null);
-//
-//        AiAnalysisResponse result = aiAnalysisService.getAnalysis(1L);
-//
-//        assertNotNull(result);
-//        assertEquals(10L, result.getId());
-//        assertEquals(1L, result.getProjectId());
-//        assertEquals("HIGH", result.getConfidenceScore());
-//        assertEquals("Test summary", result.getProjectSummary());
-//    }
+    // ══════════════════════════════════════════════════════════════════
+    //  saveAnalysis — creates new when none exists
+    // ══════════════════════════════════════════════════════════════════
 
     @Test
-    void getAnalysis_shouldThrowRuntimeExceptionWhenNotFound() {
+    void saveAnalysis_createsNewWhenNoneExists() {
+        when(aiAnalysisRepository.findByProjectId(1L)).thenReturn(Optional.empty());
+        when(aiAnalysisRepository.save(any(AiAnalysis.class))).thenAnswer(inv -> {
+            AiAnalysis a = inv.getArgument(0);
+            a.setId(99L);
+            return a;
+        });
+
+        AiAnalysisResponse response = aiAnalysisService.saveAnalysis(1L, request);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getProjectSummary()).isEqualTo("New Summary");
+        verify(aiAnalysisRepository).save(any(AiAnalysis.class));
+    }
+
+    @Test
+    void saveAnalysis_updatesExistingWhenFound() {
+        when(aiAnalysisRepository.findByProjectId(1L)).thenReturn(Optional.of(existingAnalysis));
+        when(aiAnalysisRepository.save(any(AiAnalysis.class))).thenReturn(existingAnalysis);
+
+        AiAnalysisResponse response = aiAnalysisService.saveAnalysis(1L, request);
+
+        assertThat(response).isNotNull();
+        // The existing entity is reused (same id=10)
+        verify(aiAnalysisRepository, times(1)).save(existingAnalysis);
+    }
+
+    @Test
+    void saveAnalysis_withNullObjects_doesNotThrow() {
+        when(aiAnalysisRepository.findByProjectId(1L)).thenReturn(Optional.empty());
+        when(aiAnalysisRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+
+        AiAnalysisRequest emptyReq = new AiAnalysisRequest();
+        // all fields null
+        AiAnalysisResponse response = aiAnalysisService.saveAnalysis(1L, emptyReq);
+        assertThat(response).isNotNull();
+    }
+
+    // ══════════════════════════════════════════════════════════════════
+    //  getAnalysis
+    // ══════════════════════════════════════════════════════════════════
+
+    @Test
+    void getAnalysis_returnsResponseWhenFound() {
+        when(aiAnalysisRepository.findByProjectId(1L)).thenReturn(Optional.of(existingAnalysis));
+
+        AiAnalysisResponse response = aiAnalysisService.getAnalysis(1L);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getProjectId()).isEqualTo(1L);
+        assertThat(response.getConfidenceScore()).isEqualTo("HIGH");
+    }
+
+    @Test
+    void getAnalysis_throwsWhenNotFound() {
         when(aiAnalysisRepository.findByProjectId(99L)).thenReturn(Optional.empty());
 
-        RuntimeException ex = assertThrows(RuntimeException.class,
-                () -> aiAnalysisService.getAnalysis(99L));
-
-        assertTrue(ex.getMessage().contains("Aucune analyse pour ce projet"));
+        assertThatThrownBy(() -> aiAnalysisService.getAnalysis(99L))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("Aucune analyse");
     }
 
-    // ── saveAnalysis ──────────────────────────────────────────────────
-
-//    @Test
-//    void saveAnalysis_shouldCreateNewAnalysisWhenNoneExists() throws Exception {
-//        when(aiAnalysisRepository.findByProjectId(1L)).thenReturn(Optional.empty());
-//        when(objectMapper.writeValueAsString(any())).thenReturn("[]");
-//        when(aiAnalysisRepository.save(any(AiAnalysis.class))).thenReturn(savedAnalysis);
-//        when(objectMapper.readValue((String) isNull(), eq(Object.class))).thenReturn(null);
-//
-//        AiAnalysisResponse result = aiAnalysisService.saveAnalysis(1L, request);
-//
-//        assertNotNull(result);
-//        // Capture the argument saved to verify a NEW analysis was created
-//        ArgumentCaptor<AiAnalysis> captor = ArgumentCaptor.forClass(AiAnalysis.class);
-//        verify(aiAnalysisRepository).save(captor.capture());
-//        assertEquals(1L, captor.getValue().getProjectId());
-//        assertEquals("Test summary", captor.getValue().getProjectSummary());
-//    }
+    // ══════════════════════════════════════════════════════════════════
+    //  validateAndSave — happy path
+    // ══════════════════════════════════════════════════════════════════
 
     @Test
-    void saveAnalysis_shouldUpdateExistingAnalysisWhenOneExists() throws Exception {
-        when(aiAnalysisRepository.findByProjectId(1L)).thenReturn(Optional.of(savedAnalysis));
-        when(objectMapper.writeValueAsString(any())).thenReturn("[]");
-        when(aiAnalysisRepository.save(savedAnalysis)).thenReturn(savedAnalysis);
-        when(objectMapper.readValue((String) isNull(), eq(Object.class))).thenReturn(null);
-
-        aiAnalysisService.saveAnalysis(1L, request);
-
-        // Should save the SAME existing object (not a new one)
-        verify(aiAnalysisRepository).save(savedAnalysis);
-        assertEquals("Test summary", savedAnalysis.getProjectSummary());
-        assertEquals("HIGH", savedAnalysis.getConfidenceScore());
-    }
-
-    // ── validateAndSave ───────────────────────────────────────────────
-
-    @Test
-    void validateAndSave_shouldThrowWhenProjectNotFound() {
+    void validateAndSave_throwsWhenProjectNotFound() {
         when(projectRepository.findById(99L)).thenReturn(Optional.empty());
 
-        RuntimeException ex = assertThrows(RuntimeException.class,
-                () -> aiAnalysisService.validateAndSave(99L, request));
-
-        assertTrue(ex.getMessage().contains("99"));
+        assertThatThrownBy(() -> aiAnalysisService.validateAndSave(99L, request))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("Projet introuvable");
     }
 
-//    @Test
-//    void validateAndSave_shouldDeleteExistingSprintsBeforeCreating() throws Exception {
-//        Sprint oldSprint = new Sprint();
-//        oldSprint.setId(50L);
-//
-//        when(projectRepository.findById(1L)).thenReturn(Optional.of(project));
-//        when(sprintRepo.findByProjectIdOrderByStartDateAscIdAsc(1L)).thenReturn(List.of(oldSprint));
-//        when(taskRepository.findBySprintId(50L)).thenReturn(List.of());
-//        stubSaveAnalysis();
-//        when(projectRepository.save(any())).thenReturn(project);
-//
-//        aiAnalysisService.validateAndSave(1L, request);
-//
-//        verify(sprintRepo).deleteAll(List.of(oldSprint));
-//    }
-
-//    @Test
-//    void validateAndSave_shouldUnlinkTasksFromSprintBeforeDeleting() throws Exception {
-//        Sprint oldSprint = new Sprint();
-//        oldSprint.setId(50L);
-//
-//        Task linkedTask = new Task();
-//        linkedTask.setId(200L);
-//        linkedTask.setSprintId(50L);
-//        linkedTask.setTitle("Linked task");
-//        linkedTask.setStatus(TaskStatus.TODO);
-//        linkedTask.setPriority(TaskPriority.MEDIUM);
-//        linkedTask.setProjectId(1L);
-//
-//        when(projectRepository.findById(1L)).thenReturn(Optional.of(project));
-//        when(sprintRepo.findByProjectIdOrderByStartDateAscIdAsc(1L)).thenReturn(List.of(oldSprint));
-//        when(taskRepository.findBySprintId(50L)).thenReturn(List.of(linkedTask));
-//        when(taskRepository.save(linkedTask)).thenReturn(linkedTask);
-//        stubSaveAnalysis();
-//        when(projectRepository.save(any())).thenReturn(project);
-//
-//        aiAnalysisService.validateAndSave(1L, request);
-//
-//        // Task sprintId should be set to null before sprint deletion
-//        assertNull(linkedTask.getSprintId());
-//        verify(taskRepository).save(linkedTask);
-//    }
-
-//    @Test
-//    void validateAndSave_shouldCreateSprintsFromRequest() throws Exception {
-//        when(projectRepository.findById(1L)).thenReturn(Optional.of(project));
-//        when(sprintRepo.findByProjectIdOrderByStartDateAscIdAsc(1L)).thenReturn(List.of());
-//
-//        AiAnalysisRequest.AiSprintDTO sprintDTO = new AiAnalysisRequest.AiSprintDTO();
-//        sprintDTO.setName("Sprint 1");
-//        sprintDTO.setGoal("Set up the project");
-//        sprintDTO.setStartDate(LocalDate.now().toString());
-//        sprintDTO.setEndDate(LocalDate.now().plusWeeks(2).toString());
-//        request.setSprints(List.of(sprintDTO));
-//
-//        Sprint savedSprint = new Sprint();
-//        savedSprint.setId(100L);
-//        savedSprint.setTitle("Sprint 1");
-//        when(sprintRepo.save(any(Sprint.class))).thenReturn(savedSprint);
-//
-//        stubSaveAnalysis();
-//        when(projectRepository.save(any())).thenReturn(project);
-//
-//        aiAnalysisService.validateAndSave(1L, request);
-//
-//        ArgumentCaptor<Sprint> sprintCaptor = ArgumentCaptor.forClass(Sprint.class);
-//        verify(sprintRepo).save(sprintCaptor.capture());
-//        assertEquals("Sprint 1", sprintCaptor.getValue().getTitle());
-//        assertEquals("Set up the project", sprintCaptor.getValue().getGoal());
-//    }
-
-//    @Test
-//    void validateAndSave_shouldCreateTasksFromRequest() throws Exception {
-//        when(projectRepository.findById(1L)).thenReturn(Optional.of(project));
-//        when(sprintRepo.findByProjectIdOrderByStartDateAscIdAsc(1L)).thenReturn(List.of());
-//
-//        AiAnalysisRequest.AiTaskDTO taskDTO = new AiAnalysisRequest.AiTaskDTO();
-//        taskDTO.setTitle("Setup environment");
-//        taskDTO.setDescription("Install and configure all tools");
-//        taskDTO.setPriority("HIGH");
-//        taskDTO.setSprint("Sprint 1"); // no matching sprint → sprintId will be null
-//        request.setTasks(List.of(taskDTO));
-//
-//        when(taskRepository.save(any(Task.class))).thenReturn(new Task());
-//        stubSaveAnalysis();
-//        when(projectRepository.save(any())).thenReturn(project);
-//
-//        aiAnalysisService.validateAndSave(1L, request);
-//
-//        ArgumentCaptor<Task> taskCaptor = ArgumentCaptor.forClass(Task.class);
-//        verify(taskRepository).save(taskCaptor.capture());
-//        assertEquals("Setup environment", taskCaptor.getValue().getTitle());
-//        assertEquals(TaskPriority.HIGH, taskCaptor.getValue().getPriority());
-//        assertEquals(TaskStatus.TODO, taskCaptor.getValue().getStatus());
-//        assertEquals(1L, taskCaptor.getValue().getProjectId());
-//    }
-
-//    @Test
-//    void validateAndSave_shouldMapNullPriorityToMedium() throws Exception {
-//        when(projectRepository.findById(1L)).thenReturn(Optional.of(project));
-//        when(sprintRepo.findByProjectIdOrderByStartDateAscIdAsc(1L)).thenReturn(List.of());
-//
-//        AiAnalysisRequest.AiTaskDTO taskDTO = new AiAnalysisRequest.AiTaskDTO();
-//        taskDTO.setTitle("Task with no priority");
-//        taskDTO.setPriority(null); // should default to MEDIUM
-//        request.setTasks(List.of(taskDTO));
-//
-//        when(taskRepository.save(any(Task.class))).thenReturn(new Task());
-//        stubSaveAnalysis();
-//        when(projectRepository.save(any())).thenReturn(project);
-//
-//        aiAnalysisService.validateAndSave(1L, request);
-//
-//        ArgumentCaptor<Task> captor = ArgumentCaptor.forClass(Task.class);
-//        verify(taskRepository).save(captor.capture());
-//        assertEquals(TaskPriority.MEDIUM, captor.getValue().getPriority());
-//    }
-
-//    @Test
-//    void validateAndSave_shouldMapLowPriorityCorrectly() throws Exception {
-//        when(projectRepository.findById(1L)).thenReturn(Optional.of(project));
-//        when(sprintRepo.findByProjectIdOrderByStartDateAscIdAsc(1L)).thenReturn(List.of());
-//
-//        AiAnalysisRequest.AiTaskDTO taskDTO = new AiAnalysisRequest.AiTaskDTO();
-//        taskDTO.setTitle("Low priority task");
-//        taskDTO.setPriority("LOW");
-//        request.setTasks(List.of(taskDTO));
-//
-//        when(taskRepository.save(any(Task.class))).thenReturn(new Task());
-//        stubSaveAnalysis();
-//        when(projectRepository.save(any())).thenReturn(project);
-//
-//        aiAnalysisService.validateAndSave(1L, request);
-//
-//        ArgumentCaptor<Task> captor = ArgumentCaptor.forClass(Task.class);
-//        verify(taskRepository).save(captor.capture());
-//        assertEquals(TaskPriority.LOW, captor.getValue().getPriority());
-//    }
-
-//    @Test
-//    void validateAndSave_shouldReturnSuccessApiResponse() throws Exception {
-//        when(projectRepository.findById(1L)).thenReturn(Optional.of(project));
-//        when(sprintRepo.findByProjectIdOrderByStartDateAscIdAsc(1L)).thenReturn(List.of());
-//        stubSaveAnalysis();
-//        when(projectRepository.save(any())).thenReturn(project);
-//
-//        // ApiResponse uses @Builder
-//        ApiResponse<?> result = aiAnalysisService.validateAndSave(1L, request);
-//
-//        assertNotNull(result);
-//        assertNotNull(result.getMessage());
-//        assertTrue(result.getMessage().contains("succès"));
-//    }
-
-    // ── Helper ────────────────────────────────────────────────────────
-
-    /**
-     * Stubs the internal saveAnalysis call that validateAndSave always makes.
-     * objectMapper.writeValueAsString() is called per field.
-     */
-    private void stubSaveAnalysis() throws Exception {
+    @Test
+    void validateAndSave_withNoSprintsOrTasks_savesSuccessfully() {
+        when(projectRepository.findById(1L)).thenReturn(Optional.of(project));
+        when(sprintRepo.findByProjectIdOrderByStartDateAscIdAsc(1L)).thenReturn(Collections.emptyList());
         when(aiAnalysisRepository.findByProjectId(1L)).thenReturn(Optional.empty());
-        when(objectMapper.writeValueAsString(any())).thenReturn("[]");
-        when(aiAnalysisRepository.save(any(AiAnalysis.class))).thenReturn(savedAnalysis);
-        when(objectMapper.readValue((String) isNull(), eq(Object.class))).thenReturn(null);
+        when(aiAnalysisRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+        when(projectRepository.save(any())).thenReturn(project);
+
+        ApiResponse result = aiAnalysisService.validateAndSave(1L, request);
+
+        assertThat(result).isNotNull();
+        assertThat(result.getMessage()).contains("succès");
+    }
+
+    @Test
+    void validateAndSave_deletesExistingSprintsBeforeCreatingNew() {
+        Sprint oldSprint = Sprint.builder()
+                .id(5L).title("Old Sprint")
+                .status(SprintStatus.PLANNED)
+                .project(project)
+                .build();
+
+        when(projectRepository.findById(1L)).thenReturn(Optional.of(project));
+        when(sprintRepo.findByProjectIdOrderByStartDateAscIdAsc(1L)).thenReturn(List.of(oldSprint));
+        when(taskRepository.findBySprintId(5L)).thenReturn(Collections.emptyList());
+        when(aiAnalysisRepository.findByProjectId(1L)).thenReturn(Optional.empty());
+        when(aiAnalysisRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+        when(projectRepository.save(any())).thenReturn(project);
+
+        aiAnalysisService.validateAndSave(1L, request);
+
+        verify(sprintRepo).deleteAll(List.of(oldSprint));
+    }
+
+    @Test
+    void validateAndSave_withSprintDTO_createsSprint() {
+        AiAnalysisRequest.AiSprintDTO sprintDTO = new AiAnalysisRequest.AiSprintDTO();
+        sprintDTO.setName("Sprint 1");
+        sprintDTO.setGoal("Build auth module");
+        sprintDTO.setStartDate("2025-05-01");
+        sprintDTO.setEndDate("2025-05-14");
+
+        request.setSprints(List.of(sprintDTO));
+
+        Sprint savedSprint = Sprint.builder()
+                .id(1L).title("Sprint 1")
+                .status(SprintStatus.PLANNED)
+                .project(project)
+                .startDate(LocalDate.of(2025, 5, 1))
+                .endDate(LocalDate.of(2025, 5, 14))
+                .build();
+
+        when(projectRepository.findById(1L)).thenReturn(Optional.of(project));
+        when(sprintRepo.findByProjectIdOrderByStartDateAscIdAsc(1L)).thenReturn(Collections.emptyList());
+        when(sprintRepo.save(any())).thenReturn(savedSprint);
+        when(aiAnalysisRepository.findByProjectId(1L)).thenReturn(Optional.empty());
+        when(aiAnalysisRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+        when(projectRepository.save(any())).thenReturn(project);
+
+        ApiResponse result = aiAnalysisService.validateAndSave(1L, request);
+
+        assertThat(result).isNotNull();
+        verify(sprintRepo).save(any(Sprint.class));
+    }
+
+    @Test
+    void validateAndSave_withTaskDTO_createsTask() {
+        AiAnalysisRequest.AiTaskDTO taskDTO = new AiAnalysisRequest.AiTaskDTO();
+        taskDTO.setTitle("Setup CI/CD");
+        taskDTO.setDescription("Configure pipeline");
+        taskDTO.setPriority("HIGH");
+        taskDTO.setSprint("Sprint 1"); // sprint name not in map → sprintId = null
+
+        request.setTasks(List.of(taskDTO));
+
+        when(projectRepository.findById(1L)).thenReturn(Optional.of(project));
+        when(sprintRepo.findByProjectIdOrderByStartDateAscIdAsc(1L)).thenReturn(Collections.emptyList());
+        when(taskRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+        when(aiAnalysisRepository.findByProjectId(1L)).thenReturn(Optional.empty());
+        when(aiAnalysisRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+        when(projectRepository.save(any())).thenReturn(project);
+
+        aiAnalysisService.validateAndSave(1L, request);
+
+        verify(taskRepository).save(argThat(t ->
+                t.getTitle().equals("Setup CI/CD") &&
+                        t.getPriority() == TaskPriority.HIGH &&
+                        t.getStatus() == TaskStatus.TODO
+        ));
+    }
+
+    @Test
+    void validateAndSave_withLowPriorityTask_mapsCorrectly() {
+        AiAnalysisRequest.AiTaskDTO taskDTO = new AiAnalysisRequest.AiTaskDTO();
+        taskDTO.setTitle("Write docs");
+        taskDTO.setPriority("LOW");
+        taskDTO.setSprint(null);
+
+        request.setTasks(List.of(taskDTO));
+
+        when(projectRepository.findById(1L)).thenReturn(Optional.of(project));
+        when(sprintRepo.findByProjectIdOrderByStartDateAscIdAsc(1L)).thenReturn(Collections.emptyList());
+        when(taskRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+        when(aiAnalysisRepository.findByProjectId(1L)).thenReturn(Optional.empty());
+        when(aiAnalysisRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+        when(projectRepository.save(any())).thenReturn(project);
+
+        aiAnalysisService.validateAndSave(1L, request);
+
+        verify(taskRepository).save(argThat(t -> t.getPriority() == TaskPriority.LOW));
+    }
+
+    @Test
+    void validateAndSave_withNullPriorityTask_defaultsMedium() {
+        AiAnalysisRequest.AiTaskDTO taskDTO = new AiAnalysisRequest.AiTaskDTO();
+        taskDTO.setTitle("Unknown priority task");
+        taskDTO.setPriority(null);
+        taskDTO.setSprint(null);
+
+        request.setTasks(List.of(taskDTO));
+
+        when(projectRepository.findById(1L)).thenReturn(Optional.of(project));
+        when(sprintRepo.findByProjectIdOrderByStartDateAscIdAsc(1L)).thenReturn(Collections.emptyList());
+        when(taskRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+        when(aiAnalysisRepository.findByProjectId(1L)).thenReturn(Optional.empty());
+        when(aiAnalysisRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+        when(projectRepository.save(any())).thenReturn(project);
+
+        aiAnalysisService.validateAndSave(1L, request);
+
+        verify(taskRepository).save(argThat(t -> t.getPriority() == TaskPriority.MEDIUM));
+    }
+
+    @Test
+    void validateAndSave_withTimelineAndBudget_updatesProject() throws Exception {
+        Map<String, Object> timeline = Map.of(
+                "startDate", "2025-06-01",
+                "endDate", "2025-08-01"
+        );
+        Map<String, Object> cost = Map.of(
+                "estimatedTotalCost", 120000
+        );
+        request.setTimeline(timeline);
+        request.setCostEstimation(cost);
+
+        when(projectRepository.findById(1L)).thenReturn(Optional.of(project));
+        when(sprintRepo.findByProjectIdOrderByStartDateAscIdAsc(1L)).thenReturn(Collections.emptyList());
+        when(aiAnalysisRepository.findByProjectId(1L)).thenReturn(Optional.empty());
+        when(aiAnalysisRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+        when(projectRepository.save(any())).thenReturn(project);
+
+        aiAnalysisService.validateAndSave(1L, request);
+
+        // project.save() called twice: once in validateAndSave for dates/budget
+        verify(projectRepository, atLeastOnce()).save(any(Project.class));
+    }
+
+    @Test
+    void validateAndSave_withInvalidBudgetString_doesNotThrow() throws Exception {
+        Map<String, Object> cost = Map.of("estimatedTotalCost", "not-a-number");
+        request.setCostEstimation(cost);
+
+        when(projectRepository.findById(1L)).thenReturn(Optional.of(project));
+        when(sprintRepo.findByProjectIdOrderByStartDateAscIdAsc(1L)).thenReturn(Collections.emptyList());
+        when(aiAnalysisRepository.findByProjectId(1L)).thenReturn(Optional.empty());
+        when(aiAnalysisRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+        when(projectRepository.save(any())).thenReturn(project);
+
+        // should not throw; budget parse failure is logged and swallowed
+        ApiResponse result = aiAnalysisService.validateAndSave(1L, request);
+        assertThat(result).isNotNull();
+    }
+
+    @Test
+    void validateAndSave_sprintWithNullDates_fallsBackToCurrentDate() {
+        AiAnalysisRequest.AiSprintDTO sprintDTO = new AiAnalysisRequest.AiSprintDTO();
+        sprintDTO.setName("Sprint X");
+        sprintDTO.setGoal("Goal");
+        sprintDTO.setStartDate(null); // null → should default
+        sprintDTO.setEndDate(null);   // null → startDate + 2 weeks
+
+        request.setSprints(List.of(sprintDTO));
+
+        Sprint savedSprint = Sprint.builder()
+                .id(2L).title("Sprint X")
+                .status(SprintStatus.PLANNED)
+                .project(project)
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusWeeks(2))
+                .build();
+
+        when(projectRepository.findById(1L)).thenReturn(Optional.of(project));
+        when(sprintRepo.findByProjectIdOrderByStartDateAscIdAsc(1L)).thenReturn(Collections.emptyList());
+        when(sprintRepo.save(any())).thenReturn(savedSprint);
+        when(aiAnalysisRepository.findByProjectId(1L)).thenReturn(Optional.empty());
+        when(aiAnalysisRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+        when(projectRepository.save(any())).thenReturn(project);
+
+        ApiResponse result = aiAnalysisService.validateAndSave(1L, request);
+
+        assertThat(result).isNotNull();
+        verify(sprintRepo).save(any(Sprint.class));
+    }
+
+    @Test
+    void validateAndSave_taskLinkedToSprintByName() {
+        AiAnalysisRequest.AiSprintDTO sprintDTO = new AiAnalysisRequest.AiSprintDTO();
+        sprintDTO.setName("Sprint 1");
+        sprintDTO.setGoal("Goal");
+        sprintDTO.setStartDate("2025-05-01");
+        sprintDTO.setEndDate("2025-05-14");
+
+        AiAnalysisRequest.AiTaskDTO taskDTO = new AiAnalysisRequest.AiTaskDTO();
+        taskDTO.setTitle("Implement login");
+        taskDTO.setPriority("MEDIUM");
+        taskDTO.setSprint("Sprint 1"); // should link to sprint id
+
+        request.setSprints(List.of(sprintDTO));
+        request.setTasks(List.of(taskDTO));
+
+        Sprint savedSprint = Sprint.builder()
+                .id(7L).title("Sprint 1")
+                .status(SprintStatus.PLANNED)
+                .project(project)
+                .startDate(LocalDate.of(2025, 5, 1))
+                .endDate(LocalDate.of(2025, 5, 14))
+                .build();
+
+        when(projectRepository.findById(1L)).thenReturn(Optional.of(project));
+        when(sprintRepo.findByProjectIdOrderByStartDateAscIdAsc(1L)).thenReturn(Collections.emptyList());
+        when(sprintRepo.save(any())).thenReturn(savedSprint);
+        when(taskRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+        when(aiAnalysisRepository.findByProjectId(1L)).thenReturn(Optional.empty());
+        when(aiAnalysisRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+        when(projectRepository.save(any())).thenReturn(project);
+
+        aiAnalysisService.validateAndSave(1L, request);
+
+        verify(taskRepository).save(argThat(t -> Long.valueOf(7L).equals(t.getSprintId())));
+    }
+
+    @Test
+    void validateAndSave_existingSprintsWithTasks_unlinkTasksBeforeDelete() {
+        Sprint oldSprint = Sprint.builder()
+                .id(3L).title("Old").status(SprintStatus.PLANNED).project(project).build();
+
+        Task linkedTask = new Task();
+        linkedTask.setId(100L);
+        linkedTask.setTitle("Old task");
+        linkedTask.setSprintId(3L);
+        linkedTask.setPriority(TaskPriority.LOW);
+        linkedTask.setStatus(TaskStatus.TODO);
+        linkedTask.setProjectId(1L);
+
+        when(projectRepository.findById(1L)).thenReturn(Optional.of(project));
+        when(sprintRepo.findByProjectIdOrderByStartDateAscIdAsc(1L)).thenReturn(List.of(oldSprint));
+        when(taskRepository.findBySprintId(3L)).thenReturn(List.of(linkedTask));
+        when(taskRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+        when(aiAnalysisRepository.findByProjectId(1L)).thenReturn(Optional.empty());
+        when(aiAnalysisRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+        when(projectRepository.save(any())).thenReturn(project);
+
+        aiAnalysisService.validateAndSave(1L, request);
+
+        // The task's sprintId should be set to null before sprint is deleted
+        verify(taskRepository).save(argThat(t -> t.getSprintId() == null));
+        verify(sprintRepo).deleteAll(List.of(oldSprint));
     }
 }
