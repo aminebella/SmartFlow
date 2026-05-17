@@ -15,6 +15,20 @@
 	<properties>
 		<java.version>21</java.version>
         <maven.compiler.release>21</maven.compiler.release>
+            <sonar.coverage.exclusions>
+                **/entity/**,
+                **/rmi/**,
+                **/soap/**,
+                **/configuration/**,
+                **/dto/**,
+                **/exception/**,
+                **/repo/**,
+                **/keys/**,
+                **/enums/**,
+                **/email/**,
+                **/role/**,
+                **/SmartFlowApplication.*
+            </sonar.coverage.exclusions>
 	</properties>
 
 	<dependencies>
