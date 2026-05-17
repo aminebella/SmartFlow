@@ -1,10 +1,10 @@
 additionalModelsConverter -> org.springdoc.core.converters.AdditionalModelsConverter
 adminController -> emsi.SmartFlow.controller.facade.AdminController
 adminDashboardController -> emsi.SmartFlow.controller.facade.AdminDashboardController
-adminRepo -> jdk.proxy2.$Proxy211
+adminRepo -> jdk.proxy2.$Proxy213
 adminServiceImpl -> emsi.SmartFlow.service.impl.AdminServiceImpl
 aiAnalysisController -> emsi.SmartFlow.controller.facade.AiAnalysisController
-aiAnalysisRepository -> jdk.proxy2.$Proxy183
+aiAnalysisRepository -> jdk.proxy2.$Proxy185
 aiAnalysisServiceImpl -> emsi.SmartFlow.service.impl.AiAnalysisServiceImpl$$SpringCGLIB$$0
 amqpAdmin -> org.springframework.amqp.rabbit.core.RabbitAdmin
 annotationActionEndpointMapping -> org.springframework.ws.soap.addressing.server.AnnotationActionEndpointMapping
@@ -32,7 +32,7 @@ clientController -> emsi.SmartFlow.controller.facade.ClientController
 clientConverter -> emsi.SmartFlow.controller.converter.ClientConverter
 clientDashboardController -> emsi.SmartFlow.controller.facade.ClientDashboardController
 clientDashboardServiceImpl -> emsi.SmartFlow.service.impl.ClientDashboardServiceImpl
-clientRepo -> jdk.proxy2.$Proxy178
+clientRepo -> jdk.proxy2.$Proxy180
 clientServiceImpl -> emsi.SmartFlow.service.impl.ClientServiceImpl
 completionStageFallbackDecorator -> io.github.resilience4j.spring6.fallback.CompletionStageFallbackDecorator
 compositeBulkheadCustomizer -> io.github.resilience4j.common.CompositeCustomizer
@@ -53,6 +53,7 @@ dataSourceScriptDatabaseInitializer -> org.springframework.boot.autoconfigure.sq
 defaultMethodEndpointAdapter -> org.springframework.ws.server.endpoint.adapter.DefaultMethodEndpointAdapter
 defaultServletHandlerMapping -> org.springframework.beans.factory.support.NullBean
 defaultTemplateResolver -> org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver
+defaultValidator -> org.springframework.validation.beanvalidation.LocalValidatorFactoryBean
 defaultViewResolver -> org.springframework.web.servlet.view.InternalResourceViewResolver
 delegatingApplicationListener -> org.springframework.security.context.DelegatingApplicationListener
 delegatingMethodParameterCustomizer -> org.springdoc.core.customizers.DataRestDelegatingMethodParameterCustomizer
@@ -62,7 +63,7 @@ dispatcherServletRegistration -> org.springframework.boot.autoconfigure.web.serv
 emBeanDefinitionRegistrarPostProcessor -> org.springframework.data.jpa.repository.support.EntityManagerBeanDefinitionRegistrarPostProcessor
 emailService -> emsi.SmartFlow.email.EmailService$$SpringCGLIB$$0
 enableGlobalAuthenticationAutowiredConfigurer -> org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration$EnableGlobalAuthenticationAutowiredConfigurer
-entityManagerFactory -> jdk.proxy2.$Proxy164
+entityManagerFactory -> jdk.proxy2.$Proxy166
 entityManagerFactoryBuilder -> org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder
 error -> org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration$StaticView
 errorAttributes -> org.springframework.boot.web.servlet.error.DefaultErrorAttributes
@@ -81,11 +82,11 @@ globalExceptionHandler -> emsi.SmartFlow.handller.GlobalExceptionHandler
 handlerExceptionResolver -> org.springframework.web.servlet.handler.HandlerExceptionResolverComposite
 handlerFunctionAdapter -> org.springframework.web.servlet.function.support.HandlerFunctionAdapter
 helloController -> emsi.SmartFlow.controller.facade.HelloController
-hikariPoolDataSourceMetadataProvider -> org.springframework.boot.autoconfigure.jdbc.metadata.DataSourcePoolMetadataProvidersConfiguration$HikariPoolDataSourceMetadataProviderConfiguration$$Lambda/0x0000022d0154c000
+hikariPoolDataSourceMetadataProvider -> org.springframework.boot.autoconfigure.jdbc.metadata.DataSourcePoolMetadataProvidersConfiguration$HikariPoolDataSourceMetadataProviderConfiguration$$Lambda/0x0000023e9e5b2ac0
 httpMessageConvertersRestClientCustomizer -> org.springframework.boot.autoconfigure.web.client.HttpMessageConvertersRestClientCustomizer
 httpRequestHandlerAdapter -> org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter
 indexPageTransformer -> org.springdoc.webmvc.ui.SwaggerIndexPageTransformer
-initialization -> emsi.SmartFlow.SmartFlowApplication$$Lambda/0x0000022d01c04c80
+initialization -> emsi.SmartFlow.SmartFlowApplication$$Lambda/0x0000023e9ec88960
 initializeAuthenticationProviderBeanManagerConfigurer -> org.springframework.security.config.annotation.authentication.configuration.InitializeAuthenticationProviderBeanManagerConfigurer
 initializeUserDetailsBeanManagerConfigurer -> org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer
 io.github.resilience4j.springboot3.bulkhead.autoconfigure.BulkheadAutoConfiguration -> io.github.resilience4j.springboot3.bulkhead.autoconfigure.BulkheadAutoConfiguration$$SpringCGLIB$$0
@@ -140,8 +141,8 @@ jpa.named-queries#9 -> org.springframework.data.repository.core.support.Properti
 jpaAuditingHandler -> org.springframework.data.auditing.AuditingHandler
 jpaContext -> org.springframework.data.jpa.repository.support.DefaultJpaContext
 jpaMappingContext -> org.springframework.data.jpa.mapping.JpaMetamodelMappingContext
-jpaSharedEM_AWC_entityManagerFactory -> jdk.proxy2.$Proxy165
-jpaSharedEM_entityManagerFactory -> jdk.proxy2.$Proxy165
+jpaSharedEM_AWC_entityManagerFactory -> jdk.proxy2.$Proxy167
+jpaSharedEM_entityManagerFactory -> jdk.proxy2.$Proxy167
 jpaVendorAdapter -> org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
 jsonComponentModule -> org.springframework.boot.jackson.JsonComponentModule
 jsonMixinModule -> org.springframework.boot.jackson.JsonMixinModule
@@ -164,6 +165,7 @@ memberConverter -> emsi.SmartFlow.controller.converter.MemberConverter
 messageConverter -> org.springframework.amqp.support.converter.Jackson2JsonMessageConverter
 messageConverters -> org.springframework.boot.autoconfigure.http.HttpMessageConverters
 messageDispatcherServlet -> org.springframework.boot.web.servlet.ServletRegistrationBean
+methodValidationPostProcessor -> org.springframework.boot.validation.beanvalidation.FilteredMethodValidationPostProcessor
 modelConverterRegistrar -> org.springdoc.core.converters.ModelConverterRegistrar
 multipartConfigElement -> jakarta.servlet.MultipartConfigElement
 multipartResolver -> org.springframework.web.multipart.support.StandardServletMultipartResolver
@@ -185,9 +187,9 @@ notificationController -> emsi.SmartFlow.controller.facade.NotificationControlle
 notificationExchange -> org.springframework.amqp.core.DirectExchange
 notificationProducer -> emsi.SmartFlow.service.NotificationProducer
 notificationQueue -> org.springframework.amqp.core.Queue
-notificationRepository -> jdk.proxy2.$Proxy188
+notificationRepository -> jdk.proxy2.$Proxy190
 notificationService -> emsi.SmartFlow.service.NotificationService$$SpringCGLIB$$0
-nullableKotlinRequestParameterCustomizer -> org.springdoc.core.configuration.SpringDocKotlinConfiguration$$Lambda/0x0000022d01c8de48
+nullableKotlinRequestParameterCustomizer -> org.springdoc.core.configuration.SpringDocKotlinConfiguration$$Lambda/0x0000023e9ecce278
 objectNamingStrategy -> org.springframework.boot.autoconfigure.jmx.ParentAwareNamingStrategy
 objectPostProcessor -> org.springframework.security.config.annotation.configuration.AutowireBeanFactoryObjectPostProcessor
 offsetResolver -> org.springframework.data.web.OffsetScrollPositionHandlerMethodArgumentResolver
@@ -294,6 +296,7 @@ org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration$
 org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration$TransactionTemplateConfiguration -> org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration$TransactionTemplateConfiguration
 org.springframework.boot.autoconfigure.transaction.TransactionManagerCustomizationAutoConfiguration -> org.springframework.boot.autoconfigure.transaction.TransactionManagerCustomizationAutoConfiguration
 org.springframework.boot.autoconfigure.transaction.jta.JtaAutoConfiguration -> org.springframework.boot.autoconfigure.transaction.jta.JtaAutoConfiguration
+org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration -> org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration
 org.springframework.boot.autoconfigure.web.client.RestClientAutoConfiguration -> org.springframework.boot.autoconfigure.web.client.RestClientAutoConfiguration
 org.springframework.boot.autoconfigure.web.client.RestTemplateAutoConfiguration -> org.springframework.boot.autoconfigure.web.client.RestTemplateAutoConfiguration
 org.springframework.boot.autoconfigure.web.embedded.EmbeddedWebServerFactoryCustomizerAutoConfiguration -> org.springframework.boot.autoconfigure.web.embedded.EmbeddedWebServerFactoryCustomizerAutoConfiguration
@@ -317,7 +320,7 @@ org.springframework.boot.autoconfigure.websocket.servlet.WebSocketServletAutoCon
 org.springframework.boot.context.internalConfigurationPropertiesBinder -> org.springframework.boot.context.properties.ConfigurationPropertiesBinder
 org.springframework.boot.context.properties.BoundConfigurationProperties -> org.springframework.boot.context.properties.BoundConfigurationProperties
 org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessor -> org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessor
-org.springframework.boot.context.properties.EnableConfigurationPropertiesRegistrar.methodValidationExcludeFilter -> org.springframework.boot.validation.beanvalidation.MethodValidationExcludeFilter$$Lambda/0x0000022d01c05ac8
+org.springframework.boot.context.properties.EnableConfigurationPropertiesRegistrar.methodValidationExcludeFilter -> org.springframework.boot.validation.beanvalidation.MethodValidationExcludeFilter$$Lambda/0x0000023e9e48fa80
 org.springframework.boot.sql.init.dependency.DatabaseInitializationDependencyConfigurer$DependsOnDatabaseInitializationPostProcessor -> org.springframework.boot.sql.init.dependency.DatabaseInitializationDependencyConfigurer$DependsOnDatabaseInitializationPostProcessor
 org.springframework.context.annotation.internalAutowiredAnnotationProcessor -> org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor
 org.springframework.context.annotation.internalCommonAnnotationProcessor -> org.springframework.context.annotation.CommonAnnotationBeanPostProcessor
@@ -346,7 +349,7 @@ org.springframework.transaction.config.internalTransactionAdvisor -> org.springf
 org.springframework.transaction.config.internalTransactionalEventListenerFactory -> org.springframework.transaction.annotation.RestrictedTransactionalEventListenerFactory
 org.springframework.ws.config.annotation.DelegatingWsConfiguration -> org.springframework.ws.config.annotation.DelegatingWsConfiguration$$SpringCGLIB$$0
 pageModule -> org.springframework.data.web.config.SpringDataJacksonConfiguration$PageModule
-pageableCustomizer -> org.springframework.boot.autoconfigure.data.web.SpringDataWebAutoConfiguration$$Lambda/0x0000022d01c10d88
+pageableCustomizer -> org.springframework.boot.autoconfigure.data.web.SpringDataWebAutoConfiguration$$Lambda/0x0000023e9ec95570
 pageableOpenAPIConverter -> org.springdoc.core.converters.PageableOpenAPIConverter
 pageableResolver -> org.springframework.data.web.PageableHandlerMethodArgumentResolver
 parameterBuilder -> org.springdoc.core.service.GenericParameterService
@@ -372,10 +375,10 @@ projectController -> emsi.SmartFlow.controller.facade.ProjectController
 projectDashboardController -> emsi.SmartFlow.controller.facade.ProjectDashboardController
 projectDashboardServiceImpl -> emsi.SmartFlow.service.impl.ProjectDashboardServiceImpl$$SpringCGLIB$$0
 projectEndpoint -> emsi.SmartFlow.soap.ProjectEndpoint$$SpringCGLIB$$0
-projectRepository -> jdk.proxy2.$Proxy180
+projectRepository -> jdk.proxy2.$Proxy182
 projectSchema -> org.springframework.xml.xsd.SimpleXsdSchema
 projectServiceImpl -> emsi.SmartFlow.service.impl.ProjectServiceImpl
-projectTeamRepository -> jdk.proxy2.$Proxy181
+projectTeamRepository -> jdk.proxy2.$Proxy183
 projectingArgumentResolverBeanPostProcessor -> org.springframework.data.web.config.ProjectingArgumentResolverRegistrar$ProjectingArgumentResolverBeanPostProcessor
 projects -> org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition
 propertyResolverUtils -> org.springdoc.core.utils.PropertyResolverUtils
@@ -421,7 +424,7 @@ retryRegistry -> io.github.resilience4j.retry.internal.InMemoryRetryRegistry
 retryRegistryEventConsumer -> io.github.resilience4j.core.registry.CompositeRegistryEventConsumer
 rmiRegistry -> sun.rmi.registry.RegistryImpl
 rmiServerConfig -> emsi.SmartFlow.rmi.RmiServerConfig$$SpringCGLIB$$0
-roleRepository -> jdk.proxy2.$Proxy171
+roleRepository -> jdk.proxy2.$Proxy173
 routerFunctionMapping -> org.springframework.web.servlet.function.support.RouterFunctionMapping
 routerFunctionProvider -> org.springdoc.webmvc.core.providers.RouterFunctionWebMvcProvider
 schemaPropertyDeprecatingConverter -> org.springdoc.core.converters.SchemaPropertyDeprecatingConverter
@@ -442,7 +445,7 @@ simpleSoapExceptionResolver -> org.springframework.ws.soap.server.endpoint.Simpl
 smartFlowApplication -> emsi.SmartFlow.SmartFlowApplication$$SpringCGLIB$$0
 soapActionAnnotationMethodEndpointMapping -> org.springframework.ws.soap.server.endpoint.mapping.SoapActionAnnotationMethodEndpointMapping
 soapFaultAnnotationExceptionResolver -> org.springframework.ws.soap.server.endpoint.SoapFaultAnnotationExceptionResolver
-sortCustomizer -> org.springframework.boot.autoconfigure.data.web.SpringDataWebAutoConfiguration$$Lambda/0x0000022d01c10000
+sortCustomizer -> org.springframework.boot.autoconfigure.data.web.SpringDataWebAutoConfiguration$$Lambda/0x0000023e9ec947e8
 sortOpenAPIConverter -> org.springdoc.core.converters.SortOpenAPIConverter
 sortResolver -> org.springframework.data.web.SortHandlerMethodArgumentResolver
 spelExpressionParser -> org.springframework.expression.spel.standard.SpelExpressionParser
@@ -477,7 +480,7 @@ springSecurityHandlerMappingIntrospectorBeanDefinitionRegistryPostProcessor -> o
 springWebProvider -> org.springdoc.webmvc.core.providers.SpringWebMvcProvider
 springdocObjectMapperProvider -> org.springdoc.core.providers.ObjectMapperProvider
 sprintController -> emsi.SmartFlow.controller.facade.SprintController
-sprintRepo -> jdk.proxy2.$Proxy186
+sprintRepo -> jdk.proxy2.$Proxy188
 sprintServiceImpl -> emsi.SmartFlow.service.impl.SprintServiceImpl$$SpringCGLIB$$0
 sslBundleRegistry -> org.springframework.boot.ssl.DefaultSslBundleRegistry
 sslPropertiesSslBundleRegistrar -> org.springframework.boot.autoconfigure.ssl.SslPropertiesBundleRegistrar
@@ -491,10 +494,10 @@ swaggerWelcome -> org.springdoc.webmvc.ui.SwaggerWelcomeWebMvc
 taskController -> emsi.SmartFlow.controller.facade.TaskController
 taskExecutorBuilder -> org.springframework.boot.task.TaskExecutorBuilder
 taskRemoteServiceImpl -> emsi.SmartFlow.rmi.TaskRemoteServiceImpl
-taskRepository -> jdk.proxy2.$Proxy182
+taskRepository -> jdk.proxy2.$Proxy184
 taskRmiClient -> emsi.SmartFlow.rmi.TaskRmiClient$$SpringCGLIB$$0
 taskRmiController -> emsi.SmartFlow.rmi.controller.facade.TaskRmiController
-taskRmiService -> jdk.proxy2.$Proxy192
+taskRmiService -> jdk.proxy2.$Proxy194
 taskSchedulerBuilder -> org.springframework.boot.task.TaskSchedulerBuilder
 taskServiceImpl -> emsi.SmartFlow.service.impl.TaskServiceImpl$$SpringCGLIB$$0
 templateEngine -> org.thymeleaf.spring6.SpringTemplateEngine
@@ -512,7 +515,7 @@ timerAspect -> io.github.resilience4j.spring6.micrometer.configure.TimerAspect
 timerEventsConsumerRegistry -> io.github.resilience4j.consumer.DefaultEventConsumerRegistry
 timerRegistry -> io.github.resilience4j.micrometer.internal.InMemoryTimerRegistry
 timerRegistryEventConsumer -> io.github.resilience4j.core.registry.CompositeRegistryEventConsumer
-tokenRepository -> jdk.proxy2.$Proxy170
+tokenRepository -> jdk.proxy2.$Proxy172
 tomcatServletWebServerFactory -> org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory
 tomcatServletWebServerFactoryCustomizer -> org.springframework.boot.autoconfigure.web.servlet.TomcatServletWebServerFactoryCustomizer
 tomcatWebServerFactoryCustomizer -> org.springframework.boot.autoconfigure.web.embedded.TomcatWebServerFactoryCustomizer
@@ -522,7 +525,7 @@ transactionInterceptor -> org.springframework.transaction.interceptor.Transactio
 transactionManager -> org.springframework.orm.jpa.JpaTransactionManager
 transactionTemplate -> org.springframework.transaction.support.TransactionTemplate
 userDetailsServiceImpl -> emsi.SmartFlow.security.UserDetailsServiceImpl$$SpringCGLIB$$0
-userRepository -> jdk.proxy2.$Proxy169
+userRepository -> jdk.proxy2.$Proxy171
 viewControllerHandlerMapping -> org.springframework.beans.factory.support.NullBean
 viewNameTranslator -> org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator
 viewResolver -> org.springframework.web.servlet.view.ContentNegotiatingViewResolver
