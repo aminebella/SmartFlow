@@ -242,44 +242,73 @@
                 <configuration>
                     <outputDirectory>${project.build.directory}/jacoco-report</outputDirectory>
                     <excludes>
-                        <!-- Entities (JPA classes, no logic to test) -->
-                        <exclude>emsi/SmartFlow/entity/**</exclude>
-                        <!-- DTOs (pure data carriers) -->
-<!--                        <exclude>emsi/SmartFlow/controller/dto/**</exclude>-->
-                        <!-- Enums -->
-                        <exclude>emsi/SmartFlow/entity/enums/**</exclude>
-                        <!-- Entity keys -->
-                        <exclude>emsi/SmartFlow/entity/keys/**</exclude>
-                        <!-- JPA Repositories (Spring-generated, no code to test) -->
-                        <exclude>emsi/SmartFlow/repo/**</exclude>
                         <!-- Spring configuration classes -->
                         <exclude>emsi/SmartFlow/configuration/**</exclude>
+
+                        <!-- Converter classes if any -->
+                        <exclude>emsi/SmartFlow/controller/converter/**</exclude>
+
+                        <!-- DTOs (pure data carriers) -->
+                        <exclude>emsi/SmartFlow/controller/dto/client/**</exclude>
+                        <exclude>emsi/SmartFlow/controller/dto/projectMember/**</exclude>
+                        <exclude>emsi/SmartFlow/controller/dto/sprint/**</exclude>
+                        <exclude>emsi/SmartFlow/controller/dto/teams/**</exclude>
+                        <exclude>emsi/SmartFlow/controller/dto/AdminDashboardSummary*</exclude>
+                        <exclude>emsi/SmartFlow/controller/dto/AiAnalysisRequest*</exclude>
+                        <exclude>emsi/SmartFlow/controller/dto/AiAnalysisResponse*</exclude>
+                        <exclude>emsi/SmartFlow/controller/dto/ApiResponse*</exclude>
+                        <exclude>emsi/SmartFlow/controller/dto/ClientDashboardSummary*</exclude>
+
+                        <!-- Email (hard to test without SMTP) -->
+                        <exclude>emsi/SmartFlow/email/EmailTemplateName*</exclude>
+
+                        <!-- Entities (JPA classes, no logic to test) -->
+                        <exclude>emsi/SmartFlow/entity/**</exclude>
+
+                        <!-- Enums -->
+                        <exclude>emsi/SmartFlow/entity/enums/**</exclude>
+
+                        <!-- Entity keys -->
+                        <exclude>emsi/SmartFlow/entity/keys/**</exclude>
+
+                        <!-- Exception classes (no logic) -->
+                        <exclude>emsi/SmartFlow/exception/**</exclude>
+
+                        <!-- Handlers generated code -->
+                        <exclude>emsi/SmartFlow/handller/BusinessErrorCodes*</exclude>
+                        <exclude>emsi/SmartFlow/handller/ExceptionResponse*</exclude>
+
+                        <!-- JPA Repositories (Spring-generated, no code to test) -->
+                        <exclude>emsi/SmartFlow/repo/**</exclude>
+
+                        <!-- RMI generated code -->
+                        <exclude>emsi/SmartFlow/rmi/**</exclude>
+
+                        <!-- SOAP generated code -->
+                        <exclude>emsi/SmartFlow/soap/**</exclude>
+
+                        <!-- Role entity -->
+                        <exclude>emsi/SmartFlow/role/**</exclude>
+
+                        <!-- RabbitMQ consumer/producer (integration concerns) -->
+                        <exclude>emsi/SmartFlow/service/NotificationConsumer*</exclude>
+                        <exclude>emsi/SmartFlow/service/NotificationProducer*</exclude>
+
                         <!-- Security config and filters -->
 <!--                        <exclude>emsi/SmartFlow/security/SecurityConfig*</exclude>-->
                         <exclude>emsi/SmartFlow/security/LogoutService*</exclude>
                         <exclude>emsi/SmartFlow/security/UserDetailsServiceImpl*</exclude>
-                        <!-- Application entry point -->
-                        <exclude>emsi/SmartFlow/SmartFlowApplication*</exclude>
-                        <!-- Role entity -->
-                        <exclude>emsi/SmartFlow/role/**</exclude>
+
                         <!-- User entity and token -->
                         <exclude>emsi/SmartFlow/user/User*</exclude>
                         <exclude>emsi/SmartFlow/user/Token*</exclude>
-                        <!-- Exception classes (no logic) -->
-                        <exclude>emsi/SmartFlow/exception/**</exclude>
-                        <exclude>emsi/SmartFlow/handller/BusinessErrorCodes*</exclude>
-                        <exclude>emsi/SmartFlow/handller/ExceptionResponse*</exclude>
-                        <!-- SOAP generated code -->
-                        <exclude>emsi/SmartFlow/soap/**</exclude>
+
                         <!-- Utilities (simple static helpers) -->
-<!--                        <exclude>emsi/SmartFlow/Utils/**</exclude>-->
-                        <!-- Email (hard to test without SMTP) -->
-<!--                        <exclude>emsi/SmartFlow/email/**</exclude>-->
-                        <!-- RabbitMQ consumer/producer (integration concerns) -->
-                        <exclude>emsi/SmartFlow/service/NotificationConsumer*</exclude>
-                        <exclude>emsi/SmartFlow/service/NotificationProducer*</exclude>
-                        <!-- Converter classes if any -->
-                        <exclude>emsi/SmartFlow/controller/converter/**</exclude>
+                        <exclude>emsi/SmartFlow/Utils/SecurityUtils*</exclude>
+                        <exclude>emsi/SmartFlow/Utils/ClientUtils*</exclude>
+
+                        <!-- Application entry point -->
+                        <exclude>emsi/SmartFlow/SmartFlowApplication*</exclude>
                     </excludes>
                 </configuration>
             </plugin>
