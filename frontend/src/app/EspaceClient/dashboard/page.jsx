@@ -60,7 +60,7 @@ export default function EspaceClientDashboard() {
 
   if (authLoading || projectsLoading) {
     return (
-      <div style={{ minHeight: '100vh', background: '#F5F4F1' }}>
+      <div style={{ minHeight: '100vh', background: '#EEF0F3' }}>
         <GlobalClientHeader />
         <Loading />
       </div>
@@ -68,7 +68,7 @@ export default function EspaceClientDashboard() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F5F4F1' }}>
+    <div style={{ minHeight: '100vh', background: '#EEF0F3' }}>
       <GlobalClientHeader />
 
       <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '2rem 1.5rem' }}>

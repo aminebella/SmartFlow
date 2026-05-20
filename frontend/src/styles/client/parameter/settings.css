@@ -3,8 +3,7 @@
 ───────────────────────────────────────────────── */
 
 .settings-root {
-  font-family: var(--font);
-  background: var(--bg);
+
   color: var(--text1);
   font-size: 13.5px;
   line-height: 1.5;

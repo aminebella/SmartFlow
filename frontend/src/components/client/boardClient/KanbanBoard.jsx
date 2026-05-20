@@ -4,10 +4,10 @@ import { useState } from 'react';
 import TaskCard from './TaskCard';
 
 const COLUMNS = [
-  { id: 'TODO', title: 'À faire', color: '#a08c4a' },
-  { id: 'IN_PROGRESS', title: 'En cours', color: '#c9b479' },
-  { id: 'REVIEW', title: 'Revue', color: '#d4c48a' },
-  { id: 'DONE', title: 'Terminé', color: '#8a9e6b' },
+  { id: 'TODO', title: 'À faire', color: '#6B1A1A' },
+  { id: 'IN_PROGRESS', title: 'En cours', color: '#2A5F80' },
+  { id: 'REVIEW', title: 'Revue', color: '#1A3A52' },
+  { id: 'DONE', title: 'Terminé', color: '#1A3D2B' },
 ];
 
 export default function KanbanBoard({ tickets, members, currentUser, onEditTicket, onMoveTicket, isManager }) {

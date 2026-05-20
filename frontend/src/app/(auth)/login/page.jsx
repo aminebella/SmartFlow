@@ -62,7 +62,7 @@ const handleSubmit = async (e) => {
       {/* ── LEFT PANEL ── */}
       <div className="auth-left">
         <div className="left-logo-wrap">
-<img src={logo.src} alt="SmartFlow" />
+     <img src={logo.src} alt="SmartFlow" />
          
         </div>
       </div>

@@ -9,7 +9,7 @@ export default function ProjectLayout({ children }) {
   const { id } = useParams();
 
   return (
-    <div style={{ backgroundColor: "#F9F8F5" }}>
+    <div style={{ backgroundColor: "#EEF0F3" }}>
       <TopNavbar />
       <div>
         <main>{children}</main>

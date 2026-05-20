@@ -48,13 +48,7 @@ export default function AdminHeader({ onMenuOpen }) {
         <div className={styles.right}>
           <div className={styles.separator} />
 
-          {/* Bell */}
-          <button className={styles.iconBtn}>
-            <BellRing size={17} />
-            <span className={styles.notificationBadge} />
-          </button>
-
-          <div className={styles.separator} />
+        
 
           {/* Avatar + chevron */}
           <div className={styles.userProfileMenu}>

@@ -103,7 +103,6 @@ export default function TicketsPage() {
             </div>
           ) : filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-24 text-center">
-              <div className="text-5xl mb-4">🎫</div>
               <h3 className="text-slate-700 font-semibold mb-1">Aucun ticket trouvé</h3>
               <p className="text-slate-400 text-sm mb-5">
                 {tickets.length === 0

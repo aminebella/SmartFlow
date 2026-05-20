@@ -3,11 +3,11 @@
 import { useState } from 'react';
 
 const STATUS_COLORS = {
-  TODO:        { bg: '#f3edd6', text: '#a08c4a' },
-  IN_PROGRESS: { bg: '#c9b479', text: '#fff' },
+  TODO:        { bg: '#4A8FAA', text: '#EEF0F3' },
+  IN_PROGRESS: { bg: '#2A5F80', text: '#fff' },
   REVIEW:      { bg: '#d4c48a', text: '#fff' },
-  DONE:        { bg: '#8a9e6b', text: '#fff' },
-  BLOCKED:     { bg: '#c47a5a', text: '#fff' },
+  DONE:        { bg: '#1A3D2B', text: '#fff' },
+  BLOCKED:     { bg: '#5A6070', text: '#fff' },
 };
 
 const PRIORITY_COLORS = {

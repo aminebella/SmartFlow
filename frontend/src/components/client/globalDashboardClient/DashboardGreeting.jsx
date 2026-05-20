@@ -14,7 +14,7 @@ export default function DashboardGreeting({ user }) {
 
   return (
     <div className={styles.wrapper}>
-      <h1 className={styles.title}>Bonjour, {firstName} 👋</h1>
+      <h1 className={styles.title}>Bonjour, {firstName} </h1>
       <p className={styles.subtitle}>
         Voici un résumé de vos projets actifs —{' '}
         <span className={styles.date}>{todayLabel()}</span>

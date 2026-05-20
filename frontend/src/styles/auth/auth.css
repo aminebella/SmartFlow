@@ -4,7 +4,7 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:        #F9F8F5;
+  --bg:        #EEF0F3;
   --panel-bg:  #FFFFFF;
   --left-bg:   #2b2b24;
   --accent:    #8a9e6b;
@@ -18,10 +18,10 @@
   --text-lt:   #b8b8aa;
   --border:    #e8e0cc;
   --input-bg:  #f3edd6;
-  --err:       #c47a5a;
+  --err:       #6B1A1A;
   --err-bg:    #fdf0ea;
   --err-bdr:   #e8c4a8;
-  --ok:        #8a9e6b;
+  --ok:        #1A3D2B;
   --ok-bg:     #eef3e8;
   --ok-bdr:    #c4d4a8;
   --radius:    14px;
@@ -268,12 +268,12 @@ body {
 .btn-primary {
   width: 100%;
   padding: 12px 20px;
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dk) 100%);
+  background: #1A3A52;
   border: none;
   border-radius: var(--radius-sm);
   font-size: 15px;
   font-weight: 600;
-  color: #fff;
+  color: #e4c539;
   cursor: pointer;
   transition: opacity .18s, transform .12s, box-shadow .18s;
   box-shadow: 0 4px 14px rgba(138,158,107,.35);
@@ -313,7 +313,7 @@ body {
   margin-top: 24px;
 }
 .auth-footer a, .auth-footer button {
-  color: var(--accent-dk);
+  color: #6B1A1A;
   font-weight: 600;
   text-decoration: none;
   background: none;
@@ -322,7 +322,7 @@ body {
   font-size: inherit;
   transition: color .15s;
 }
-.auth-footer a:hover, .auth-footer button:hover { color: var(--accent); text-decoration: underline; }
+.auth-footer a:hover, .auth-footer button:hover { color: #1A3D2B; text-decoration: underline; }
 
 /* ===== OTP / ACTIVATION ===== */
 .activation-panel {

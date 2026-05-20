@@ -32,9 +32,9 @@ function roleInfo(role) {
 
 // Progress bar color based on completion %
 function progressColor(pct) {
-  if (pct >= 75) return '#639922';
+  if (pct >= 75) return '#1A3D2B';
   if (pct >= 40) return '#B8860B';
-  return '#D85A30';
+  return '#6B1A1A';
 }
 
 /**

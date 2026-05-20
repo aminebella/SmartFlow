@@ -20,9 +20,7 @@ const NAV_TABS = [
   { label: "Parameters",  path: "/parameter"  }
 ];
 
-const API = "http://localhost:8080/api/v1";
-
-// ── Icônes par type de notification ──
+// Mapping of notification types to icons (prevents NOTIF_ICONS undefined error)
 const NOTIF_ICONS = {
   TASK_ASSIGNED:     "📋",
   STATUS_CHANGED:    "🔄",
@@ -32,7 +30,7 @@ const NOTIF_ICONS = {
   COMMENT_ADDED:     "💬",
 };
 
-
+const API = "http://localhost:8080/api/v1";
 
 export default function TopNavbar() {
   const { id: projectId } = useParams();
@@ -55,13 +53,6 @@ export default function TopNavbar() {
   const [notifications, setNotifications] = useState([]);
   const [unreadCount,   setUnreadCount]   = useState(0);
   const notifRef = useRef(null);
-
-  useEffect(() => {
-    getCurrentUser().then(setUser).catch(() => {});
-    if (projectId) {
-      getProjectById(projectId).then(setProject).catch(() => {});
-    }
-  }, [projectId]);
 
   // ── Polling toutes les 30 secondes ──
   useEffect(() => {
@@ -161,7 +152,7 @@ export default function TopNavbar() {
   const basePath = projectId ? `/EspaceClient/projects/${projectId}` : "";
 
   return (
-    <header className="bg-white border-b border-slate-200 sticky top-0 z-40">
+    <header className=" border-b border-slate-200 sticky top-0 z-40"style={{ backgroundColor: '#EEF0F3' }}>
       {/* ── Barre principale ── */}
       <div className="flex items-center h-14 px-4 gap-4">
 
@@ -207,12 +198,6 @@ export default function TopNavbar() {
           >
             Teams
           </button>
-          {/* <button
-            className="px-3 py-1.5 rounded-md bg-slate-100 text-slate-800 font-medium transition flex items-center gap-1"
-            onClick={() => router.push(`/EspaceClient/projects/${projectId}/parameter`)}
-          >
-            Parameter
-          </button> */}
         </nav>
 
         <div className="flex-1" />
@@ -235,7 +220,7 @@ export default function TopNavbar() {
             )}
           </button>
 
-        {/* ── Dropdown Notifications ── */}
+          {/* ── Dropdown Notifications ── */}
           {notifOpen && (
             <div className="absolute right-0 top-11 w-80 bg-white rounded-xl shadow-xl border border-slate-100 z-50 overflow-hidden">
 
@@ -364,10 +349,16 @@ export default function TopNavbar() {
 
       {/* ── Barre projet (sous-navigation) ── */}
       {projectId && (
-        <div className="flex items-center gap-1 px-4 border-t border-slate-100 bg-white">
-          <div className="flex items-center gap-1.5 pr-4 mr-1 border-r border-slate-200 py-0.5">
+        <div
+          className="flex items-center gap-1 px-4 border-t border-white/10"
+          style={{ backgroundColor: '#1A3A52' }}
+        >
+          <div className="flex items-center gap-1.5 pr-4 mr-1 border-r border-white/20 py-0.5">
             <div className={styles.goldBox} />
-            <span className="text-sm font-semibold text-slate-700 truncate max-w-[160px]">
+            <span
+              className="text-sm font-semibold truncate max-w-[160px]"
+              style={{ color: '#EEF0F3' }}
+            >
               {project?.name ?? "Projet"}
             </span>
           </div>
@@ -380,11 +371,12 @@ export default function TopNavbar() {
                 <button
                   key={label}
                   onClick={() => router.push(href)}
-                  className={`relative flex items-center gap-1.5 px-3 py-3 text-sm font-medium whitespace-nowrap border-b-2 transition -mb-px ${
+                  className="relative flex items-center gap-1.5 px-3 py-3 text-sm font-medium whitespace-nowrap border-b-2 transition -mb-px"
+                  style={
                     isActive
-                      ? styles.activeTab
-                      : `border-transparent text-slate-500 hover:text-slate-800 hover:border-slate-300 ${styles.tabHover}`
-                  }`}
+                      ? { color: '#e4c539', borderColor: '#e4c539' }
+                      : { color: '#EEF0F3', borderColor: 'transparent' }
+                  }
                 >
                   {label}
                   {badge && (

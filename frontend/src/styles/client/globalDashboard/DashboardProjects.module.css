@@ -29,7 +29,8 @@
 .addBtn {
   font-size: 12px;
   color: #fff;
-  background: #B8860B;
+  background: #2A5F80
+;
   text-decoration: none;
   font-weight: 500;
   padding: 6px 12px;
@@ -37,11 +38,11 @@
   transition: background 0.15s;
 }
 
-.addBtn:hover { background: #9A7308; }
+.addBtn:hover { background: #e4c539; color: #1A3A52;}
 
 .seeAll {
   font-size: 12px;
-  color: #B8860B;
+  color: #e4c539;
   text-decoration: none;
   font-weight: 500;
   transition: opacity 0.15s;
@@ -67,7 +68,7 @@
   align-items: center;
   gap: 12px;
   padding: 10px 0;
-  border-bottom: 0.5px solid #F0EEE8;
+  border-bottom: 0.5px solid #EEF0F3;
   text-decoration: none;
   transition: background 0.12s;
   border-radius: 6px;
@@ -75,15 +76,15 @@
 }
 
 .row:last-child { border-bottom: none; }
-.row:hover { background: #FAFAF8; }
+.row:hover { background: #EEF0F3; }
 
 /* Project initials icon */
 .icon {
   width: 36px;
   height: 36px;
   border-radius: 8px;
-  background: #FAF0D7;
-  color: #854F0B;
+  background: #2A5F80;
+  color: #EEF0F3;
   font-size: 12px;
   font-weight: 700;
   display: flex;
@@ -117,7 +118,7 @@
 
 .progBar {
   height: 4px;
-  background: #F0EEE8;
+  background: #5A6070;
   border-radius: 2px;
   margin-top: 4px;
   overflow: hidden;
@@ -154,10 +155,10 @@
 }
 
 /* Status variants */
-.status_active   { background: #EAF3DE; color: #3B6D11; }
-.status_done     { background: #E6F1FB; color: #185FA5; }
-.status_archived { background: #F0EEE8; color: #6B6560; }
+.status_active   { background: #EAF3DE; color: #1A3D2B; }
+.status_done     { background: #E6F1FB; color: #2A5F80; }
+.status_archived { background: #F0EEE8; color: #8A93A0; }
 
 /* Role variants */
-.role_manager { background: #EEEDFE; color: #3C3489; }
-.role_member  { background: #FAF0D7; color: #854F0B; }
+.role_manager { background: #EEEDFE; color: #1A3A52; }
+.role_member  { background: #FAF0D7; color: #6B1A1A; }

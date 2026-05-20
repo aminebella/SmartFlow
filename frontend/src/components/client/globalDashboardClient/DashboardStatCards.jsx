@@ -32,32 +32,32 @@ export default function DashboardStatCards({
         title="Total projets"
         value={loading ? '…' : totalProjects}
         hint={`${finishedProjects} terminé${finishedProjects !== 1 ? 's' : ''}`}
-        accentColor="#B8860B"
+        accentColor="#e4c539"
       />
       <StatCard
         title="Projets actifs"
         value={loading ? '…' : activeProjects}
         hint="En cours"
-        accentColor="#639922"
+        accentColor="#1A3D2B"
       />
       <StatCard
         title="Tâches terminées"
         value={loading ? '…' : tasksDone}
         hint="Complétées"
-        accentColor="#639922"
+        accentColor="#1A3D2B"
       />
       <StatCard
         title="Tâches à faire"
         value={loading ? '…' : tasksTodo}
         hint="À traiter"
         badgeType={tasksTodo > 0 ? 'danger' : 'success'}
-        accentColor="#D85A30"
+        accentColor="#6B1A1A"
       />
       <StatCard
         title="Productivité"
         value={loading ? '…' : `${productivity}%`}
         hint="Tâches complétées / assignées"
-        accentColor="#534AB7"
+        accentColor="#2A5F80"
       />
     </div>
   );

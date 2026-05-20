@@ -26,7 +26,6 @@ const mainLinks = [
 
 const configLinks = [
   { href: '/EspaceAdmin/reports',       label: 'Rapports',         icon: BarChart2 },
-  { href: '/EspaceAdmin/notifications', label: 'Notifications',    icon: Bell },
 ];
 
 function NavLink({ href, label, icon: Icon, badge, onClose, pathname }) {
@@ -61,7 +60,6 @@ export default function AdminSidebar({ isOpen, onClose }) {
 
   const configLinksWithBadges = [
     { href: '/EspaceAdmin/reports',       label: 'Rapports',         icon: BarChart2 },
-    { href: '/EspaceAdmin/notifications', label: 'Notifications',    icon: Bell,            badge: 0 }, // TODO: Add notifications hook when available
   ];
 
   return (

@@ -51,7 +51,7 @@ export default function ProjectsListPage() {
 
   if (authLoading || projectsLoading) {
     return (
-      <div style={{ minHeight: '100vh', background: '#F5F4F1' }}>
+      <div style={{ minHeight: '100vh', background: '#EEF0F3' }}>
         <GlobalClientHeader />
         <Loading />
       </div>
@@ -59,7 +59,7 @@ export default function ProjectsListPage() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F5F4F1' }}>
+    <div style={{ minHeight: '100vh', background: '#EEF0F3' }}>
       <GlobalClientHeader />
 
       <div className={styles.pageWrapper}>

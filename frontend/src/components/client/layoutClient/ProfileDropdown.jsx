@@ -28,7 +28,6 @@ export default function ProfileDropdown() {
           size={34}
           style={{
             border: '2px solid #fff',
-            fontFamily: "'Syne', sans-serif",
           }}
         />
       </button>

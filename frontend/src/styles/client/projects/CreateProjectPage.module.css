@@ -1,6 +1,7 @@
 .container {
   min-height: 100vh;
-  background: #F5F4F1;
+  background: #EEF0F3
+;
 }
 
 .content {
@@ -30,7 +31,7 @@
 }
 
 .breadcrumbLink {
-  color: #B8860B;
+  color: #e4c539;
   text-decoration: none;
   transition: opacity 0.15s;
 }

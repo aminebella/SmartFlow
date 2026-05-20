@@ -1,99 +1,209 @@
 "use client";
 import { useRouter } from "next/navigation";
+import "@/styles/home/hero.css";
 
-export default function Hero() {
-  const router = useRouter();
-    return (
-      <section className="hero">
-        {/* HERO */}
-        <div className="hero-orb hero-orb-1" />
-        <div className="hero-orb hero-orb-2" />
-        <div className="hero-orb hero-orb-3" />
 
-        <div className="container">
-          <div className="hero-inner">
-            <div>
-              <div className="hero-badge">
-                <div className="hero-badge-dot" />
-                AI-driven · Intelligent Planning
-              </div>
+function HeroCTAs({ router }) {
+  return (
+    <div className="hero-ctas">
+      <button
+        className="btn-hero-primary"
+        onClick={() => router.push("/login")}
+      >
+        
+        Start Managing Your Projects
+      </button>
+    
+    </div>
+  );
+}
 
-              <h1 className="hero-headline">SmartFlow — AI-powered project management for modern teams</h1>
 
-              <p className="hero-sub">
-                An intelligent platform that analyzes project requirements, predicts resources, estimates costs and timelines, and manages tasks in real time — so your team ships faster.
-              </p>
+/* ─── Dashboard screen ──────────────────────────────────────── */
+function ScreenDashboard() {
+  const projects = [
+    { name: "E-Commerce Platform", pct: 68, color: "#2A5F80" },
+    { name: "Mobile App Redesign",  pct: 44, color: "#1D9E5C" },
+    { name: "API Integration v2",   pct: 91, color: "#C9A227" },
+  ];
 
-              <div className="hero-ctas">
-                <button className="btn-hero-primary" onClick={() => router.push("/login")}>
-                  <span className="play-icon">
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2">
-                      <polyline points="3,8 8,3 13,8" />
-                      <line x1="8" y1="3" x2="8" y2="13" />
-                    </svg>
-                  </span>
-                  Start Managing Your Projects
-                </button>
-                <button className="btn-hero-secondary" onClick={() => router.push("/login")}>Schedule a Demo</button>
-              </div>
+  const bars = [55, 35, 78, 48, 88, 62, 72];
 
-              <div className="hero-trust">
-                <div className="hero-avatars">
-                  <div className="av" style={{ background: '#dbeafe', color: '#1d4ed8' }}>MK</div>
-                  <div className="av" style={{ background: '#dcfce7', color: '#166534' }}>AR</div>
-                  <div className="av" style={{ background: '#ede9fe', color: '#5b21b6' }}>LT</div>
-                </div>
-                <div className="hero-trust-text">
-                  <strong>12,000+</strong> teams rely on SmartFlow
-                </div>
-              </div>
-            </div>
+  return (
+    <div className="screen screen-1">
+      <div className="screen-bar">
+        <span className="s-dot s-dot-red" />
+        <span className="s-dot s-dot-yellow" />
+        <span className="s-dot s-dot-green" />
+        <span className="screen-title">Project Dashboard</span>
+      </div>
+      <div className="screen-body">
+        <div className="dash-header">
+          <span className="dash-title-text">Active Sprints</span>
+          <span className="dash-badge">Sprint 4</span>
+        </div>
 
-            {/* HERO VISUAL (dashboard mock) - kept as structure so CSS provides visuals */}
-            <div className="hero-visual">
-              <div className="dashboard-card">
-                <div className="dash-topbar">
-                  <div className="dash-dot" style={{ background: '#e8eaf0' }} />
-                  <div className="dash-title">Project Dashboard</div>
-                  <div className="dash-tabs">
-                    <div className="dash-tab on">Board</div>
-                    <div className="dash-tab">Reports</div>
-                  </div>
-                </div>
-                <div className="dash-body">
-                  <div className="dash-left">
-                    {/* small rows to match styles */}
-                    <div className="proj-row">
-                      <div className="proj-dot" style={{ background: '#2563eb' }} />
-                      <div className="proj-name">E-Commerce Platform — Sprint 4</div>
-                      <div className="proj-pct">68%</div>
-                    </div>
-                    <div className="chart-bars">
-                      <div className="chart-bar"><div className="chart-bar-inner" style={{ height: '60%', background: '#c9a227' }} /></div>
-                      <div className="chart-bar"><div className="chart-bar-inner" style={{ height: '40%', background: '#7c3aed' }} /></div>
-                      <div className="chart-bar"><div className="chart-bar-inner" style={{ height: '80%', background: '#10b981' }} /></div>
-                    </div>
-                  </div>
-                  <div className="dash-right">
-                    <div className="mini-donut">
-                      <svg width="72" height="72" viewBox="0 0 72 72">
-                        <circle cx="36" cy="36" r="28" fill="none" stroke="#e8eaf0" strokeWidth="10" />
-                        <circle cx="36" cy="36" r="28" fill="none" stroke="url(#grad1)" strokeWidth="10" strokeDasharray="119.4 175.9" strokeLinecap="round" />
-                        <defs>
-                          <linearGradient id="grad1" x1="0" y1="0" x2="1" y2="0">
-                            <stop offset="0%" stopColor="#2563eb" />
-                            <stop offset="100%" stopColor="#7c3aed" />
-                          </linearGradient>
-                        </defs>
-                      </svg>
-                      <div className="mini-donut-label">68%</div>
-                    </div>
-                  </div>
-                </div>
+        {projects.map((p) => (
+          <div key={p.name} className="proj-row">
+            <span className="proj-dot" style={{ background: p.color }} />
+            <span className="proj-name">{p.name}</span>
+            <div className="proj-progress">
+              <div className="prog-bar">
+                <div className="prog-fill" style={{ width: `${p.pct}%`, background: p.color }} />
               </div>
             </div>
+            <span className="proj-pct">{p.pct}%</span>
+          </div>
+        ))}
+
+        <div className="mini-chart">
+          {bars.map((h, i) => (
+            <div key={i} className="mc-bar">
+              <div
+                className="mc-bar-fill"
+                style={{
+                  height: `${h}%`,
+                  background: i % 2 === 0 ? "rgba(201,162,39,0.40)" : "#C9A227",
+                }}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Analytics screen ──────────────────────────────────────── */
+function ScreenAnalytics() {
+  return (
+    <div className="screen screen-2">
+      <div className="screen-bar">
+        <span className="s-dot s-dot-red" />
+        <span className="s-dot s-dot-yellow" />
+        <span className="s-dot s-dot-green" />
+        <span className="screen-title">Analytics</span>
+      </div>
+      <div className="screen-body">
+        <div className="donut-wrap">
+          <svg width="100" height="100" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="38" fill="none" stroke="#E8E4DC" strokeWidth="12" />
+            <circle
+              cx="50" cy="50" r="38"
+              fill="none"
+              stroke="url(#dg)"
+              strokeWidth="12"
+              strokeDasharray="160 239"
+              strokeDashoffset="60"
+              strokeLinecap="round"
+            />
+            <defs>
+              <linearGradient id="dg" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="#C9A227" />
+                <stop offset="100%" stopColor="#E8C547" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <div className="donut-label">
+            <span className="donut-label-num">68%</span>
+            <span className="donut-label-sub">velocity</span>
           </div>
         </div>
-      </section>
-    );
+
+        <div className="stat-row">
+          <div className="stat-item">
+            <div className="stat-num stat-blue">24</div>
+            <div className="stat-lbl">Tasks done</div>
+          </div>
+          <div className="stat-item">
+            <div className="stat-num stat-green">+12%</div>
+            <div className="stat-lbl">vs last sprint</div>
+          </div>
+          <div className="stat-item">
+            <div className="stat-num">6</div>
+            <div className="stat-lbl">Remaining</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Task list screen ──────────────────────────────────────── */
+function ScreenTasks() {
+  const tasks = [
+    { text: "Setup CI pipeline", done: true,  tag: "Done",   tagStyle: { background: "#E8F5EE", color: "#1D9E5C" } },
+    { text: "Review PR #47",     done: false, tag: "Active", tagStyle: { background: "#E8F4F8", color: "#2A5F80" } },
+    { text: "Update API docs",   done: false, tag: "Soon",   tagStyle: { background: "rgba(201,162,39,0.10)", color: "#9E7B1A" } },
+    { text: "Deploy staging",    done: true,  tag: "Done",   tagStyle: { background: "#E8F5EE", color: "#1D9E5C" } },
+  ];
+
+  return (
+    <div className="screen screen-3">
+      <div className="screen-bar">
+        <span className="s-dot s-dot-red" />
+        <span className="s-dot s-dot-yellow" />
+        <span className="s-dot s-dot-green" />
+        <span className="screen-title">My Tasks</span>
+      </div>
+      <div className="screen-body">
+        {tasks.map((t) => (
+          <div key={t.text} className="task-item">
+            <div className={`task-check ${t.done ? "done" : "open"}`}>
+              {t.done && (
+                <svg width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="white" strokeWidth="2">
+                  <polyline points="2,5 4,7 8,3" />
+                </svg>
+              )}
+            </div>
+            <span className={`task-text ${t.done ? "done" : "open"}`}>{t.text}</span>
+            <span className="task-tag" style={t.tagStyle}>{t.tag}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+
+/* ─── Hero (main export) ────────────────────────────────────── */
+export default function Hero() {
+  const router = useRouter();
+
+  return (
+    <section className="hero">
+      {/* Background orbs */}
+      <div className="orb orb-1" />
+      <div className="orb orb-2" />
+      <div className="orb orb-3" />
+
+      <div className="hero-container">
+        {/* LEFT — text */}
+        <div className="hero-text">
+        
+
+          <h1 className="hero-headline">
+            SmartFlow —<br />
+            <span className="headline-gradient">AI-powered</span><br />
+            project management
+          </h1>
+
+          <p className="hero-sub">
+            An intelligent platform that analyzes project requirements, predicts
+            resources, estimates costs and timelines, and manages tasks in real
+            time — so your team ships faster.
+          </p>
+
+          <HeroCTAs router={router} />
+        </div>
+
+        {/* RIGHT — floating screens */}
+        <div className="hero-screens">
+          <ScreenDashboard />
+          <ScreenAnalytics />
+          <ScreenTasks />
+        </div>
+      </div>
+    </section>
+  );
 }

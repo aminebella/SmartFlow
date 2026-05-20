@@ -4,7 +4,7 @@
    Variables
 ───────────────────────────────────────────────── */
 :root {
-  --bg:  #F5F4F1;
+  --bg:  #EEF0F3;
   --bg2: #FFFFFF;
   --bg3: #F9F8F5;
   --bg4: #EFEDE8;
@@ -59,8 +59,6 @@
    Page shell
 ───────────────────────────────────────────────── */
 .dashboard-root {
-  font-family: var(--font);
-  background: var(--bg);
   color: var(--text1);
   font-size: 13.5px;
   line-height: 1.5;

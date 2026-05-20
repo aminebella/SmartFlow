@@ -40,7 +40,7 @@ export default function DashboardTasks({ tasks = [], loading }) {
       {loading ? (
         <div className={styles.empty}>Chargement…</div>
       ) : tasks.length === 0 ? (
-        <div className={styles.empty}>Aucune tâche en attente 🎉</div>
+        <div className={styles.empty}>Aucune tâche en attente </div>
       ) : (
         <div className={styles.list}>
           {tasks.map((t, i) => {
