@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import {
-  getTickets, createTicket, updateTicket, deleteTicket,
+  getTickets, createTicket, updateTicket, deleteTicket, updateTicketStatus,
 } from "../services/taskService.js";
 import { getSprintsByProject } from "../services/sprintService.js";
 import { getProjectMembers } from "../services/projectService.js";
@@ -107,6 +107,18 @@ export function useTickets(projectId) {
     return enriched;
   }, [projectId, currentUser]);
 
+  const changeTicketStatus = useCallback(async (ticketId, status) => {
+    const updated = await updateTicketStatus(ticketId, status);
+    const enriched = {
+      ...updated,
+      isAssignedToMe: currentUser
+        ? String(updated.assignedUserId) === String(currentUser.id)
+        : false,
+    };
+    setTickets((prev) => prev.map((t) => (t.id === ticketId ? enriched : t)));
+    return enriched;
+  }, [currentUser]);
+
   const removeTicket = useCallback(async (ticketId) => {
     await deleteTicket(projectId, ticketId);
     setTickets((prev) => prev.filter((t) => t.id !== ticketId));
@@ -116,6 +128,6 @@ export function useTickets(projectId) {
     tickets, sprints, members, currentUser,
     isManager,
     loading, error, activeSprint,
-    addTicket, editTicket, removeTicket,
+    addTicket, editTicket, changeTicketStatus, removeTicket,
   };
 }

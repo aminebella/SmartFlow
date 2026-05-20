@@ -8,10 +8,9 @@ const COLUMNS = [
   { id: 'IN_PROGRESS', title: 'En cours', color: '#c9b479' },
   { id: 'REVIEW', title: 'Revue', color: '#d4c48a' },
   { id: 'DONE', title: 'Terminé', color: '#8a9e6b' },
-  { id: 'BLOCKED', title: 'Bloqué', color: '#c47a5a' },
 ];
 
-export default function KanbanBoard({ tickets, members, onEditTicket, onMoveTicket, isManager }) {
+export default function KanbanBoard({ tickets, members, currentUser, onEditTicket, onMoveTicket, isManager }) {
   const [draggedTask, setDraggedTask] = useState(null);
 
   const handleDragStart = (task) => {
@@ -25,12 +24,21 @@ export default function KanbanBoard({ tickets, members, onEditTicket, onMoveTick
 
   const handleDrop = (e, targetStatus) => {
     e.preventDefault();
-    if (!draggedTask || draggedTask.status === targetStatus) return;
-    if (!isManager && draggedTask.status === 'DONE') {
+    let task = draggedTask;
+    if (!task) {
+      const draggedId = e.dataTransfer.getData('text/plain');
+      task = tickets.find((t) => String(t.id) === String(draggedId));
+    }
+    if (!task || task.status === targetStatus) return;
+
+    const isOwner = currentUser && (String(task.assigneeId) === String(currentUser.id) || String(task.assignedUserId) === String(currentUser.id));
+    if (!isManager && !isOwner) return;
+
+    if (!isManager && task.status === 'DONE') {
       alert('Seul un manager peut déplacer une tâche terminée (DONE).');
       return;
     }
-    onMoveTicket?.(draggedTask.id, targetStatus);
+    onMoveTicket?.(task.id, targetStatus);
     setDraggedTask(null);
   };
 
@@ -39,7 +47,7 @@ export default function KanbanBoard({ tickets, members, onEditTicket, onMoveTick
   };
 
   return (
-    <div className="flex gap-4 pb-6 overflow-x-auto min-h-[500px]" style={{ backgroundColor: '#faf8f2' }}>
+    <div className="flex justify-center gap-4 pb-6 overflow-x-auto min-h-[500px]" style={{ backgroundColor: '#faf8f2' }}>
       {COLUMNS.map((column) => {
         const columnTasks = getTasksForColumn(column.id);
         return (
@@ -70,14 +78,16 @@ export default function KanbanBoard({ tickets, members, onEditTicket, onMoveTick
               }}
             >
               {columnTasks.map((task) => {
-                const member = members.find((m) => String(m.id) === String(task.assigneeId));
+                const isOwner = currentUser && (String(task.assigneeId) === String(currentUser.id) || String(task.assignedUserId) === String(currentUser.id));
+                const canDrag = isManager || (isOwner && task.status !== 'DONE');
                 return (
                   <TaskCard
                     key={task.id}
                     task={task}
                     members={members}
                     onEdit={onEditTicket}
-                    isDraggable={isManager || task.status !== 'DONE'}
+                    onDragStartTask={handleDragStart}
+                    isDraggable={canDrag}
                   />
                 );
               })}

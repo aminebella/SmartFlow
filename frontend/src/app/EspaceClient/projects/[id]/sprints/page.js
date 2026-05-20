@@ -2,6 +2,7 @@
 
 import { useParams } from 'next/navigation';
 import { useEffect, useState, useCallback } from 'react';
+import { useRole } from '@/hooks/useRole';
 
 import SprintCard from '@/components/client/sprintClient/SprintCard';
 import SprintForm from '@/components/client/sprintClient/SprintForm';
@@ -14,14 +15,17 @@ import {
   completeSprint,
 } from '@/services/sprintService';
 import { getTickets, moveTicketToSprint } from '@/services/taskService';
+import { getProjectMembers } from '@/services/projectService';
 
 import '@/styles/client/ListSprintsOfMyProject/sprints.css';
 
 
 export default function Page() {
   const { id } = useParams();
+  const { isManager } = useRole(id);
   const [sprints, setSprints] = useState([]);
   const [tickets, setTickets] = useState([]);
+  const [members, setMembers] = useState([]);
   const [open,    setOpen]    = useState(false);
   const [edit,    setEdit]    = useState(null);
   const [loading, setLoading] = useState(true);
@@ -35,12 +39,14 @@ export default function Page() {
     try {
       setLoading(true);
       setError('');
-      const [sprintsData, ticketsData] = await Promise.all([
+      const [sprintsData, ticketsData, membersData] = await Promise.all([
         listSprintsByProject(id),
         getTickets(id),
+        getProjectMembers(id),
       ]);
       setSprints(sprintsData ?? []);
       setTickets(ticketsData ?? []);
+      setMembers(membersData ?? []);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -150,7 +156,13 @@ export default function Page() {
             {stats.total} sprints total · {stats.active} active · {stats.planned} planned
           </p>
         </div>
-        <button className="btn-new-sprint" onClick={() => { setEdit(null); setOpen(true); }}>
+        <button
+          className="btn-new-sprint"
+          onClick={() => { setEdit(null); setOpen(true); }}
+          disabled={!isManager}
+          title={!isManager ? 'Seuls les managers peuvent créer des sprints' : ''}
+          style={!isManager ? { opacity: 0.5, cursor: 'not-allowed' } : {}}
+        >
           <span className="btn-new-sprint-icon">+</span>
           Create Sprint
         </button>
@@ -210,7 +222,16 @@ export default function Page() {
             <SprintCard
               key={s.id}
               sprint={s}
-              tickets={tickets.filter(t => String(t.sprintId) === String(s.id))}
+              tickets={tickets
+                .filter(t => String(t.sprintId) === String(s.id))
+                .map(t => {
+                  // Resolve assignee name using members list (backend uses assignedUserId)
+                  const member = (members || []).find(m => String(m.clientId ?? m.id) === String(t.assignedUserId));
+                  return {
+                    ...t,
+                    assigneeName: member ? (member.fullName || member.name) : (t.assignedUserFullName || t.assignedUserId || '—'),
+                  };
+                })}
               onEdit={sp => { setEdit(sp); setOpen(true); }}
               onDelete={handleDelete}
               onStart={handleStartSprint}
@@ -234,7 +255,13 @@ export default function Page() {
               : 'Créez votre premier sprint pour commencer.'}
           </p>
           {!search && filter === 'ALL' && (
-            <button className="btn-empty-create" onClick={() => { setEdit(null); setOpen(true); }}>
+            <button
+              className="btn-empty-create"
+              onClick={() => { setEdit(null); setOpen(true); }}
+              disabled={!isManager}
+              title={!isManager ? 'Seuls les managers peuvent créer des sprints' : ''}
+              style={!isManager ? { opacity: 0.5, cursor: 'not-allowed' } : {}}
+            >
               + Créer un sprint
             </button>
           )}

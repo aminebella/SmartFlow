@@ -106,9 +106,7 @@ public class SprintServiceImpl implements SprintService {
             throw new IllegalStateException("Seul un sprint actif peut être terminé");
         }
         sprint.setStatus(SprintStatus.COMPLETED);
-        if (sprint.getEndDate() == null) {
-            sprint.setEndDate(java.time.LocalDate.now());
-        }
+        sprint.setEndDate(java.time.LocalDate.now());
         return toResponse(sprintRepo.save(sprint));
     }
 

@@ -1,6 +1,7 @@
 'use client';
 
-import { useParams } from "next/navigation"; 
+import { useParams } from "next/navigation";
+import { useRole } from "@/hooks/useRole";
 import { useAiAnalysis } from "@/hooks/useAiAnalysis.js";
 import AiUploadZone   from "@/components/client/ai/AiAnalysisUpload.jsx";
 import AiMetrics      from "@/components/client/ai/AiAnalysisMetrics.jsx";
@@ -13,6 +14,7 @@ import AiTimeline     from "@/components/client/ai/AiAnalysisTimeline.jsx";
 
 export default function AiAnalysisPage() {
   const { id: projectId } = useParams();
+  const { isManager } = useRole(projectId);
 
   const {
     loading, saving, error, saved,
@@ -29,7 +31,23 @@ export default function AiAnalysisPage() {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#F9F8F5' }}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+      {!isManager ? (
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <div className="text-5xl mb-4">🔒</div>
+            <h2 className="text-2xl font-bold mb-2" style={{ color: '#1a2030' }}>Accès Restreint</h2>
+            <p className="text-slate-600 mb-4">Seuls les managers du projet peuvent accéder à l'analyse IA.</p>
+            <a
+              href={`/EspaceClient/projects/${projectId}/dashboard`}
+              className="inline-block px-6 py-2 rounded-lg text-white font-medium transition hover:opacity-90"
+              style={{ backgroundColor: '#c9b479' }}
+            >
+              Retour au projet
+            </a>
+          </div>
+        </div>
+      ) : (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
 
         <div className="flex items-center justify-between mb-6">
           <div>
@@ -169,7 +187,8 @@ export default function AiAnalysisPage() {
             </div>
           </>
         )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

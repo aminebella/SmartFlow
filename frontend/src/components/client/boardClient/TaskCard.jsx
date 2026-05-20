@@ -22,10 +22,14 @@ const getInitials = (name) => {
   return name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase();
 };
 
-export default function TaskCard({ task, members, onEdit, isDraggable = true }) {
+export default function TaskCard({ task, members, onEdit, onDragStartTask, isDraggable = true }) {
   const [isDragging, setIsDragging] = useState(false);
-  const member = members.find((m) => String(m.id) === String(task.assigneeId));
+  const assigneeId = task.assigneeId ?? task.assignedUserId ?? null;
+  const member = (members || []).find((m) => String(m.clientId ?? m.id) === String(assigneeId));
 
+  // Prefer a name coming from the derived ticket (assigneeName) or backend (assignedUserFullName),
+  // otherwise resolve from members list; final fallback = null
+  const assigneeName = task.assigneeName || task.assignedUserFullName || (member ? (member.fullName || member.name) : null);
   const statusStyle = STATUS_COLORS[task.status] || STATUS_COLORS.TODO;
   const priorityStyle = PRIORITY_COLORS[task.priority] || PRIORITY_COLORS.LOW;
 
@@ -35,7 +39,8 @@ export default function TaskCard({ task, members, onEdit, isDraggable = true }) 
       onDragStart={(e) => {
         setIsDragging(true);
         e.dataTransfer.effectAllowed = 'move';
-        e.dataTransfer.setData('taskId', task.id);
+        e.dataTransfer.setData('text/plain', String(task.id));
+        onDragStartTask?.(task);
       }}
       onDragEnd={() => setIsDragging(false)}
       onClick={() => onEdit?.(task)}
@@ -69,16 +74,16 @@ export default function TaskCard({ task, members, onEdit, isDraggable = true }) 
       <div className="flex items-center justify-between">
         {/* Assignee */}
         <div className="flex items-center gap-2">
-          {member ? (
+          {assigneeName ? (
             <>
               <div
                 className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0"
                 style={{ backgroundColor: '#c9b479' }}
               >
-                {getInitials(member.fullName)}
+                {getInitials(assigneeName)}
               </div>
-              <span className="text-xs text-[#64748b] truncate max-w-[80px]" title={member.fullName}>
-                {member.fullName}
+              <span className="text-xs text-[#64748b] truncate max-w-[80px]" title={assigneeName}>
+                {assigneeName}
               </span>
             </>
           ) : (

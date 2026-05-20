@@ -6,14 +6,13 @@ import { useState, useEffect, useCallback } from "react";
 import { useParams } from "next/navigation";
 import { useTickets } from "@/hooks/useTickets";
 import { useRole } from "@/hooks/useRole";
-import { updateTicketStatus } from "@/services/taskService";
 import { getSprintsByProject } from "@/services/sprintService";
 import KanbanBoard from "@/components/client/boardClient/KanbanBoard";
 import TicketModal from "@/components/client/tasksClient/TicketModal";
 
 export default function EspaceClientProjectBoard() {
   const { id } = useParams();
-  const { tickets, members, loading, error, addTicket, editTicket } = useTickets(id);
+  const { tickets, members, currentUser, loading, error, addTicket, editTicket, changeTicketStatus } = useTickets(id);
   const { isManager } = useRole(id);
   const [sprints, setSprints] = useState([]);
   const [selectedSprint, setSelectedSprint] = useState(null);
@@ -36,32 +35,38 @@ export default function EspaceClientProjectBoard() {
     if (id) loadSprints();
   }, [id]);
 
-  // Filtrer les tâches selon les critères
-  const filteredTickets = tickets.filter((t) => {
+  // Derive stable fields from backend shape: use `assignedUserId` (backend) and map to `assigneeId`/`assigneeName`
+  const derivedTickets = tickets.map(t => {
+    const assigneeId = t.assigneeId ?? t.assignedUserId ?? null;
+    const member = (members || []).find(m => String(m.clientId ?? m.id) === String(assigneeId));
+    const assigneeName = member ? (member.fullName || member.name) : (t.assignedUserFullName || t.assigneeName || null);
+    return { ...t, assigneeId, assigneeName };
+  });
+
+  // Filtrer les tâches selon les critères (operate on derived tickets)
+  const filteredTickets = derivedTickets.filter((t) => {
     // Sprint filter
     if (selectedSprint && String(t.sprintId) !== String(selectedSprint)) return false;
-    
+
     // Status filter
     if (filterStatus !== 'ALL' && t.status !== filterStatus) return false;
-    
+
     // Assignee filter
     if (filterAssignee !== 'ALL' && String(t.assigneeId) !== String(filterAssignee)) return false;
-    
+
     // Priority filter
     if (filterPriority !== 'ALL' && t.priority !== filterPriority) return false;
-    
+
     return true;
   });
 
   const handleMoveTicket = useCallback(async (ticketId, newStatus) => {
     try {
-      await updateTicketStatus(ticketId, newStatus);
-      // Mettre à jour localement pour éviter un rechargement
-      editTicket(ticketId, { status: newStatus });
+      await changeTicketStatus(ticketId, newStatus);
     } catch (err) {
-      console.error('Erreur mise à jour statut:', err);
+      console.error('Erreur mise à jour statut :', err);
     }
-  }, [editTicket]);
+  }, [changeTicketStatus]);
 
   const handleEditTicket = (ticket) => {
     setEditingTicket(ticket);
@@ -135,7 +140,6 @@ export default function EspaceClientProjectBoard() {
             <option value="IN_PROGRESS">En cours</option>
             <option value="REVIEW">Revue</option>
             <option value="DONE">Terminé</option>
-            <option value="BLOCKED">Bloqué</option>
           </select>
 
           {/* Assignee filter */}
@@ -147,7 +151,7 @@ export default function EspaceClientProjectBoard() {
           >
             <option value="ALL">Tous les assignés</option>
             {members.map((m) => (
-              <option key={m.id} value={m.id}>
+              <option key={m.clientId ?? m.id} value={m.clientId ?? m.id}>
                 {m.fullName}
               </option>
             ))}
@@ -174,6 +178,7 @@ export default function EspaceClientProjectBoard() {
         <KanbanBoard
           tickets={filteredTickets}
           members={members}
+          currentUser={currentUser}
           onEditTicket={handleEditTicket}
           onMoveTicket={handleMoveTicket}
           isManager={isManager}
