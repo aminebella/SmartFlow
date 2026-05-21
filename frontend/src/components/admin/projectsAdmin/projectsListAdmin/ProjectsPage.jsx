@@ -21,7 +21,6 @@ export default function ProjectsPage({ role = 'ADMIN' }) {
   const [actionLoading, setActionLoading] = useState(null)
   const [exportMessage, setExportMessage] = useState(null)
   const [page, setPage] = useState(0);
-  // Use 2 items per page for testing (change to 10 later)
   const size = 10;
 
   const { projects, pagination, loading, error, refetch } = useProjects(role, statusFilter || null, page, size);

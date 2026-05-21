@@ -6,15 +6,22 @@ export default function TicketModal({ ticket, sprints, members, onClose, onSubmi
   const isEdit = !!ticket;
   
   const [formData, setFormData] = useState(
-    ticket || {
-      title: "",
-      priority: "MEDIUM",
-      status: "TODO",
-      assignedUserId: "",
-      sprintId: "",
-      description: "",
-    }
-  );
+  ticket
+    ? {
+        ...ticket,
+        assignedUserId: ticket.assignedUserId ?? "",
+        sprintId: ticket.sprintId ?? "",
+        description: ticket.description ?? "",
+      }
+    : {
+        title: "",
+        priority: "MEDIUM",
+        status: "TODO",
+        assignedUserId: "",
+        sprintId: "",
+        description: "",
+      }
+);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

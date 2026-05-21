@@ -29,7 +29,7 @@ API.interceptors.response.use(
   (response) => response,
   (error) => {
     if (typeof window !== "undefined") {
-      if (error.response?.status === 401) {
+      if (error.response?.status == 401) {
         // Not logged in → go to login
         window.location.href = "/login";
       }

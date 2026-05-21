@@ -49,10 +49,10 @@ class TaskControllerTest {
 
     @BeforeEach
     void setUp() {
-        // ✅ No stubbing of mockUser.getId() here — only stub in tests that need it
+        // No stubbing of mockUser.getId() here — only stub in tests that need it
         mockUser = mock(User.class);
 
-        // ✅ Register the controller with a custom argument resolver so
+        // Register the controller with a custom argument resolver so
         //    @AuthenticationPrincipal resolves to mockUser
         mockMvc = MockMvcBuilders
                 .standaloneSetup(taskController)

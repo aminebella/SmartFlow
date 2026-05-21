@@ -1,6 +1,6 @@
 'use client'
 
-import React, { Suspense } from 'react'
+import React, { Suspense, use } from 'react'
 import dynamic from 'next/dynamic'
 
 import ProjectDetailsSkeletonAdmin from '@/components/skeleton/admin/projects/projectDetailsSkeletonAdmin'
@@ -11,7 +11,7 @@ const ProjectDetails = dynamic(
 )
 
 export default function Page({ params }) {
-  const { id } = params
+  const { id } = use(params)
   return (
     <Suspense fallback={<ProjectDetailsSkeletonAdmin />}>
       <ProjectDetails projectId={Number(id)} />
